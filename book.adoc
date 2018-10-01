@@ -1,0 +1,12 @@
+:numbered:
+:icons: font
+:toc: left
+:source-highlighter: highlights.js
+:toclevels: 3
+:experimental:
+= Datalagring
+
+include::01_introduktion/_chapter.adoc[leveloffset=+1]
+
+include::02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
+

@@ -1,0 +1,73 @@
+= Transaktioner
+
+I en databas kan ofta många transaktioner vara beroende av varandra.
+
+Säg till exempel att du skriver mjukvara för att hålla koll på bankkonton, och du vill föra över pengar från ett konto till ett annat konto.
+Då måste du:
+
+1. Ta bort pengarna från konto 1.
+2. Föra in pengerna på konto 2.
+
+Alternativt
+
+1. Föra in pengarna på konto 2.
+2. Ta bort pengarna från konto 1.
+
+Säg att något går fel i steg 2 - kanske har någon angett ett felaktigt kontonummer, eller under tiden som instruktionerna utförs har konto 2 tagits bort.
+I ett system utan transaktionssäkerhet skulle pengarna bara ha försvunnit i tomma intet (eller i alternativ 2, skapats från tomma intet)
+
+I de flesta databashanterare finns därför _transaktioner_ - om man lägger sina instruktioner i en transaktion kontrollerar databasen att samtliga instruktioner i transaktionen faktiskt genomförs.
+Skulle felet i steg 2 hända i en transaktion kan man göra en så-kallad _rollback_, och därmed skulle inget av stegen i transaktionen utföras - och pengarna skulle finnas kvar.
+
+== ACID
+
+=== Atomicity
+
+Atomicitet (engelska: atomicity) innebär att en transaktion antingen genomförs i sin helhet (samtliga steg) eller så genomförs den inte alls. Om en transaktion avbruts innan alla steg genomförts ska databashanteraren kunna garantera att databasen är i samma state som innan transaktionen påbörjades.
+
+=== Consistency
+
+"Consistency" är ett ord som saknar en tydlig svensk motsvarighet
+
+[quote, https://it-ord.idg.se/ord/konsistens/]
+____
+(consistency)* – om databaser: det att all information i databasen är sam­stäm­mig och mot­sägelse­fri. Det fyear inte finnas några upp­gifter i databasen som inte gyear ihop med var­andra. – I trans­aktions­hantering brukar kon­si­stens formuleras som att data­basen ska ha ett tillåtet till­stånd både vid början och vid slutet av en tran­saktion. Consistency är c:et i för­kort­ning­en ACID. – Se också referens­integritet och lång­sam konsistens (even­tu­al con­sis­tency).  – Ordet: Som över­sättning av engelska consistency är konsistens omstritt, eftersom det svenska ordet konsistens oftast styear för hur trög­flytande eller lätt­flytande något är. Men på svenska har ordet också, när det gäller logiska resonemang, samma betydelse som engelska consistency, alltså att resonemanget är logiskt och konsekvent. (Inkonsistent är ett etablerat svenskt ord, och det används inte om mat.) Skillnaden mellan konsekvens och konsistens kan sägas vara att konsekvens är att göra lika­dant varje gång, medan konsistens är när alla delar av en helhet stämmer över­ens med var­andra.	
+____
+
+Consistency garanterar att databasen alltid kommer vara "konsistent", dvs att en transaktion enbart kommer genomföras om databasen, efter transaktionen är genomförd, kommer vara i ett giltigt tillstånd. Man kan på svenska prata om "datavalidering" & "referensintegritet".
+
+[quote, https://www.veracode.com/blog/2012/05/what-is-data-integrity]
+____
+Data integrity is a fundamental component of information security. In its broadest use, “data integrity” refers to the accuracy and consistency of data stored in a database, data warehouse, data mart or other construct. The term – Data Integrity - can be used to describe a state, a process or a function – and is often used as a proxy for “data quality”. Data with “integrity” is said to have a complete or whole structure. Data values are standardized according to a data model and/or data type. All characteristics of the data must be correct – including business rules, relations, dates, definitions and lineage – for data to be complete. Data integrity is imposed within a database when it is designed and is authenticated through the ongoing use of error checking and validation routines. As a simple example, to maintain data integrity numeric columns/cells should not accept alphabetic data.
+____
+
+I de flesta databashanterare kan man skriva regler för hur rader och kolumner i tabeller ska se ut. 
+
+T.ex kan man bestämma att alla rader i användartabellen måste innehålla ett användarnamn, och att varje användarnamn måste vara unikt. 
+Databashanteraren gör det i så fall omöjligt att skapa rader i användatabellen som saknar användarnamn, eller där användarnamnet redan finns på någon annan rad i tabellen
+
+I de flesta databashanterare kan man även skriva regler för hur tabeller hör ihop. Detta gör det möjligt att garantera att kopplingarna mellan tabellerna stämmer, och att datan uppdateras på ett korrekt sätt.
+
+Till exempel kan man se till att en användares alla meddelanden tas bort när användaren tas bort, eller att man enbart kan lägga till elever i klasser som faktiskt finns.
+
+=== Isolation
+
+Isolation garanterar att även om transaktioner utförs parallellt kommer databasen hamna i samma state som om transaktionerna utförts sekventiellt. Detta innebär att en transaktion aldrig får se den "tillfälliga data" som skapas medans en annan transaktion utförs (innan transaktionen är klar).
+
+=== Durability
+
+Durability innebär att när en transaktion är genomförd kommer all data finnas sparad och är korrekt även om databaservern kraschar (vid t.ex ett strömavbrott). Skulle databashanteraren krascha mitt i en transaktion kommer datan återställas till läget innan kraschen.
+
+== Rollback
+
+När en transaktion ska utföras görs det en "Commit" på transaktionen. Databashanteraren ser nu till att alla steg i transaktionen faktiskt genomförs. Skulle transaktionen av någon anledning inte genomföras till fullo genomför databashanteraren en "rollback", det vill säga ser till att databasen är i samma state som innan transaktionen påbörjades.
+
+Transaktioner kan avbrytas av bland annat följande skäl:
+
+- Transaktionen skulle innebära att databasen skulle hamna i ett felaktigt state.
+- Databashanteraren kraschar mitt under transaktionen. I de flesta databashanterare finns en loggfil databashanteraren kan använda för att vid återstart se till att databasen är i rätt state.
+- Användaren avbryter transaktionen
+
+== Backup och Snapshots
+
+De flesta databashanterare har inbyggd funktionalitet för att ta säkerhetskopior på databasen. I de flesta fall förvaras dessa backups på en annan dator och-   gärna i en annan serverhall.

@@ -1,0 +1,84 @@
+= Indexering
+
+== Varför Indexering
+
+När mängden i en databas växer försämras prestandan vid sökningar i databasen. Detta beror helt enkelt på att det finns fler rader databashanteraren måste söka igenom för att hitta den eller de rader som stämmer in på SQL-frågan.
+
+Följande exempel med linjär/binärsökning är inte helt sann, men kan användas som en mental modell för att förstå varför och hur index fungerar.
+
+Man kan tänka sig att databashanteraren gör en linjär sökning genom tabellen. En linjär sökning har kostnaden O(n). Detta innebär att om 10 000 rader skulle ta en tiondels sekund att söka igenom skulle 100 000 rader ta en sekund att söka igenom.
+
+För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden 0(log(n))). Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?
+
+.En employees-tabell sorterad efter en autoinkrementerande primärnyckel
+|===
+3+^| *employees*
+| *id* | *first_name*      | *last_name*  
+|  1   | Johan             | Bengtsson       
+|  2   | Anna              | Persson             
+|  3   | Fatima            | Alzanbouri
+|  4   | Inge              | Naning   
+|  5   | Minna             | Salo        
+|  6   | Andrew            | Gao          
+|===
+
+Tabellen ovan är definerad med `id` som en autoinkrementerande primärnyckel (postgres: serial). Detta innebär att tabellen redan är indexerad efter `id`. Frågor som använder id:t för att söka efter en specifik användare kan därmed använda sig av binärsökningsalgoritmen för att snabbt hitta användaren.
+
+.Exempelfrågor
+[source,sql]
+----
+SELECT * FROM employees WHERE id = 4 <1>
+SELECT * FROM employees WHERE last_name = 'Naning' <2>
+----
+<1> Denna fråga använder `id` vid sökningen och kan använda en mer effektiv algoritm
+<2> Denna fråga använder `last_name` vid sökningen och måste använda en linjär sökning
+
+Så länge tabellen är liten och/eller vi primärt använder `id` vid våra sökningar i `employees`-tabellen är det inga problem. Men om tabellen växer väldigt mycket och om många sökningar görs på t.ex. efternamn kan vi behöva tänka om och införa ytterligare index.
+
+Index skapas med hjälp av sql-kommandot `CREATE INDEX`:
+
+[source,sql]
+----
+CREATE INDEX employee_lastname ON employees(last_name) <1>
+----
+<1> employee_lastname är namnet du döper indexet till - det kan heta vadsomhelst.
+
+Man kan tänka att det, när man skapar ett index, skapas en ny tabell enligt nedan:
+
+.En indexeringstabell för employee_lastname
+|===
+2+^| *employee_lastname*
+| *last_name* | *employee_id*   
+| Alzanbouri  |  3    
+| Bengtsson   |  1        
+| Gao         |  6     
+| Naning      |  4    
+| Persson     |  2            
+| Salo        |  5    
+|===
+
+Observera att tabellen ovan är sorterad efter efternamn, och innehåller en främmande nyckel som låter oss hämta användaren. Eftersom tabellen är sorterad kan vi nu mer effektivt söka på efternamn.
+
+.Exempelfrågor
+[source,sql]
+----
+SELECT * FROM employees WHERE id = 4 <1>
+SELECT * FROM employees WHERE last_name = 'Naning' <2>
+----
+<1> Denna fråga använder `id` vid sökningen och kan använda en effektiv algoritm
+<2> Eftersom vi nu skapat ett index för last_name, kommer även denna fråga använda en effektiv algoritm
+
+== Nackdelar
+
+Nackdelar med att ha index är att vid varje ny användare vi lägger till måste vi indexera om indexeringstabellerna: 
+
+.Lägga till en ny användare
+[source,sql]
+----
+INSERT INTO employees (first_name, last_name) VALUES ('Kim', 'Ekblad') <1>
+----
+<1> Detta får till följd att `employees_lastname`-indextabellen måste byggas om.
+
+Att bygga om en indexeringstabell är en relativt kostsam operation Det gör att det går långsammare att lägga till rader i en tabell med index. För att veta om det är värt att lägga till ett index bör man samla in statistik kring hur ofta det man vill indexera används vid sökningar, och hur ofta indexeringstabellerna behöver uppdateras. 
+
+Observera slutligen att exemplet här enbart är en liknelse för vad som faktiskt händer - olika databashanterare kan skapa index på olika sätt, ofta används så-kallade https://www.youtube.com/watch?v=NI9wYuVIYcA[b-trees]

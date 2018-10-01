@@ -1,0 +1,42 @@
+= Stored Procedures
+
+En lagrad procedur (engelska: stored procedure) är kod (oftast i form av funktioner) som kan lagras i databashanteraren, och sedan anropas ock köras.
+Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQL-liknande syntax, men andra använder sig av Java eller C.
+
+== Fördelar
+
+=== Kompilering och optimering
+
+Eftersom stored procedures lagras direkt i databashanteraren behöver inte databashanteraren tolka den inkommande SQL-strängen, utan kan kompilera och optimera funktionen när den skapas.
+
+=== Minskad nätverkstrafik
+
+Även mängden data som behöver skickas över nätverket till databashanteraren kan minska - istället för att skicka hela sql-strängen behöver man enbart anropa funktionen (och om funktionen tar några parametrar, skicka med dessa).
+
+Ofta används konfigureras stored procedures för att automagiskt köra efter en annan fråga körts - i dessa fall undviks helt den nätverkstrafik som annars skulle krävts för att funktionen skulle köras. Ett exempel är när man vill uppdatera en tabell beroende på vad som händer i en annan tabell.
+
+=== Affärslogik i databasen
+
+Stored procedures gör det möjligt att lägga in mycket av den funktionalitet som annars skulle legat i en klient/webbserver direkt i databashanteraren. Detta skulle minska risken för buggar från klient/webbserver skulle påverka databasens innehåll.
+
+=== Rättigheter
+
+En stored procedure kan köras med andra rättigheter än den som anropar proceduren. Om en användare i vanliga fall inte har rättigheter att göra en `DELETE` kan möjligheten fortfarande finnas att göra det med en stored procedure, som någon (förhoppningsvis) kontrollerat att den inte gör något oönskvärt.
+
+=== Skydd från SQL-injektion
+
+Om databashanteraren använder stored procedures spelar det ingen roll hur mycket SQL en eventuell anfallare försöker skicka.
+
+== Nackdelar
+
+=== Affärslogik i databasen
+
+Det kan vara svårt att veta var i applikationen en logik finns om en del av logiken ligger i databasen.
+
+=== Fastlåsning i databashanteringssystem
+
+De flesta databashanterare har olika, inkompatibla språk och ramverk att för stored procedures.
+
+=== Specialistkompetens krävs
+
+Den som skriver stored procedures kräver specialistkompetens, då de inbegriper nya språk och tankesätt.

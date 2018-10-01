@@ -1,0 +1,180 @@
+= Tabeller och relationer
+
+En relationsdatabas består av en eller flera `tabeller`. Varje tabell har ett namn, och består av `rader` och `kolumner`.
+
+.Exempel på en tabell för att hålla koll på böcker
+[cols=">1,<3,>1", width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464
+|  2    | 'To Kill a Mockingbird'   | 336
+|  3    | '1984'                    | 328 
+|  4    | 'The Stranger'            | 123
+|=== 
+
+Tabellen ovan har namnet `books`, och har 4 rader och 3 kolumner.
+
+== Tupler
+
+Varje rad i tabellen kallas för en `tupel` och beskriver en `post` i tabellen. I vårt exempel lagrar varje tupel information om en bok.
+
+== Attribut
+
+Varje kolumn beskriver en egenskap, eller `attribut` för posten. I vårt fall är "id", "title" och "page_count" attribut.
+
+Attribut måste vara `atomära`, det vill säga i varje "cell" eller "fält" får det maximalt finnas ett värde - man kan t.ex inte lagra flera titlar i en och samma cell. 
+
+== Primärnyckel
+
+Varje rad i en tabell måste vara unik, det vill säga, i varje tabell får det inte förekomma två rader där samtliga kolumner är identiska (detta är en följd av relationsalgebran).
+
+Detta löses genom att varje tabell har en attribut som kallas för `primärnyckel` eller `primary key`. I tabellen ovan är det attributet med namnet `id` som är primärnyckel
+
+När man skapar tabellen talar man om vilken av attributen som kommer vara primärnyckeln.
+
+Detta innebär att om någon annan skulle skriva en bok som heter the stranger, och som råkar ha 123 sidor även den kommer raden fortfarande vara unik, eftersom den kommer få en unikt värde på primärnyckeln
+
+.Varje tupel är fortfarande unik, trots att det finns två böcker med samma titel och sidantal.
+[cols=">1,<3,>1", width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464
+|  2    | 'To Kill a Mockingbird'   | 336
+|  3    | '1984'                    | 328 
+|  4    | 'The Stranger'            | 123
+|  5    | 'The Stranger'            | 123
+|=== 
+
+Det är databashanterarens roll att kontrollera att varje tupel är unik.
+
+.Namngivning av primärnyckeln
+[NOTE]
+==== 
+I den här boken kommer vi:
+
+- *alltid* använda namnet *id* för primärnyckeln, men primärnyckeln _kan_ heta vad som helst.
+- *alltid* använda *automatiskt inkrementerande heltal* för primärnyckeln, men primärnyckeln _kan_ vara vad som helst.
+
+====
+
+== Normalisering
+
+Säg att vi vill även vill lagra författarens namn. Vi lägger därför till en kolumn:
+
+[cols=">1,<3,>1,<3", width="50%"]
+|===
+4+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'
+|  3    | '1984'                    | 328           | 'George Orwell''
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'
+|=== 
+
+Inga problem, men säg att vi även vill lagra författarens nationalitet, födelseår och skostorlek. 
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *nationality* | *birth_year* | *shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Nu börjar tabellen se lite konstig ut: Tabellen heter "books" men innehåller attributen "nationality", "birth_year" och "shoe_size". De låter inte som attribut (egenskaper) en bok har. Vi kan förstås lägga in "author_" framför varje attribut som är kopplat till en författare snarare än en bok:
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Det känns bättre, men det är fortfarande konstigt att om man vill veta vilken skostorlek en författare har så ska man kolla i boktabellen. Men vad händer när vi börjar lagra flera böcker för en författare?
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  5    | 'Closing Time'            | 382           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  6    | 'Animal Farm'             | 218           | 'George Orwell'   | 'English'     | 1903         | 41
+|  7    | 'The Plague  '            | 312           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  8    | 'Coming Up for Air'       | 393           | 'George Orwell'   | 'English'     | 1903         | 41
+|===
+
+Nu förekommer varje författares nationalitet, födelseår och skostorlek flera gånger - vi har med andra ord redundant data i databasen.
+
+Vi vill i största möjliga utsträckning undvika redundant data, och behöver därför `normalisera` datan, genom att dela upp datan i **två** tabeller - **books** och **authors**
+
+[cols=">1,<3,<2,<2,>1", width="50%"]
+|===
+5+^| *authors*
+| *id* | *name*            | *nationality* | *birth_year* | *shoe_size*
+|  1   | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2   | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3   | 'George Orwell'   | 'English'     | 1903         | 41
+|  4   | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+[cols=">1,<3,>1" width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464           
+|  2    | 'To Kill a Mockingbird'   | 336           
+|  3    | '1984'                    | 328           
+|  4    | 'The Stranger'            | 123           
+|  5    | 'Closing Time'            | 382           
+|  6    | 'Animal Farm'             | 218           
+|  7    | 'The Plague  '            | 312           
+|  8    | 'Coming Up for Air'       | 393           
+|===
+
+
+Nu har vi normaliserat datan; data om författare i en tabell, och data om böcker i en annan. Ingen data är duplicerad. Dessvärre vet vi inte längre vilken författare som skrivit vilken bok.
+
+== Relationer
+
+För att knyta samman två tabeller behöver vi skapa en `relation`, det vill säga, en koppling, mellan dem. 
+
+I exemplet med böcker och författare behöver vi skapa en `en-till-många-relation` mellan authors och books - _en_ för fattare kan ha skrivit _många_ böcker (men en bok kan bara ha en författare).
+
+== Främmande nyckel
+
+För att skapa en relation mellan två tabeller använder man en `främmande nyckel`. Man skapar en främmande nyckel genom att kopiera in värdet från  `primärnyckeln` i `en-änden` av relationen i en ny kolumn i `många-änden` av relationen.
+
+I vårt fall innebär det att vi ska lägga till primärnyckeln från **author**-tabellen i **books**-tabellen (en för fattare kan ha skrivit flera böcker).
+
+
+[cols=">1,<3,>1,<3", width="40%"]
+|===
+4+^| *books*
+| *id*  | *title*                   | *page_count*  | *author_id*
+|  1    | 'Catch 22'                | 464           | 1
+|  2    | 'To Kill a Mockingbird'   | 336           | 2
+|  3    | '1984'                    | 328           | 3
+|  4    | 'The Stranger'            | 123           | 4
+|  5    | 'Closing Time'            | 382           | 1
+|  6    | 'Animal Farm'             | 218           | 3
+|  7    | 'The Plague  '            | 312           | 4
+|  8    | 'Coming Up for Air'       | 393           | 3
+|===
+
+
+.Namngivning av den främmande nyckeln
+[NOTE]
+====
+Den främmande nyckelns kolumn kan heta precis vad som helst, men i den här boken kommer den främmande nyckelns kolumn-namn **alltid** döpas enligt följande: **namnet på en-ändens tabellnamn _i singular_** följt av ett understreck och sen **id** (**author_id**)
+====
+

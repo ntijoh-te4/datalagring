@@ -1,0 +1,100 @@
+= ER-Modellering
+
+När man bygger en applikation som kräver en databas, t.ex en applikation för att hålla koll på böcker, brukar man börja med att göra en beskrivning av hur problemdomänen fungerar. 
+
+Denna beskrivning på hög nivå kan kallas en konceptuell eller begreppsmässig beskrivning.
+När man pratar om relationsdatabaser använder man ofta ordet _schema_ för att beskriva denna konceptuella eller logiska modell av problemdomänen.
+
+För att på ett smidigt sätt kunna _modellera_, det vill säga _designa_ relationsdatabaser finns _Entity Relationship Diagrams_ (ER-diagram).
+
+ER-diagram illustrerar en databas logiska uppbyggnad, det vill säga vilka _entiteter_, _attribut_ och _relationer_ som finns i databasen - det beskriver inte den faktiska datan som lagras i databasen. 
+
+ER-diagram är en del av modelleringsspråket UML.
+
+== Entitet
+
+En entitet (engelska: entity) representerar en en typ av sak som lagras i databasen. Entiteter ritas som rektanglar, med namnet (i singular) i mitten.
+
+.Två entiteter
+image::images/02_relationsdatabaser/entities.png[]
+
+== Attribut
+
+Attribut (engelska: attribute) representerar en egenskap på något som lagras i databasen. Attribut ritas som en ovaler, med namnet i mitten. Alla attribut måste tillhöra en tabell, och man drar ett streck mellan entiteten och attributet för att visa vilken entitet ett attribut tillhör.
+
+Om ett attribut på en entitet är unikt för den entiteten, det vill säga, det får i systemet som databasen modellerar inte finnas två saker som har samma värde på det attributet stryker man under det attributet.
+
+.Två entiteter med attribut
+image::images/02_relationsdatabaser/entities_with_attributes.png[]
+
+TODO: Move
+`Primärnycklarna` är alltid understrukna.
+
+[WARNING]
+==== 
+*Främmande nycklar*
+
+Främmande nycklar ska aldrig ritas ut i ER-diagrammet, deras placering framgår av relationerna (se nästa rubrik)
+====
+
+=== Sambandstyp
+
+Sambandstyper (engelska: relation) visar på kopplingar mellan två entiteter. Sambandstyper ritas som romber. I mitten av romben står ett ett eller flera ord som beskriver entiteternas samband (oftast från ena entitetens perspektiv).
+
+Varje sambandstyp är kopplad med streck till de ingående entiteterna.
+
+==== Kardinalitetsförhållanden
+
+I varje ände av en sambandstyp framgår dess _kardinalitet_ (engelska: cardinality), som mer exakt beskriver vad entiteterna har för _kardinalitetsförhållanden_ eller samband.
+Det finns tre typer av kardinalitetsförhållanden:
+
+===== Ett-till-ett-samband (eller 1:1-samband)
+
+Ett 1:1-samband innebär att de ingående entiteterna kan höra ihop med _ett_ exempel av entiteten i andra änden av sambandet.
+
+===== Ett-till-många-samband (eller 1:*-samband)
+
+Ett 1:*-samband innebär att de ingående entiteterna kan höra ihop med _ett_ exempel av entiteten i andra änden av sambandet.
+
+En sambandstyp där entiteten i den ena änden av sambandet kan höra ihop med flera exempel av entiten i den andra änden, men varje exempel i den andra änden hör bara ihop med ett exempel av den första entiteten.
+
+===== Många-till-Många-samband (eller \*:*-samband)
+
+Ett \*:*-samband innebär att ett exempel av var och en av de ingående entiteterna kan höra ihop med flera exempel av de övriga ingående entiteterna.
+
+.Två entiteter med attribut och sambandstyp
+image::images/02_relationsdatabaser/entities_with_attributes_and_relations.png[]
+
+I exemplet ovan kan man utläsa att *en* författare kan skriva *många* (men minst 1) böcker,
+men en bok kan bara ha en författare. Det är med andra ord en en-till-många-samband.
+
+Sambandstypen är i exemplet ovan är namngiven från författarens perspektiv ("wrote"), men skulle lika gärna kunna vara skriven från en boks perspektiv (t.ex "written by" eller "belongs to".
+
+== Övningar
+
+=== Datorregister
+
+Alla elever på NTI Johanneberg får låna en dator. Det finns ett inventeringssystem med en databas där alla elever, datorer och lån finns registrerade.
+
+Systemet håller koll på:
+
+* Datorers modell och serienummer
+* Elevers namn och personnummer
+* Vilken elev som har lånat vilken dator
+* Samtliga serviceärenden för en specifik dator, och vem datorn tillhörde när serviceärendet startades.
+
+Rita upp de entiteter, attribut och sambandstyper som databasen behöver.
+
+=== Matkort
+
+I årskurs tre får eleverna på IT-Gymnasiet Göteborg matkort. Företaget som skapar och säljer matkorten till skolorna har (förhoppningsvis) en databas som håller koll på skolor, kort, och låntagare.
+
+De behöver kunna hålla kolla på:
+
+* Skolors adress och kontaktperson (så de kan skicka ut korten till rätt adress).
+* Korts serienummer och pinkod
+* Elevers namn och klass
+* Vilket kort som tillhör vilken elev
+* Vilken skola och klass en elev går i
+
+Rita upp de entiteter, attribut och sambandstyper som databasen behöver.

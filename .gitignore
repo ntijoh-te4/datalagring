@@ -18,3 +18,6 @@ book.pdf
 # eBook build output
 *.epub
 *.mobi
+
+#rubygems
+Gemfile.lock

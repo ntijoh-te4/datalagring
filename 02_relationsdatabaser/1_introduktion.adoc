@@ -1,0 +1,59 @@
+= Introduktion till Relationsdatabaser
+
+Relationsdatabaser bygger på https://en.wikipedia.org/wiki/Relational_algebra[relationsalgebra]. Som tur är behöver man inte förstå all bakomliggande teori för att kommunicera med en databashanterare.
+
+Det finns flera olika databashanterare för relationsdatabaser, t.ex
+
+- https://www.sqlite.org/[SQLite]
+- https://www.mysql.com/[MySQL]
+- https://mariadb.org/[MariaDB]
+- https://www.postgresql.org/[PostgreSQL]
+- https://www.oracle.com/database/index.html[Oracle Database]
+- https://www.microsoft.com/en-us/sql-server/sql-server-2016[Microsoft SQL Server]
+
+Relationsdatabaser lagrar all data i _tabeller_, och dessa tabeller har kopplingar, eller _relationer_ till varandra.
+
+== Fördelar med relationsdatabaser
+
+=== ACID
+
+ACID är en akronym för Atomicity, Consistency, Isolation samt Durability. ACID minskar risken för anomalier och garanterar data-konsistens, det vill säga att du kan garantera att all data i databasen vid varje tillfälle kommer vara korrekt och komplett.
+
+=== Normalisering av data
+
+Normalisering, eller normaliserad data innebär att man minskar förekomsten av redundant data.
+
+Normalisering låter oss 
+
+1. Minska det utrymme databasen behöver
+2. Minska risken att vi har _inkonsistent_ data, det vill säga att beroende på var man i databasen kollar, skulle kunna få olika svar
+3. Öka prestandan
+
+=== Validering av data
+
+I de flesta databashanterare kan man skriva regler för hur rader och kolumner i tabeller ska se ut. 
+
+T.ex kan man bestämma att alla rader i användartabellen måste innehålla ett användarnamn, och att varje användarnamn måste vara unikt. 
+Databashanteraren gör det i så fall omöjligt att skapa rader i användatabellen som saknar användarnamn, eller där användarnamnet redan finns på någon annan rad i tabellen.
+
+=== En bebrövad standard
+
+SQL är ett väldokumenterat språk som väldigt många utvecklare behärskar. Det är därför lätt för nya utvecklare att sätta sig in i ett nytt system.
+
+=== Säkerhet och integritet
+
+De flesta databashanterare innehåller avancerade kontroller av vem som har rättighet att utföra olika operationer i databasen.
+
+== Nackdelar med Relationsdatabaser
+
+=== Big Data
+
+Det huvudsakliga problemet med relationsdatabaser uppstår när man har stora (riktigt stora) mängder data - så kallad Big Data - då kan alla regler och garantier en relationsdatabas har sänka prestandan.
+
+=== Kontinuerliga dataströmmar
+
+Även i de fall där man kontinuerligt har en stor ström med ny inkommande data, kan alla regler och kontroller kan göra att prestandan blir lidande.
+
+=== Decentralisering 
+
+Det kan även vara komplicerat att dela upp databasen på olika servrar, t.ex. genom så kallad "sharding".
