@@ -15,9 +15,13 @@ Relationsdatabaser lagrar all data i _tabeller_, och dessa tabeller har koppling
 
 == Fördelar med relationsdatabaser
 
-=== ACID
+=== Garanterad data-konsistens
 
-ACID är en akronym för Atomicity, Consistency, Isolation samt Durability. ACID minskar risken för anomalier och garanterar data-konsistens, det vill säga att du kan garantera att all data i databasen vid varje tillfälle kommer vara korrekt och komplett.
+Relationsdatabaser har olika metoder (se ACID) för att garantera att datan i databasen, vid varje tillfälle, kommer vara korrekt formaterad.
+
+=== Garanterad data-integritet
+
+Relationsdatabaser har olika metoder (se ACID) för att garanter att databasen kommer innehålla korrekt data.
 
 === Normalisering av data
 
@@ -46,9 +50,17 @@ De flesta databashanterare innehåller avancerade kontroller av vem som har rät
 
 == Nackdelar med Relationsdatabaser
 
+=== Osäkerhet kring lämplig datastruktur
+
+Om man är osäker på hur man ska strukturera sin data kan det vara svårt att få till effektiva datastrukturer i en relationsdatabas.
+
+=== Föränderliga datastrukturer
+
+Om ens data och datastrukturer ofta förändras kan en relationsdatabas vara olämplig då det är bökigt att ändra om strukturen i en relationsdatabas och fortfarande uppfylla alla regler och garantier.
+
 === Big Data
 
-Det huvudsakliga problemet med relationsdatabaser uppstår när man har stora (riktigt stora) mängder data - så kallad Big Data - då kan alla regler och garantier en relationsdatabas har sänka prestandan.
+När man har stora (riktigt stora) mängder data - så kallad Big Data - kan alla regler och garantier en relationsdatabas har sänka prestandan.
 
 === Kontinuerliga dataströmmar
 
