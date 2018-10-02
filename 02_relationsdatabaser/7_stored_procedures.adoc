@@ -13,7 +13,7 @@ Eftersom stored procedures lagras direkt i databashanteraren behöver inte datab
 
 Även mängden data som behöver skickas över nätverket till databashanteraren kan minska - istället för att skicka hela sql-strängen behöver man enbart anropa funktionen (och om funktionen tar några parametrar, skicka med dessa).
 
-Ofta används konfigureras stored procedures för att automagiskt köra efter en annan fråga körts - i dessa fall undviks helt den nätverkstrafik som annars skulle krävts för att funktionen skulle köras. Ett exempel är när man vill uppdatera en tabell beroende på vad som händer i en annan tabell.
+Ofta konfigureras stored procedures för att automagiskt köra efter en annan fråga körts - i dessa fall undviks helt den nätverkstrafik som annars skulle krävts för att funktionen skulle köras. Ett exempel är när man vill uppdatera en tabell beroende på vad som händer i en annan tabell.
 
 === Affärslogik i databasen
 
