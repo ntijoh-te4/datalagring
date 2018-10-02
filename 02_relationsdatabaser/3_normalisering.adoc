@@ -26,7 +26,7 @@ För att kunna ta till sig och tillämpa teorin bakom normalformerna behöver ma
 
 En tilläggsanomali (insertion anomaly) innebär att man inte kan lägga till data i en rad i en tabell innan man har information nog att fylla alla celler i raden.
 
-.En tabell som visar på möjliga insertion anomalys
+.En tabell som visar på möjliga tilläggsanomalier
 |===
 4+^| *students*
 | *name*  | *address*    | *course_code* | *course_name*
