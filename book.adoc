@@ -2,8 +2,10 @@
 :icons: font
 :toc: left
 :source-highlighter: highlights.js
-:toclevels: 3
+:toclevels: 4
+:sectnumlevels: 3
 :experimental:
+
 = Datalagring
 
 include::01_introduktion/_chapter.adoc[leveloffset=+1]
