@@ -1,13 +1,15 @@
-include::1_introduktion.adoc[]
+= Relationsdatabaser
 
-include::2_tabeller_och_relationer.adoc[]
+include::1_introduktion.adoc[leveloffset=+1]
 
-include::3_normalisering.adoc[]
+include::2_tabeller_och_relationer.adoc[leveloffset=+1]
 
-include::4_er_diagram.adoc[]
+include::3_normalisering.adoc[leveloffset=+1]
 
-include::5_transaktioner.adoc[]
+include::4_er_diagram.adoc[leveloffset=+1]
 
-include::6_indexering.adoc[]
+include::5_transaktioner.adoc[leveloffset=+1]
 
-include::7_stored_procedures.adoc[]
+include::6_indexering.adoc[leveloffset=+1]
+
+include::7_stored_procedures.adoc[leveloffset=+1]
