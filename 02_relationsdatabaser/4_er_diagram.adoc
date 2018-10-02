@@ -27,7 +27,6 @@ Om ett attribut på en entitet är unikt för den entiteten, det vill säga, det
 .Två entiteter med attribut
 image::images/02_relationsdatabaser/entities_with_attributes.png[]
 
-TODO: Move
 `Primärnycklarna` är alltid understrukna.
 
 [WARNING]

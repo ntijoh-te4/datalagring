@@ -1,6 +1,6 @@
 = Normalisering
 
-Normalisering av realationsdatabaser är en teori för hur man får en effektiv struktur på sin databas. 
+Normalisering av relationsdatabaser är en teori för hur man får en effektiv struktur på sin databas. 
 
 Genom att följa en given metodik kan man 
 
@@ -8,13 +8,110 @@ Genom att följa en given metodik kan man
 - Minska risken för oönskade bieffekter (data-anomalier) 
 - Öka prestandan i databasen
 
+== Exempel
+
+Vi återanvänder bok-exemplet från föregående avsnitt:
+
+.Exempel på en tabell för att hålla koll på böcker
+[cols=">1,<3,>1", width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464
+|  2    | 'To Kill a Mockingbird'   | 336
+|  3    | '1984'                    | 328 
+|  4    | 'The Stranger'            | 123
+|=== 
+
+
+Säg att vi vill även vill lagra författarens namn. Vi lägger därför till en kolumn:
+
+[cols=">1,<3,>1,<3", width="50%"]
+|===
+4+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'
+|  3    | '1984'                    | 328           | 'George Orwell''
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'
+|=== 
+
+Inga problem, men säg att vi även vill lagra författarens nationalitet, födelseår och skostorlek. 
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *nationality* | *birth_year* | *shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Nu börjar tabellen se lite konstig ut: Tabellen heter "books" men innehåller attributen "nationality", "birth_year" och "shoe_size". De låter inte som attribut (egenskaper) en bok har. Vi kan förstås lägga in "author_" framför varje attribut som är kopplat till en författare snarare än en bok:
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Det känns bättre, men det är fortfarande konstigt att om man vill veta vilken skostorlek en författare har så ska man kolla i boktabellen. Men vad händer när vi börjar lagra flera böcker för en författare?
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  5    | 'Closing Time'            | 382           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  6    | 'Animal Farm'             | 218           | 'George Orwell'   | 'English'     | 1903         | 41
+|  7    | 'The Plague  '            | 312           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  8    | 'Coming Up for Air'       | 393           | 'George Orwell'   | 'English'     | 1903         | 41
+|===
+
+Nu förekommer varje författares nationalitet, födelseår och skostorlek flera gånger - vi har med andra ord redundant data i databasen.
+
+Vi vill i största möjliga utsträckning undvika redundant data, och behöver därför `normalisera` datan, genom att dela upp datan i **två** tabeller - `books` och `authors`
+
+[cols=">1,<3,<2,<2,>1", width="50%"]
+|===
+5+^| *authors*
+| *id* | *name*            | *nationality* | *birth_year* | *shoe_size*
+|  1   | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2   | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3   | 'George Orwell'   | 'English'     | 1903         | 41
+|  4   | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+[cols=">1,<3,>1" width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464           
+|  2    | 'To Kill a Mockingbird'   | 336           
+|  3    | '1984'                    | 328           
+|  4    | 'The Stranger'            | 123           
+|  5    | 'Closing Time'            | 382           
+|  6    | 'Animal Farm'             | 218           
+|  7    | 'The Plague  '            | 312           
+|  8    | 'Coming Up for Air'       | 393           
+|===
+
+
+Nu har vi normaliserat datan; data om författare i en tabell, och data om böcker i en annan. Ingen data är duplicerad. Dessvärre vet vi inte längre vilken författare som skrivit vilken bok.
+
 Normalisering leder vanligtvis till att tabeller delas upp och struktureras om. Tabeller kan uppfylla olika normalformer, beroende på hur långt normaliseringen drivs. De vanligaste normalformerna är första normalformen (1NF), andra normalformen (2NF) och tredje normalformen 3NF.
 
-Om man följer stegen i TODO:AVSNITT kommer man rätt långt i normaliseringsprocessen, och det är mycket möjligt att ens databas blir helt normaliserad. Det är dock fortfarande viktigt att förstå den bakomliggande teorin bakom normalisering av relationsdatabaser. De problem som ändå uppstår kan man ofta hantera om man följer den enkla grundregeln "en typ av sak per tabell, och en sån sak per rad".
+Om man följer stegen ovan kommer man rätt långt i normaliseringsprocessen, och det är mycket möjligt att ens databas blir helt normaliserad. Det är dock fortfarande viktigt att förstå den bakomliggande teorin bakom normalisering av relationsdatabaser. De problem som ändå uppstår kan man ofta hantera om man följer den enkla grundregeln "en typ av sak per tabell, och en sån sak per rad".
 
-TODO: Omformulera
-Men teorin om normalisering behövs ändå:
-Det är inte alltid så lätt att inse vad de där "sakerna" som man ska ha en per rad egentligen är. Förmodligen ska en leverantör räknas som en sak. Men kan det faktum att vi köper en vara från en viss leverantör vara en sak? Det kan också vara svårt att avgöra vad som ska bli entitetstyper i ER-diagrammet. Är det faktum att vi köper en vara från en viss leverantör en entitetstyp eller en sambandstyp?
+Men man behöver ändå förstå de bakomliggande teorierna och begreppen; det är inte alltid så lätt att inse vad de där "sakerna" som man ska ha en per rad egentligen är.
 
 Ibland kan man även behöva analysera en existerande eller föreslagen design, och då måste man förstå, och kunna förklara, vilka problem den medför. Kanske måste man göra en avvägning mellan de nackdelar en dåligt normaliserad design medför, och arbetet att göra om databasen.
 
