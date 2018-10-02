@@ -37,28 +37,28 @@ TODO: Move
 Främmande nycklar ska aldrig ritas ut i ER-diagrammet, deras placering framgår av relationerna (se nästa rubrik)
 ====
 
-=== Sambandstyp
+== Sambandstyp
 
 Sambandstyper (engelska: relation) visar på kopplingar mellan två entiteter. Sambandstyper ritas som romber. I mitten av romben står ett ett eller flera ord som beskriver entiteternas samband (oftast från ena entitetens perspektiv).
 
 Varje sambandstyp är kopplad med streck till de ingående entiteterna.
 
-==== Kardinalitetsförhållanden
+=== Kardinalitetsförhållanden
 
 I varje ände av en sambandstyp framgår dess _kardinalitet_ (engelska: cardinality), som mer exakt beskriver vad entiteterna har för _kardinalitetsförhållanden_ eller samband.
 Det finns tre typer av kardinalitetsförhållanden:
 
-===== Ett-till-ett-samband (eller 1:1-samband)
+==== Ett-till-ett-samband (eller 1:1-samband)
 
 Ett 1:1-samband innebär att de ingående entiteterna kan höra ihop med _ett_ exempel av entiteten i andra änden av sambandet.
 
-===== Ett-till-många-samband (eller 1:*-samband)
+==== Ett-till-många-samband (eller 1:*-samband)
 
 Ett 1:*-samband innebär att de ingående entiteterna kan höra ihop med _ett_ exempel av entiteten i andra änden av sambandet.
 
 En sambandstyp där entiteten i den ena änden av sambandet kan höra ihop med flera exempel av entiten i den andra änden, men varje exempel i den andra änden hör bara ihop med ett exempel av den första entiteten.
 
-===== Många-till-Många-samband (eller \*:*-samband)
+==== Många-till-Många-samband (eller \*:*-samband)
 
 Ett \*:*-samband innebär att ett exempel av var och en av de ingående entiteterna kan höra ihop med flera exempel av de övriga ingående entiteterna.
 
