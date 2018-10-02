@@ -87,7 +87,7 @@ Rita upp de entiteter, attribut och sambandstyper som databasen behöver.
 
 === Matkort
 
-I årskurs tre får eleverna på IT-Gymnasiet Göteborg matkort. Företaget som skapar och säljer matkorten till skolorna har (förhoppningsvis) en databas som håller koll på skolor, kort, och låntagare.
+I årskurs tre får eleverna på NTI-Johanneberg matkort. Företaget som skapar och säljer matkorten till skolorna har (förhoppningsvis) en databas som håller koll på skolor, kort, och låntagare.
 
 De behöver kunna hålla kolla på:
 
