@@ -25,13 +25,13 @@ En stored procedure kan köras med andra rättigheter än den som anropar proced
 
 === Skydd från SQL-injektion
 
-Om databashanteraren använder stored procedures spelar det ingen roll hur mycket SQL en eventuell anfallare försöker skicka.
+Om databashanteraren använder stored procedures spelar det ingen roll hur mycket elak SQL en eventuell anfallare försöker skicka - det enda som kommer till databasen är funktionsanrop.
 
 == Nackdelar
 
 === Affärslogik i databasen
 
-Det kan vara svårt att veta var i applikationen en logik finns om en del av logiken ligger i databasen.
+Det kan vara svårt att veta var i applikationen logik finns om en del av logiken ligger i databashanteraren.
 
 === Fastlåsning i databashanteringssystem
 
@@ -39,4 +39,4 @@ De flesta databashanterare har olika, inkompatibla språk och ramverk att för s
 
 === Specialistkompetens krävs
 
-Den som skriver stored procedures kräver specialistkompetens, då de inbegriper nya språk och tankesätt.
+Den som skriver stored procedures behöver specialistkompetens, då de inbegriper nya språk och tankesätt.
