@@ -141,7 +141,7 @@ Förutsatt att ingen artist får ge ut en låt med samma titel i olika album fin
 
 Vilka andra funktionella beroenden kan du hitta?
 
-=== Fullt Funktionellt Beroende (ffb)
+=== Fullt Funktionellt Beroende
 
 Ett fullt eller fullständigt funktionellt beronde (ffb) är ett funktionellt beroende där man inte kan ta bort någon av determinanterna utan att det funktionella beroendet upphör att gälla. Detta innebär att alla funktionella beroenden som enbart har _en_ determinant är fullständiga beroenden.
 
