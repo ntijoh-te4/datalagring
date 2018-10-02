@@ -107,6 +107,10 @@ Vi vill i största möjliga utsträckning undvika redundant data, och behöver d
 
 Nu har vi normaliserat datan; data om författare i en tabell, och data om böcker i en annan. Ingen data är duplicerad. Dessvärre vet vi inte längre vilken författare som skrivit vilken bok.
 
+För att hålla koll på vilken författare som skrivit vilken bok behöver vi lägga till en `främmande nyckel` i books-tabellen:
+
+
+
 Normalisering leder vanligtvis till att tabeller delas upp och struktureras om. Tabeller kan uppfylla olika normalformer, beroende på hur långt normaliseringen drivs. De vanligaste normalformerna är första normalformen (1NF), andra normalformen (2NF) och tredje normalformen 3NF.
 
 Om man följer stegen ovan kommer man rätt långt i normaliseringsprocessen, och det är mycket möjligt att ens databas blir helt normaliserad. Det är dock fortfarande viktigt att förstå den bakomliggande teorin bakom normalisering av relationsdatabaser. De problem som ändå uppstår kan man ofta hantera om man följer den enkla grundregeln "en typ av sak per tabell, och en sån sak per rad".
