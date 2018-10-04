@@ -441,7 +441,7 @@ Eftersom alla funktionella beroenden där det finns en _ensam_ determinant är _
 |===
 
 
-I `songs`-tabellen är `album`, `year`, `length` samt `path` icke-primär-attribut som har ett fullt funktionellt beroende av vår kandidatnyckel `{title, artist_name }`. `genre`, däremot, har _inte_ ett fullt funktionellt beroende på kandidatnyckeln - samma kandidanyckel kan användas för att få tillbaks olika genres. Detta innebär att vår tabell inte ännu uppfyller 2NF.
+I `songs`-tabellen är `album`, `year`, `length` samt `path` icke-nyckel-attribut som har ett fullt funktionellt beroende av vår kandidatnyckel `{title, artist_name }`. `genre`, däremot, har _inte_ ett fullt funktionellt beroende på kandidatnyckeln - samma kandidanyckel kan användas för att få tillbaks olika genres. Detta innebär att vår tabell inte ännu uppfyller 2NF.
 
 Vi börjar med att ange ett nytt attribut (`id`) som primärnyckel:
 
