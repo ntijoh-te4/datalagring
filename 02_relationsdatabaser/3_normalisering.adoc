@@ -402,6 +402,18 @@ Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två
 
 Ännu bättre hade antagligen varit att dela upp tabellen i _tre_ tabeller varav en _relationstabell_, men det bryr sig inte 1NF om.
 
+==== Övningsuppgift
+
+Normalisera nedanstående tabell så den uppfyller 1NF.
+
+|===
+3+^ | *friends*
+| *name*  | *phone_numbers*
+| Adam    | 123, 234
+| Beata   | 345, 456
+| Charles | 567, 678, 789
+|===
+
 === Andra Normalformen (2NF)
 
 Regler för Andra Normalformen (2NF)
@@ -500,6 +512,22 @@ Detta innebär att vi i detta fall behöver skapa en tredje-tabell:
 
 Nu uppfyller samtliga 3 tabeller 2NF.
 
+==== Övningsuppgift
+
+Normalisera nedanstående tabell som hjälper ett bibliotek hålla koll på sina låneböcker så den uppfyller 2NF
+
+|===
+6+^| *books*
+| *title_id* | *isbn*            | *loan_barcode* | *title*                             | *author*         | *condition*
+| 1          | 978-91-27-14196-4 | 1000001        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
+| 1          | 978-91-27-14196-4 | 1000002        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
+| 1          | 978-91-27-14196-4 | 1000003        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Poor
+| 2          | 978-05-52=17189-2 | 1000004        | Good Omens                          | Neil Gaiman      | Good
+| 2          | 978-05-52=17189-2 | 1000004        | Good Omens                          | Terry Pratchett  | Good
+| 2          | 978-05-52=17189-2 | 1000005        | Good Omens                          | Neil Gaiman      | Mint
+| 2          | 978-05-52=17189-2 | 1000005        | Good Omens                          | Terry Pratchett  | Mint
+|===
+
 === Tredje Normalformen (3NF)
 
 Regler för Tredje Normalformen (3NF)
@@ -543,6 +571,34 @@ Genom att bryta ut de transitionella beroendena (och därmed den redundanta data
 | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
 |===
 
+==== Övningsuppgift
+
+Vaktmästaren på en gymnasieskola behöver en databas för att hålla koll på elevernas skåp och nycklar.
+
+Vaktmästaren berättar följande:
+
+- Varje skåp har ett skåpnummer.
+- Varje skåp står i en kolumn.
+- Varje skåp har en höjd (botten, mitten eller toppen).
+- En elev kan ha ett (men endast ett) skåp.
+- Det kan finnas tomma skåp.
+- Varje skåp har en låscylinder. 
+- Det finns låscylindrar som inte sitter i ett skåp.
+- Varje låscylinder har en eller flera nycklar.
+- Varje nyckel har ett nyckelnummer.
+- Varje låscylinder tillhör en nummerserie. 
+- Varje nummerserie har en huvudnyckel.
+- Skåpets nummer överensstämmer inte med låscylinderns nummer (och eleverna vet inte vad låscylindern har för nummer).
+- Om en elev slarvar bort nyckeln till sitt skåp behöver vaktmästaren byta cylindern mot en ledig cylinder med kvarvarande reservnycklar och den "nya" cylindern får inte tidigare suttit i samma skåp.
+- Vaktmästaren behöver hålla koll på borttappade nycklars nyckelnummer så hen vet vilken cylinder nyckeln tillhör om nyckeln skulle hittas senare.
+- Om samtliga nycklar till ett skåp slarvats bort behöver skåpets låscylinder bytas, och den gamla låscylindern markeras som förverkad (men om en nyckel till en förverkad cylinder senare hittas behöver man kunna ta bort förverkningsmarkeringen).
+- För att undvika att elever i samma klass har skåpen ovan/under varandra behöver vaktmästaren även veta elevens klass.
+
+För närvarande använder vaktmästaren ett excelark för att hålla koll på detta. Det ser ut som följer:
+
+image::images/02_relationsdatabaser/lockers.png[]
+
+Omvandla excelarket till en relationsdatabas där samtliga tabeller uppfyller 3NF.
 
 === Boyce-Codd Normalform (BCNF)
 
@@ -577,3 +633,7 @@ Regler för Boyce-Codd Normalform (BCNF)
 |  1   | Teacher                   
 |  2   | Principal                
 |===
+
+==== Övningsuppgift
+
+Uppdatera elveskåpsdatabasen (om nödvändigt) så samtliga tabeller uppfyller BCNF.
