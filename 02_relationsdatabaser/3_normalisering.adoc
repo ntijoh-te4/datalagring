@@ -637,4 +637,4 @@ Regler för Boyce-Codd Normalform (BCNF)
 
 ==== Övningsuppgift
 
-Uppdatera elveskåpsdatabasen (om nödvändigt) så samtliga tabeller uppfyller BCNF.
+Uppdatera elvskåpsdatabasen (om nödvändigt) så samtliga tabeller uppfyller BCNF.
