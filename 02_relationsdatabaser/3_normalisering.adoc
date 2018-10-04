@@ -407,7 +407,7 @@ Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två
 Normalisera nedanstående tabell så den uppfyller 1NF.
 
 |===
-3+^ | *friends*
+3+^| *friends*
 | *name*  | *phone_numbers*
 | Adam    | 123, 234
 | Beata   | 345, 456
