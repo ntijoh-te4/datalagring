@@ -522,10 +522,10 @@ Normalisera nedanstående tabell som hjälper ett bibliotek hålla koll på sina
 | 1          | 978-91-27-14196-4 | 1000001        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
 | 1          | 978-91-27-14196-4 | 1000002        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
 | 1          | 978-91-27-14196-4 | 1000003        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Poor
-| 2          | 978-05-52=17189-2 | 1000004        | Good Omens                          | Neil Gaiman      | Good
-| 2          | 978-05-52=17189-2 | 1000004        | Good Omens                          | Terry Pratchett  | Good
-| 2          | 978-05-52=17189-2 | 1000005        | Good Omens                          | Neil Gaiman      | Mint
-| 2          | 978-05-52=17189-2 | 1000005        | Good Omens                          | Terry Pratchett  | Mint
+| 2          | 978-05-52-17189-2 | 1000004        | Good Omens                          | Neil Gaiman      | Good
+| 2          | 978-05-52-17189-2 | 1000004        | Good Omens                          | Terry Pratchett  | Good
+| 2          | 978-05-52-17189-2 | 1000005        | Good Omens                          | Neil Gaiman      | Mint
+| 2          | 978-05-52-17189-2 | 1000005        | Good Omens                          | Terry Pratchett  | Mint
 |===
 
 === Tredje Normalformen (3NF)
