@@ -321,7 +321,7 @@ Regler för Första Normalformen (1NF)
 
 Första normalformen är egentligen den enda normalform en relationsdatabas _måste_ uppfylla för att fungera (men för att undvika uppdateringsanomalier (update anomalies) så är det rekommenderat att normalisera tom 3NF).
 
-.En tabell som inte når upp till 1NF
+.En students-tabell som inte når upp till 1NF
 |===
 3+^| *students*
 | *personnr*     | *namn*               | *courses* 
@@ -355,7 +355,7 @@ Man skulle även kunna lösa problemet genom att skapa en kolumn för varje kurs
 
 En möjlig lösning som skulle uppfylla 1NF är att varje elev förekommer på flera rader:
 
-.En tabell som når upp till 1NF
+.En students-tabell som når upp till 1NF
 |===
 3+^| *students*
 | *personnr*     | *namn*               | *courses* 
