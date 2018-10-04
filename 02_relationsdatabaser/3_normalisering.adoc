@@ -603,6 +603,7 @@ Omvandla excelarket till en relationsdatabas där samtliga tabeller uppfyller 3N
 === Boyce-Codd Normalform (BCNF)
 
 Regler för Boyce-Codd Normalform (BCNF)
+
 - Alla regler för 3NF är uppfyllda
 - Varje attribut i tabellen måste vara kopplat till nyckeln, hela nyckeln och inget annat.
 
