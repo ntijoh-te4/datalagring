@@ -15,5 +15,3 @@ include::chapters/01_introduktion/_chapter.adoc[leveloffset=+1]
 include::chapters/02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
 
 include::chapters/03_no_sql/_chapter.adoc[leveloffset=+1]
-
-include::03_relationsdatabaser/_chapter.adoc[leveloffset=+1]
