@@ -1,14 +1,18 @@
 :numbered:
 :icons: font
 :toc: left
-:source-highlighter: highlights.js
-:toclevels: 4
-:sectnumlevels: 3
-:experimental:
+:toclevels: 3
+:source-highlighter: rouge
+:docinfo: private-head
+:sourcedir: src/chapters
+:imagesdir: src/chapters
+:!figure-caption:
 
 = Datalagring
 
-include::01_introduktion/_chapter.adoc[leveloffset=+1]
+include::chapters/01_introduktion/_chapter.adoc[leveloffset=+1]
 
-include::02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
+include::chapters/02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
+
+include::chapters/03_no_sql/_chapter.adoc[leveloffset=+1]
 

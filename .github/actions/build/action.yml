@@ -1,0 +1,9 @@
+name: 'Build AsciiDoc Book'
+description: 'converts specified adoc to html'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - asciidoctor
+    - src/book.adoc
+    - output
