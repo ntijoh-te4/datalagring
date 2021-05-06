@@ -1,0 +1,640 @@
+= Normalisering
+
+Normalisering av relationsdatabaser är en teori för hur man får en effektiv struktur på sin databas. 
+
+Genom att följa en given metodik kan man 
+
+- Minska redundans 
+- Minska risken för oönskade bieffekter (data-anomalier) 
+- Öka prestandan i databasen
+
+== Exempel
+
+Vi återanvänder bok-exemplet från föregående avsnitt:
+
+.Exempel på en tabell för att hålla koll på böcker
+[cols=">1,<3,>1", width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464
+|  2    | 'To Kill a Mockingbird'   | 336
+|  3    | '1984'                    | 328 
+|  4    | 'The Stranger'            | 123
+|=== 
+
+
+Säg att vi vill även vill lagra författarens namn. Vi lägger därför till en kolumn:
+
+[cols=">1,<3,>1,<3", width="50%"]
+|===
+4+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'
+|  3    | '1984'                    | 328           | 'George Orwell''
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'
+|=== 
+
+Inga problem, men säg att vi även vill lagra författarens nationalitet, födelseår och skostorlek. 
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *nationality* | *birth_year* | *shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Nu börjar tabellen se lite konstig ut: Tabellen heter "books" men innehåller attributen "nationality", "birth_year" och "shoe_size". De låter inte som attribut (egenskaper) en bok har. Vi kan förstås lägga in "author_" framför varje attribut som är kopplat till en författare snarare än en bok:
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+Det känns bättre, men det är fortfarande konstigt att om man vill veta vilken skostorlek en författare har så ska man kolla i boktabellen. Men vad händer när vi börjar lagra flera böcker för en författare?
+
+[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+|===
+7+^| *books*
+| *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
+|  1    | 'Catch 22'                | 464           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2    | 'To Kill a Mockingbird'   | 336           | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3    | '1984'                    | 328           | 'George Orwell'   | 'English'     | 1903         | 41
+|  4    | 'The Stranger'            | 123           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  5    | 'Closing Time'            | 382           | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  6    | 'Animal Farm'             | 218           | 'George Orwell'   | 'English'     | 1903         | 41
+|  7    | 'The Plague  '            | 312           | 'Albert Camus'    | 'French'      | 1913         | 44
+|  8    | 'Coming Up for Air'       | 393           | 'George Orwell'   | 'English'     | 1903         | 41
+|===
+
+Nu förekommer varje författares nationalitet, födelseår och skostorlek flera gånger - vi har med andra ord redundant data i databasen.
+
+Vi vill i största möjliga utsträckning undvika redundant data, och behöver därför `normalisera` datan, genom att dela upp datan i **två** tabeller - `books` och `authors`
+
+[cols=">1,<3,<2,<2,>1", width="50%"]
+|===
+5+^| *authors*
+| *id* | *name*            | *nationality* | *birth_year* | *shoe_size*
+|  1   | 'Joseph Heller'   | 'American'    | 1923         | 42
+|  2   | 'Harper Lee'      | 'American'    | 1926         | 36
+|  3   | 'George Orwell'   | 'English'     | 1903         | 41
+|  4   | 'Albert Camus'    | 'French'      | 1913         | 44
+|===
+
+[cols=">1,<3,>1" width="45%"]
+|===
+3+^| *books*
+| *id*  | *title*                   | *page_count*
+|  1    | 'Catch 22'                | 464           
+|  2    | 'To Kill a Mockingbird'   | 336           
+|  3    | '1984'                    | 328           
+|  4    | 'The Stranger'            | 123           
+|  5    | 'Closing Time'            | 382           
+|  6    | 'Animal Farm'             | 218           
+|  7    | 'The Plague  '            | 312           
+|  8    | 'Coming Up for Air'       | 393           
+|===
+
+
+Nu har vi normaliserat datan; data om författare i en tabell, och data om böcker i en annan. Ingen data är duplicerad. Dessvärre vet vi inte längre vilken författare som skrivit vilken bok.
+
+För att hålla koll på vilken författare som skrivit vilken bok behöver vi lägga till en `främmande nyckel` i books-tabellen:
+
+
+
+Normalisering leder vanligtvis till att tabeller delas upp och struktureras om. Tabeller kan uppfylla olika normalformer, beroende på hur långt normaliseringen drivs. De vanligaste normalformerna är första normalformen (1NF), andra normalformen (2NF) och tredje normalformen 3NF.
+
+Om man följer stegen ovan kommer man rätt långt i normaliseringsprocessen, och det är mycket möjligt att ens databas blir helt normaliserad. Det är dock fortfarande viktigt att förstå den bakomliggande teorin bakom normalisering av relationsdatabaser. De problem som ändå uppstår kan man ofta hantera om man följer den enkla grundregeln "en typ av sak per tabell, och en sån sak per rad".
+
+Men man behöver ändå förstå de bakomliggande teorierna och begreppen; det är inte alltid så lätt att inse vad de där "sakerna" som man ska ha en per rad egentligen är.
+
+Ibland kan man även behöva analysera en existerande eller föreslagen design, och då måste man förstå, och kunna förklara, vilka problem den medför. Kanske måste man göra en avvägning mellan de nackdelar en dåligt normaliserad design medför, och arbetet att göra om databasen.
+
+== Termer och Begrepp
+
+För att kunna ta till sig och tillämpa teorin bakom normalformerna behöver man först lära sig och behärska ett par begrepp:
+
+=== Tilläggsanomali
+
+En tilläggsanomali (insertion anomaly) innebär att man inte kan lägga till data i en rad i en tabell innan man har information nog att fylla alla celler i raden.
+
+.En tabell som visar på möjliga tilläggsanomalier
+|===
+4+^| *students*
+| *name*  | *address*    | *course_code* | *course_name*
+| adam    | adamvägen 1  | E1            | engelska 
+| adam    | adamvägen 1  | S1            | svenska  
+| adam    | adamvägen 1  | T1            | tyska    
+| beata   | beatavägen 1 | E1            | engelska 
+| beata   | beatavägen 1 | T1            | tyska    
+|===
+
+I tabellen ovan går det inte (utan att införa null-värden) att
+
+ - lägga till (insert) en kurs utan att det finns en elev inskriven i kursen.
+ - skriva in en elev utan att också lägga till eleven i en kurs
+
+Detta är exempel på insertion anomalys. Insertion anomalys uppstår när man har "felaktiga" _funktionella beroenden_ (se nedan) i tabellen.
+
+=== Uppdateringsanomali
+
+En uppdateringsanomali (update anomaly) kan uppstå när man upprepar samma information på olika ställen i databasen. Det finns då en risk att man missar att ändra datan på flera olika ställen.
+
+.En tabell som visar på en uppdateringsanomali
+|===
+4+^| *students*
+| *name*  | *address*    | *course_code* | *course_name*
+| adam    | adamvägen 1  | E1            | engelska 
+| adam    | adamvägen 1  | S1            | svenska  
+| adam    | adamvägen 1  | T1            | tyska    
+| beata   | beatavägen 1 | E1            | engelska 
+| beata   | göstavägen 1 | T1            | tyska    
+|===
+
+I tabellen ovan har adressen för beata endast uppdaterats i en av raderna. Update anomalys kan uppstå när man har "felaktiga" _funktionella beroenden_ (se nedan) i tabellen. 
+
+=== Borttagningsanomali
+
+En borttagningsanomali (deletion anomaly) innebär att man, när man tar bort en rad i en tabell, kan råka ta bort annan information som inte återkommer någon annanstans i databasern.
+
+.En tabell som visar på en möjlig borttagninsanomali
+|===
+4+^| *students*
+| *name*  | *address*    | *course_code* | *course_name*
+| adam    | adamvägen 1  | E1            | engelska 
+| adam    | adamvägen 1  | S1            | svenska  
+| adam    | adamvägen 1  | T1            | tyska    
+| beata   | beatavägen 1 | E1            | engelska 
+| beata   | göstavägen 1 | T1            | tyska    
+|===
+
+Om man i tabellen ovan tar bort all information om "adam" så kommer även `course_name` och `course_code` för "svenska" försvinna från databasen, eftersom ingen annan elev är inskriven i denna kurs. Deletion anomalys kan uppstå när man har "felaktiga" _funktionella beroenden_ (se nedan) i tabellen. 
+
+=== Funktionellt Beroende
+
+Ett funktionellt beroende (fb) är ett beroende mellan attribut i en tabell. Låt oss anta att vi har en tabell med personnummer och namn:
+
+.En tabell med ett funktionellt beroende mellan personnummer och namn
+|===
+2+^| *personer*
+| *personnummer* | *namn* 
+| 970811-xxxx    | Karl-Gustaf Sjöblom
+| 560222-xxxx    | Viking Fors
+| 590928-xxxx    | Alexis Lindroth
+| 820402-xxxx    | Karl-Gustaf Sjöblom
+|=== 
+
+I tabellen ovan finns ett funktionellt beroende mellan `personnummer` och `namn`. Detta innebär att för ett givet personnummer kommer alltid samma namn returneras, men det omvända är inte sant - ett namn kommer inte garanterat returnera samma personnummer. Med andra ord: om samma personnummer skulle förekomma på två rader i tabellen, så måste värdena namnen också vara lika. 
+
+Detta funktionella beroende kan beskrivas som `personnummer -> namn` vilket utläses som "personnumer _bestämmer_ namn" I det här exemplet är `personnummer` _determinanten_, eftersom den bestämmer eller _determinerar_ namnet.
+
+Generaliserat brukar man skriva ut funktionella betenden som `A -> B`
+
+.En tabell med _flera_ funktionella beroenden
+|===
+4+^| *students*
+| *name*  | *address*    | *course_code* | *course_name*
+| adam    | adamvägen 1  | E1            | engelska 
+| adam    | adamvägen 1  | S1            | svenska  
+| adam    | adamvägen 1  | T1            | tyska    
+| beata   | beatavägen 1 | E1            | engelska 
+| beata   | beatavägen 1 | T1            | tyska    
+|===
+
+I tabellen `students` ovan finns två olika, av varandra oberoende, funktionella beroenden:
+
+- `name -> address`
+- `course_code -> course_name`
+
+Ett funktionellt beroende kan innehålla flera determinanter, det vill säga ett _flera_ attribut kan _tillsammans_ bestämma värdet på ett (eller flera) andra attribut.
+
+.En tabell med funktionella beroenden med flera determinanter
+|===
+7+^| *songs*
+| *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
+| TiK ToK          | Kesha         | Tik Tok                  | 2010   | 03:20    | tiktok.mp3    | Pop    
+| Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Pop  
+| Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Dance  
+| Hot N Cold       | Katy Perry    | Hot N Cold               | 2008   | 03:43    | hotncold.mp3  | Pop    
+| My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Pop  
+| My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Rock
+| Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Pop  
+| Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Rock
+| Everlong         | Xandra        | Everlong                 | 2018   | 04:00    | xeverlong.mp3 | Pop  
+|===
+
+Förutsatt att ingen artist får ge ut en låt med samma titel i olika album finns i `songs`-tabellen ovan (bland annat) följande funktionella beroenden:
+
+- `{title, artist_name, album, year, length, genre} -> path`
+- `{title, artist_name, album, year, length} -> path` 
+- `{title, artist_name, album, year} -> path`
+- `{title, artist_name, album} -> path`
+- `{title, artist_name} -> path` 
+
+Vilka andra funktionella beroenden kan du hitta?
+
+=== Fullt Funktionellt Beroende
+
+Ett fullt eller fullständigt funktionellt beronde (ffb) är ett funktionellt beroende där man inte kan ta bort någon av determinanterna utan att det funktionella beroendet upphör att gälla. Detta innebär att alla funktionella beroenden som enbart har _en_ determinant är fullständiga beroenden.
+
+Fullt funktionella beroenden skrivs ut som `A => B`
+
+I `songs`-tabellen ovan är `{title, artist_name} => path` ett fullt funktionellt beroende, eftersom man inte kan ta bort varesig `title` eller `artist_name` utan att det funktionella beroendet försvinner.
+
+Vilka ffb skulle kunna finnas i tabellen nedan?
+
+.En konstig tabell med funktionella beroenden
+|===
+4+^| *strange_table*
+| *A* | *B*	| *C* | *D*
+| 1	  | 4	| 10  | 100
+| 2	  | 5	| 20  | 50
+| 3	  | 6	| 20  | 200
+| 1	  | 4	| 10  | 200
+| 2	  | 6	| 20  | 0
+| 3	  | 6	| 20  | 300
+| 1	  | 4	| 10  | null
+| 2	  | 6	| 20  | 50
+| 3	  | 6	| 20  | 50
+|===
+
+=== Transitivt Beroende
+
+Om `a -> b` och dessutom `b -> c` så är c transitivt beroende av a via b (förutsatt att b eller c inte bestämmer a)
+
+.En tabell med transitionella beroenden
+|===
+6+^| *employees*
+| *id* | *name*            | *position* | *school_name*   | *school_address* | *school_phone*
+|  1   | Johan Bengtsson   | Teacher    | NTI Johanneberg | Origovägen 4     | 031-741 21 00    
+|  2   | Anna Persson      | Teacher    | NTI Johanneberg | Origovägen 4     | 031-741 21 00 
+|  3   | Fatima Alzanbouri | Principal  | NTI Johanneberg | Origovägen 4     | 031-741 21 00  
+|  4   | Inge Naning       | Teacher    | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+|  5   | Minna Salo        | Teacher    | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50  
+|  6   | Andrew Gao        | Principal  | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+|===
+
+I tabellen ovan gäller (bland annat) `id -> school_name` men även `school_name -> {school_address, school_phone}`
+Detta innebär att `school_address` och `school_phone` är transitionellt beroende av `id` via `school_name`
+
+=== Supernyckel
+
+En supernyckel (engelska: super key) består av ett eller flera attribut som _tillsammans_ kan användas för att unikt identifiera en tupel i tabellen, det vill säga: Det kombinationen av värden bland de ingående attributen måste vara unika inom tabellen. I `songs`-tabellen ovan finns (bland annat) följande supernycklar:
+
+- `title`, `artist_name`, `album`, `year`, `length`, `genre`
+- `title`, `artist_name`, `album`, `year`, `length` 
+- `title`, `artist_name`, `album`, `year`
+- `title`, `artist_name`, `album`
+- `title`, `artist_name` 
+
+=== Kandidatnycklar
+
+En kandidatnyckel är en supernyckel utan redundanta attribut, det vill säga den supernyckel där vi inte kan ta bort fler attribut utan att vi inte längre kan garantera att raden kommer vara unik. I `songs`-tabellen ovan skulle kandidatnyckeln bestå av `title` tillsammans med `artist_name`
+
+=== Primärnyckel
+
+En primärnyckel (engelska: primary key) är den av kandidatnycklarna (om det finns flera) designern av databasen har valt ut att använda för interaktion med en given tabell.
+
+=== Icke-nyckel-attribut
+
+Ett icke-nyckel-attribut (engelska: non-key attribute) är ett attribut som inte är ingår i _någon_ av tabellens kandidatnycklar
+
+I `songs`-tabellen är därmed följande attribut icke-primär-attribut: `album`, `year`, `length`, `path`, `genre`.
+
+== Normalformerna
+
+=== Första Normalformen (1NF)
+
+Regler för Första Normalformen (1NF)
+
+- Varje attribut i en tabell måste vara atomärt (dvs innehålla ett enda värde)
+- Varje tupel i en tabell måste vara unik, det vill säga det får i tabellen inte finnas två identiska rader. 
+
+Första normalformen är egentligen den enda normalform en relationsdatabas _måste_ uppfylla för att fungera (men för att undvika uppdateringsanomalier (update anomalies) så är det rekommenderat att normalisera tom 3NF).
+
+.En students-tabell som inte når upp till 1NF
+|===
+3+^| *students*
+| *personnr*     | *namn*               | *courses* 
+| 010811-xxxx    | Karl-Gustaf Sjöblom  | EN7, SV3, MA4
+| 000222-xxxx    | Viking Fors          | EN7, MA4
+| 020928-xxxx    | Alexis Lindroth      | 
+| 020402-xxxx    | Karl-Gustaf Sjöblom  | EN5, MA2, KE1, PROG1
+|=== 
+
+
+I `students`-tabellen ovan innehåller `course`-attributet flera värden, det vill säga, det är inte atomärt. 
+
+Man skulle kunna lösa problemet med att lägga in fler kolumner för kurser, t.ex course1, course2, course3, etc. Detta skulle dock betyda att de elever som inte läser maximalt antalt kurser kommer ha en eller flera kolumn utan värde i. 
+
+Om man ska lägga in elever med fler kurser än vad man räknat med skulle vara maximalt antal kurser skulle det inte att gå. Det kommer också att uppstå problem med frågeställningen i tabellen:
+
+.tänk följande fråga för att ta reda på om någon läser engelska 7
+[source,sql]
+----
+SELECT *
+FROM students 
+WHERE course1 = 'EN7' OR
+      course2 = 'EN7' OR
+      course3 = 'EN7' OR
+      course4 = 'EN7' OR
+      course5 = 'EN7' OR
+      ...
+----
+
+Man skulle även kunna lösa problemet genom att skapa en kolumn för varje kurs som finns, och som värde ha true/false/null baserat på om eleven läser kursen eller inte. Detta skulle innebära en väldig massa onödiga false eller nullvärden, och så fort en ny kurs läggs till eller tas bort skulle man behöva modifiera tabellen - en synnerligen dyr (tids- och resursmässigt) och otymplig operation.
+
+En möjlig lösning som skulle uppfylla 1NF är att varje elev förekommer på flera rader:
+
+.En students-tabell som når upp till 1NF
+|===
+3+^| *students*
+| *personnr*     | *namn*               | *courses* 
+| 010811-xxxx    | Karl-Gustaf Sjöblom  | EN7
+| 010811-xxxx    | Karl-Gustaf Sjöblom  | SV3
+| 010811-xxxx    | Karl-Gustaf Sjöblom  | MA4
+| 000222-xxxx    | Viking Fors          | EN7
+| 000222-xxxx    | Viking Fors          | MA4
+| 020928-xxxx    | Alexis Lindroth      | 
+| 020402-xxxx    | Karl-Gustaf Sjöblom  | EN5
+| 020402-xxxx    | Karl-Gustaf Sjöblom  | MA2
+| 020402-xxxx    | Karl-Gustaf Sjöblom  | KE1
+| 020402-xxxx    | Karl-Gustaf Sjöblom  | PROG1
+|=== 
+
+Om man ser tillbaks till tilläggs/uppdaterings/borttagningsanomalierna kan man dock se att detta inte är en bra lösning.
+
+Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två olika tabeller:
+
+.en students-tabell som når upp till 1NF
+|===
+2+^| *students*
+| *personnr*     | *namn*                
+| 010811-xxxx    | Karl-Gustaf Sjöblom
+| 000222-xxxx    | Viking Fors      
+| 020928-xxxx    | Alexis Lindroth  
+| 020402-xxxx    | Karl-Gustaf Sjöblom 
+|=== 
+
+.en courses-tabell som når upp till 1NF
+|===
+2+^| *courses*
+| *personnr*   | *course* 
+| 010811-xxxx  | EN7
+| 010811-xxxx  | SV3
+| 010811-xxxx  | MA4
+| 000222-xxxx  | EN7
+| 000222-xxxx  | MA4
+| 020402-xxxx  | EN5
+| 020402-xxxx  | MA2
+|=== 
+
+Även om denna uppdelning är bättre ger den inte ett bra skydd mot anomalier - hur läggar men t.ex. till en kurs som ingen student läser, eller vad händer när ingen student längre läser t.ex. "EN7"?
+
+Ännu bättre hade antagligen varit att dela upp tabellen i _tre_ tabeller varav en _relationstabell_, men det bryr sig inte 1NF om.
+
+==== Övningsuppgift
+
+Normalisera nedanstående tabell så den uppfyller 1NF.
+
+|===
+2+^| *friends*
+| *name*  | *phone_numbers*
+| Adam    | 123, 234
+| Beata   | 345, 456
+| Charles | 567, 678, 789
+|===
+
+=== Andra Normalformen (2NF)
+
+Regler för Andra Normalformen (2NF)
+
+- Alla regler för 1NF är uppfyllda
+- Alla icke-nyckel-attribut är fullt funktionsberoende (ffb) av tabellens kandidat/primärnyckel
+
+Tabeller som uppfyller 2NF har mindre redundans är tabeller i 1NF men de kan fortfarande lida av uppdateringsanomalier.
+
+Eftersom alla funktionella beroenden där det finns en _ensam_ determinant är _fullständiga_ funktioneller beroenden, innebär det att alla tabeller som upfyller 1NF och har en primärnyckel bestående av enbart 1 attribut automatiskt uppfyller 2NF. Detta är även det enklaste sättet att garantera 2NF.
+
+.songs-tabellen
+|===
+7+^| *songs*
+| *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
+| TiK ToK          | Kesha         | Tik Tok                  | 2010   | 03:20    | tiktok.mp3    | Pop    
+| Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Pop  
+| Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Dance  
+| Hot N Cold       | Katy Perry    | Hot N Cold               | 2008   | 03:43    | hotncold.mp3  | Pop    
+| My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Pop  
+| My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Rock
+| Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Pop  
+| Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Rock
+| Everlong         | Xandra        | Everlong                 | 2018   | 04:00    | xeverlong.mp3 | Pop  
+|===
+
+
+I `songs`-tabellen är `album`, `year`, `length` samt `path` icke-nyckel-attribut som har ett fullt funktionellt beroende av vår kandidatnyckel `{title, artist_name }`. `genre`, däremot, har _inte_ ett fullt funktionellt beroende på kandidatnyckeln - samma kandidanyckel kan användas för att få tillbaks olika genres. Detta innebär att vår tabell inte ännu uppfyller 2NF.
+
+Vi börjar med att ange ett nytt attribut (`id`) som primärnyckel:
+
+.songs-tabellen med ny primärnyckel 
+|===
+8+^| *songs*
+| *id* | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
+|  1   | TiK ToK          | Kesha         | Tik Tok                  | 2010   | 03:20    | tiktok.mp3    | Pop    
+|  2   | Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Pop  
+|  2   | Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3     | Dance  
+|  3   | Hot N Cold       | Katy Perry    | Hot N Cold               | 2008   | 03:43    | hotncold.mp3  | Pop    
+|  4   | My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Pop  
+|  4   | My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3    | Rock
+|  5   | Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Pop  
+|  5   | Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3  | Rock
+|  6   | Everlong         | Xandra        | Everlong                 | 2018   | 04:00    | xeverlong.mp3 | Pop  
+|===
+
+Eftersom primärnycklar måste vara unika inom en tabell har vi ett problem: id 2, 4 samt 5 förekommer flera gånger i tabellen. Detta är inte tillåtet.
+
+För att komma åt detta behöver vi bryta ut `genre` till en egen tabell, då det är `genre` som är orsaken till att ett samma id förekommer flera gånger i tabellen.
+
+För att garantera att `genre`-tabellen uppnår 2NF ser vi samtidigt till att ge den en primärnyckel (`id`) (eftersom genre i vår modell inte har några andra attribut kopplade till sig behövs det inte egentligen en ny primärnyckel, men det är enklast att oftast göra likadant).
+
+.genres-tabellen
+|===
+2+^| *genres* 
+| *id* | *genre*
+|  1   | Pop    
+|  2   | Dance  
+|  3   | Rock
+|===
+
+.songs-tabellen utan genre
+|===
+7+^| *songs*
+| *id* | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*       
+|  1   | TiK ToK          | Kesha         | Tik Tok                  | 2010   | 03:20    | tiktok.mp3   
+|  2   | Alors on danse   | DJ Team       | Hits Dance Club          | 2010   | 03:27    | alors.mp3    
+|  3   | Hot N Cold       | Katy Perry    | Hot N Cold               | 2008   | 03:43    | hotncold.mp3 
+|  4   | My Hero          | Foo Fighters  | The Colour and the Shape | 1997   | 04:20    | myhero.mp3   
+|  5   | Everlong         | Foo Fighters  | The Colour and the Shape | 1997   | 04:11    | everlong.mp3 
+|  6   | Everlong         | Xandra        | Everlong                 | 2018   | 04:00    | xeverlong.mp3
+|===
+
+Vi har nu ett nytt problem: Vi kan inte längre se vilken/vilka genres en låt tillhör.
+
+I enligt med diskussionen om kurser i avsnittet om 1NF går det inte att lägga till några `genre`-attribut i `songs`-tabellen, och samma gäller eventuella `songs`-attribut i `genre`-tabellen. Eftersom vi i `genres`-tabellen har en primärnyckel med en ensam determinant får samma `genre` inte förekomma på flera rader.
+
+Detta innebär att vi i detta fall behöver skapa en tredje-tabell:
+
+.genres-songs-tabellen
+|===
+2+^| *genres* 
+| *song_id* | *genre_id*
+|     1     |   1    
+|     2     |   1  
+|     2     |   2
+|     3     |   1
+|     4     |   1
+|     4     |   3
+|     5     |   1
+|     5     |   3
+|     6     |   1
+|===
+
+`genres-songs`-tabellen innehåller följande funktinonella beroenden: `{genre_id, song_id} => {genre_id, song_id}`. Även här skulle vi, om vi ville, kunna stoppa in en ny primärnyckel med endast en determinant, men i det här fallet behövs det inte (eftersom `genre-songs` är en relationstabell utan icke-nyckel-attribut).
+
+Nu uppfyller samtliga 3 tabeller 2NF.
+
+==== Övningsuppgift
+
+Normalisera nedanstående tabell som hjälper ett bibliotek hålla koll på sina låneböcker så den uppfyller 2NF
+
+|===
+6+^| *books*
+| *title_id* | *isbn*            | *loan_barcode* | *title*                             | *author*         | *condition*
+| 1          | 978-91-27-14196-4 | 1000001        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
+| 1          | 978-91-27-14196-4 | 1000002        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Good
+| 1          | 978-91-27-14196-4 | 1000003        | The Hitchiker's Guide to the Galaxy | Douglas Adams    | Poor
+| 2          | 978-05-52-17189-2 | 1000004        | Good Omens                          | Neil Gaiman      | Good
+| 2          | 978-05-52-17189-2 | 1000004        | Good Omens                          | Terry Pratchett  | Good
+| 2          | 978-05-52-17189-2 | 1000005        | Good Omens                          | Neil Gaiman      | Mint
+| 2          | 978-05-52-17189-2 | 1000005        | Good Omens                          | Terry Pratchett  | Mint
+|===
+
+=== Tredje Normalformen (3NF)
+
+Regler för Tredje Normalformen (3NF)
+
+- Alla regler för 2NF är uppfyllda
+- Inget icke-nyckel-attribut är transitivt beroende av primärnyckeln.
+
+.En tabell med transitionella beroenden
+|===
+5+^| *employees*
+| *name*            | *position* | *school_name*   | *school_address* | *school_phone*
+| Johan Bengtsson   | Teacher    | NTI Johanneberg | Origovägen 4     | 031-741 21 00    
+| Anna Persson      | Teacher    | NTI Johanneberg | Origovägen 4     | 031-741 21 00 
+| Fatima Alzanbouri | Principal  | NTI Johanneberg | Origovägen 4     | 031-741 21 00  
+| Inge Naning       | Teacher    | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+| Minna Salo        | Teacher    | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50  
+| Andrew Gao        | Principal  | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+|===
+
+De transitionella beroendena i tabellen ovan (`name -> school_name` och `school_name -> school_address`) innebär redundant data i tabellen.
+
+Genom att bryta ut de transitionella beroendena (och därmed den redundanta datan) i egna tabeller kan vi uppnå 3NF:
+
+.En employees-tabell utan transitionella beroenden
+|===
+3+^| *employees*
+| *name*            | *position* | *school_name*    
+| Johan Bengtsson   | Teacher    | NTI Johanneberg      
+| Anna Persson      | Teacher    | NTI Johanneberg   
+| Fatima Alzanbouri | Principal  | NTI Johanneberg    
+| Inge Naning       | Teacher    | NTI Södertörn    
+| Minna Salo        | Teacher    | NTI Södertörn      
+| Andrew Gao        | Principal  | NTI Södertörn    
+|===
+
+.En schools-tabell utan transitionella beroenden
+|===
+3+^| *schools*
+| *school_name*   | *school_address* | *school_phone*
+| NTI Johanneberg | Origovägen 4     | 031-741 21 00    
+| NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+|===
+
+==== Övningsuppgift
+
+Vaktmästaren på en gymnasieskola behöver en databas för att hålla koll på elevernas skåp och nycklar.
+
+Vaktmästaren berättar följande:
+
+- Varje skåp har ett skåpnummer.
+- Varje skåp står i en kolumn.
+- Varje skåp har en höjd (botten, mitten eller toppen).
+- En elev kan ha ett (men endast ett) skåp.
+- Det kan finnas tomma skåp.
+- Varje skåp har en låscylinder. 
+- Det finns låscylindrar som inte sitter i ett skåp.
+- Varje låscylinder har en eller flera nycklar.
+- Varje nyckel har ett nyckelnummer.
+- Varje låscylinder tillhör en nummerserie. 
+- Varje nummerserie har en huvudnyckel.
+- Skåpets nummer överensstämmer inte med låscylinderns nummer (och eleverna vet inte vad låscylindern har för nummer).
+- Om en elev slarvar bort nyckeln till sitt skåp behöver vaktmästaren byta cylindern mot en ledig cylinder med kvarvarande reservnycklar och den "nya" cylindern får inte tidigare suttit i samma skåp.
+- Vaktmästaren behöver hålla koll på borttappade nycklars nyckelnummer så hen vet vilken cylinder nyckeln tillhör om nyckeln skulle hittas senare.
+- Om samtliga nycklar till ett skåp slarvats bort behöver skåpets låscylinder bytas, och den gamla låscylindern markeras som förverkad (men om en nyckel till en förverkad cylinder senare hittas behöver man kunna ta bort förverkningsmarkeringen).
+- För att undvika att elever i samma klass har skåpen ovan/under varandra behöver vaktmästaren även veta elevens klass.
+
+För närvarande använder vaktmästaren ett excelark för att hålla koll på detta. Det ser ut som följer:
+
+image::02_relationsdatabaser/img/lockers.png[]
+
+Omvandla excelarket till en relationsdatabas där samtliga tabeller uppfyller 3NF.
+
+=== Boyce-Codd Normalform (BCNF)
+
+Regler för Boyce-Codd Normalform (BCNF)
+
+- Alla regler för 3NF är uppfyllda
+- Varje attribut i tabellen måste vara kopplat till nyckeln, hela nyckeln och inget annat.
+
+.En schools-tabell med ny primärnyckel
+|===
+4+^| *schools*
+| *id* | *school_name*   | *school_address* | *school_phone*
+|  1   | NTI Johanneberg | Origovägen 4     | 031-741 21 00    
+|  2   | NTI Södertörn   | Röntgenvägen 9   | 08-556 408 50
+|===
+
+.En employees-tabell med två främmande nycklar
+|===
+4+^| *employees*
+| *id* | *name*            | *position_id* | *school_id* 
+|  1   | Johan Bengtsson   | 1             | 1               
+|  2   | Anna Persson      | 1             | 1            
+|  3   | Fatima Alzanbouri | 2             | 1             
+|  4   | Inge Naning       | 1             | 2           
+|  5   | Minna Salo        | 1             | 2             
+|  6   | Andrew Gao        | 2             | 2           
+|===
+
+.En positions-tabell 
+|===
+2+^| *positions*
+| *id* | *name*     
+|  1   | Teacher                   
+|  2   | Principal                
+|===
+
+==== Övningsuppgift
+
+Uppdatera elvskåpsdatabasen (om nödvändigt) så samtliga tabeller uppfyller BCNF.

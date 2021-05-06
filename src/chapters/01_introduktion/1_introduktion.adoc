@@ -1,0 +1,21 @@
+= Introduktion till databaser
+
+== Vad är en databas?
+
+En databas är en välorganiserad, det vill säga uppbyggd enligt nedskrivna regler, centraliserad, samling av data.
+
+.**Data** vs **information**.
+[NOTE]
+==== 
+Information är behandlad data - det vill säga data som någon kan använda för att tillföra något slags värde i någon slags process eller sammanhang.
+
+Man kan säga att data blir information när någon tittar på eller behandlar den.
+====
+
+== Typer av databashanteringsystem
+
+En Databashanterare/Databashanteringssystem, eller DBMS (Database Management System), är mjukvara som gör det möjligt att på ett effektivt och säkert sätt definera och modifiera innehåll i en databas.
+
+Man kan inte kommunicera direkt med en databas; all kommunikation sker via databashanteraren.
+
+Det finns i dag två huvudsakliga typer av databaser: Relationsdatabaser och dokument/nod-baserade. Andra ord som används för att skilja på dessa två typer av databaser är SQL (relationella) och NoSQL (dokument/nod-baserade).

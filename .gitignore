@@ -1,0 +1,13 @@
+#Junk
+**/.DS_Store
+
+# Book build output
+_book
+book.html
+
+# eBook build output
+*.epub
+*.mobi
+*.pdf
+
+Gemfile.lock

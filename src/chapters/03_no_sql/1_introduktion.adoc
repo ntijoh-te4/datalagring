@@ -1,0 +1,33 @@
+== Fördelar med NoSQL-databashanterare
+
+=== Big Data
+
+Om din domän innebär att du kommer hantera stora (riktigt stora) mängder data (så-kallad "Big Data") kan en NoSQL-databashanterare se till att prestandan inte blir lidande (på bekostnad av ACID-garantier).
+
+=== Schemaless
+
+Relationsdatabaser är baserade på rigida regler kring hur datan ska vara strukturerad. En NoSQL-databashanterare låter dig utan problem ändra prå strukturer och lagra olika typer av data tillsammans.
+
+Detta innebär även att det kan gå snabbare att komma igång med en No-SQL-databashanterare, då man snabbt och enkelt kan ändra på strukturen på data som lagras i databasen.
+
+=== Scaling
+
+NO-SQL-databashanterare är designade från grunden för att vara lätt att dela upp på olika servrar.
+
+== Nackdelar med NoSQL-databaser
+
+=== Avsaknad av ACID
+
+De flesta No-SQL-databashanterare kan inte på samma sätt som en relationsdatabas garantera ACID. Istället brukar man tala om https://en.wikipedia.org/wiki/Eventual_consistency[Eventual Consistency].
+
+=== Avsaknad av mogenhet
+
+No-SQL-databashanterare har inte årtionden av forskning och beprövad erfarenhet bakom sig. Detta innebär att det kan vara svårt att hitta korrekt, vetenskapligt bekräftad information.
+
+=== Avsaknad av verktyg
+
+Eftersom No-SQL-databashanterare är såpass nya, och, i många fall baserade på olika teorier, saknas ofta t.ex. analys/prestanda/eller andra rapporteringsverktyg.-
+
+=== Avsaknad av en gemensam standard
+
+Det finns många olika No-SQL-databashanterare, och de fungerar på olika sätt; Det finns ingen gemensam standard som det finns för relationsdatabaser. Detta kan göra det väldigt kostsamt och krångligt att byta från en No-SQL-databashanterare till en annan.
