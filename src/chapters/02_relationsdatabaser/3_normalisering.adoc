@@ -398,7 +398,7 @@ Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två
 | 020402-xxxx  | MA2
 |=== 
 
-Även om denna uppdelning är bättre ger den inte ett bra skydd mot anomalier - hur läggar men t.ex. till en kurs som ingen student läser, eller vad händer när ingen student längre läser t.ex. "EN7"?
+Även om denna uppdelning är bättre ger den inte ett bra skydd mot anomalier - hur lägger man t.ex. till en kurs som ingen student läser, eller vad händer när ingen student längre läser t.ex. "EN7"?
 
 Ännu bättre hade antagligen varit att dela upp tabellen i _tre_ tabeller varav en _relationstabell_, men det bryr sig inte 1NF om.
 
