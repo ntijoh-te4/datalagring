@@ -16,7 +16,7 @@ ER-diagram är en del av modelleringsspråket UML.
 En entitet (engelska: entity) representerar en en typ av sak som lagras i databasen. Entiteter ritas som rektanglar, med namnet (i singular) i mitten.
 
 .Två entiteter
-image::02_relationsdatabaser/img/entities.png[]
+image::02_relationsdatabaser/entities.png[]
 
 == Attribut
 
@@ -25,7 +25,7 @@ Attribut (engelska: attribute) representerar en egenskap på något som lagras i
 Om ett attribut på en entitet är unikt för den entiteten, det vill säga, det får i systemet som databasen modellerar inte finnas två saker som har samma värde på det attributet stryker man under det attributet.
 
 .Två entiteter med attribut
-image::02_relationsdatabaser/img/entities_with_attributes.png[]
+image::02_relationsdatabaser/entities_with_attributes.png[]
 
 `Primärnycklarna` är alltid understrukna.
 
@@ -62,7 +62,7 @@ En sambandstyp där entiteten i den ena änden av sambandet kan höra ihop med f
 Ett \*:*-samband innebär att ett exempel av var och en av de ingående entiteterna kan höra ihop med flera exempel av de övriga ingående entiteterna.
 
 .Två entiteter med attribut och sambandstyp
-image::02_relationsdatabaser/img/entities_with_attributes_and_relations.png[]
+image::02_relationsdatabaser/entities_with_attributes_and_relations.png[]
 
 I exemplet ovan kan man utläsa att *en* författare kan skriva *många* (men minst 1) böcker,
 men en bok kan bara ha en författare. Det är med andra ord en en-till-många-samband.

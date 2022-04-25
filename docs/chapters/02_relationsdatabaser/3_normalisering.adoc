@@ -596,7 +596,7 @@ Vaktmästaren berättar följande:
 
 För närvarande använder vaktmästaren ett excelark för att hålla koll på detta. Det ser ut som följer:
 
-image::02_relationsdatabaser/img/lockers.png[]
+image::02_relationsdatabaser/lockers.png[]
 
 Omvandla excelarket till en relationsdatabas där samtliga tabeller uppfyller 3NF.
 
