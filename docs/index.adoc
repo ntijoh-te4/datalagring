@@ -4,8 +4,8 @@
 :toclevels: 3
 :source-highlighter: rouge
 :docinfo: private-head
-:sourcedir: docs/chapters
-:imagesdir: docs/chapters
+:sourcedir: src
+:imagesdir: img
 :!figure-caption:
 
 = Datalagring
