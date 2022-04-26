@@ -1296,7 +1296,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Vi återanvänder bok-exemplet från föregående avsnitt:</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 45%;">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <caption class="title">Table 3. Exempel på en tabell för att hålla koll på böcker</caption>
 <colgroup>
 <col style="width: 20%;">
@@ -1337,7 +1337,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Säg att vi vill även vill lagra författarens namn. Vi lägger därför till en kolumn:</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 50%;">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <colgroup>
 <col style="width: 12.5%;">
 <col style="width: 37.5%;">
@@ -1383,7 +1383,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Inga problem, men säg att vi även vill lagra författarens nationalitet, födelseår och skostorlek.</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 60%;">
+<table class="tableblock frame-all grid-all" style="width: 70%;">
 <colgroup>
 <col style="width: 8.3333%;">
 <col style="width: 25%;">
@@ -1447,7 +1447,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Nu börjar tabellen se lite konstig ut: Tabellen heter "books" men innehåller attributen "nationality", "birth_year" och "shoe_size". De låter inte som attribut (egenskaper) en bok har. Vi kan förstås lägga in "author_" framför varje attribut som är kopplat till en författare snarare än en bok:</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 60%;">
+<table class="tableblock frame-all grid-all" style="width: 70%;">
 <colgroup>
 <col style="width: 8.3333%;">
 <col style="width: 25%;">
@@ -1749,13 +1749,13 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>En tilläggsanomali (insertion anomaly) innebär att man inte kan lägga till data i en rad i en tabell innan man har information nog att fylla alla celler i raden.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 4. En tabell som visar på möjliga tilläggsanomalier</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
@@ -1821,13 +1821,13 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>En uppdateringsanomali (update anomaly) kan uppstå när man upprepar samma information på olika ställen i databasen. Det finns då en risk att man missar att ändra datan på flera olika ställen.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 5. En tabell som visar på en uppdateringsanomali</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
@@ -1880,13 +1880,13 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>En borttagningsanomali (deletion anomaly) innebär att man, när man tar bort en rad i en tabell, kan råka ta bort annan information som inte återkommer någon annanstans i databasern.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 6. En tabell som visar på en möjlig borttagninsanomali</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
@@ -1939,7 +1939,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Ett funktionellt beroende (fb) är ett beroende mellan attribut i en tabell. Låt oss anta att vi har en tabell med personnummer och namn:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <caption class="title">Table 7. En tabell med ett funktionellt beroende mellan personnummer och namn</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -1980,13 +1980,13 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Generaliserat brukar man skriva ut funktionella betenden som <code>A &#8594; B</code></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 8. En tabell med <em>flera</em> funktionella beroenden</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2046,16 +2046,16 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Ett funktionellt beroende kan innehålla flera determinanter, det vill säga ett <em>flera</em> attribut kan <em>tillsammans</em> bestämma värdet på ett (eller flera) andra attribut.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 70%;">
 <caption class="title">Table 9. En tabell med funktionella beroenden med flera determinanter</caption>
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 25%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 16.6666%;">
+<col style="width: 8.3336%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2193,7 +2193,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Vilka ffb skulle kunna finnas i tabellen nedan?</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 10. En konstig tabell med funktionella beroenden</caption>
 <colgroup>
 <col style="width: 25%;">
@@ -2273,15 +2273,15 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Om <code>a &#8594; b</code> och dessutom <code>b &#8594; c</code> så är c transitivt beroende av a via b (förutsatt att b eller c inte bestämmer a)</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 80%;">
 <caption class="title">Table 11. En tabell med transitionella beroenden</caption>
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 6.6666%;">
+<col style="width: 20%;">
+<col style="width: 13.3333%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20.0001%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2417,7 +2417,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Första normalformen är egentligen den enda normalform en relationsdatabas <em>måste</em> uppfylla för att fungera (men för att undvika uppdateringsanomalier (update anomalies) så är det rekommenderat att normalisera tom 3NF).</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 65%;">
 <caption class="title">Table 12. En students-tabell som inte når upp till 1NF</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2483,12 +2483,12 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>En möjlig lösning som skulle uppfylla 1NF är att varje elev förekommer på flera rader:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 13. En students-tabell som når upp till 1NF</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 42.8571%;">
+<col style="width: 42.8571%;">
+<col style="width: 14.2858%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2557,7 +2557,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Ett <em>bättre</em> alternativ är att uppfylla 1NF genom att dela upp tabellen i två olika tabeller:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <caption class="title">Table 14. en students-tabell som når upp till 1NF</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -2589,7 +2589,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <caption class="title">Table 15. en courses-tabell som når upp till 1NF</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -2644,7 +2644,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Normalisera nedanstående tabell så den uppfyller 1NF.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2694,16 +2694,16 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Eftersom alla funktionella beroenden där det finns en <em>ensam</em> determinant är <em>fullständiga</em> funktioneller beroenden, innebär det att alla tabeller som upfyller 1NF och har en primärnyckel bestående av enbart 1 attribut automatiskt uppfyller 2NF. Detta är även det enklaste sättet att garantera 2NF.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 70%;">
 <caption class="title">Table 16. songs-tabellen</caption>
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 25%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 16.6666%;">
+<col style="width: 8.3336%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2807,17 +2807,17 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Vi börjar med att ange ett nytt attribut (<code>id</code>) som primärnyckel:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 75%;">
 <caption class="title">Table 17. songs-tabellen med ny primärnyckel</caption>
 <colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
+<col style="width: 7.6923%;">
+<col style="width: 15.3846%;">
+<col style="width: 15.3846%;">
+<col style="width: 23.0769%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 15.3846%;">
+<col style="width: 7.6924%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2934,11 +2934,11 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>För att garantera att <code>genre</code>-tabellen uppnår 2NF ser vi samtidigt till att ge den en primärnyckel (<code>id</code>) (eftersom genre i vår modell inte har några andra attribut kopplade till sig behövs det inte egentligen en ny primärnyckel, men det är enklast att oftast göra likadant).</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 20%;">
 <caption class="title">Table 18. genres-tabellen</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
 </colgroup>
 <tbody>
 <tr>
@@ -2962,16 +2962,16 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 65%;">
 <caption class="title">Table 19. songs-tabellen utan genre</caption>
 <colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2857%;">
-<col style="width: 14.2858%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2727%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 9.091%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3051,7 +3051,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Detta innebär att vi i detta fall behöver skapa en tredje-tabell:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 30%;">
 <caption class="title">Table 20. genres-songs-tabellen</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -3114,14 +3114,14 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Normalisera nedanstående tabell som hjälper ett bibliotek hålla koll på sina låneböcker så den uppfyller 2NF</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 90%;">
 <colgroup>
+<col style="width: 8.3333%;">
+<col style="width: 25%;">
+<col style="width: 8.3333%;">
+<col style="width: 33.3333%;">
 <col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 8.3335%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3210,11 +3210,11 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </li>
 </ul>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 75%;">
 <caption class="title">Table 21. En tabell med transitionella beroenden</caption>
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 30%;">
+<col style="width: 10%;">
 <col style="width: 20%;">
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -3280,12 +3280,12 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 <div class="paragraph">
 <p>Genom att bryta ut de transitionella beroendena (och därmed den redundanta datan) i egna tabeller kan vi uppnå 3NF:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 40%;">
 <caption class="title">Table 22. En employees-tabell utan transitionella beroenden</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 42.8571%;">
+<col style="width: 14.2857%;">
+<col style="width: 42.8572%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3328,7 +3328,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 23. En schools-tabell utan transitionella beroenden</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -3444,13 +3444,13 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </li>
 </ul>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 50%;">
 <caption class="title">Table 24. En schools-tabell med ny primärnyckel</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 10%;">
+<col style="width: 30%;">
+<col style="width: 30%;">
+<col style="width: 30%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3476,13 +3476,13 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 45%;">
 <caption class="title">Table 25. En employees-tabell med två främmande nycklar</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 16.6666%;">
+<col style="width: 50%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6668%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3532,11 +3532,11 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 20%;">
 <caption class="title">Table 26. En positions-tabell</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 25%;">
+<col style="width: 75%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3891,12 +3891,12 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden 0(log(n))). Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 30%;">
 <caption class="title">Table 27. En employees-tabell sorterad efter en autoinkrementerande primärnyckel</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 14.2857%;">
+<col style="width: 42.8571%;">
+<col style="width: 42.8572%;">
 </colgroup>
 <tbody>
 <tr>
@@ -3983,11 +3983,11 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="paragraph">
 <p>Man kan tänka att det, när man skapar ett index, skapas en ny tabell enligt nedan:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all" style="width: 20%;">
 <caption class="title">Table 28. En indexeringstabell för employee_lastname</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 75%;">
+<col style="width: 25%;">
 </colgroup>
 <tbody>
 <tr>
@@ -4198,7 +4198,7 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-25 13:41:12 UTC
+Last updated 2022-04-26 12:28:46 UTC
 </div>
 </div>
 </body>
