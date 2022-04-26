@@ -13,7 +13,7 @@ Genom att följa en given metodik kan man
 Vi återanvänder bok-exemplet från föregående avsnitt:
 
 .Exempel på en tabell för att hålla koll på böcker
-[cols=">1,<3,>1", width="45%"]
+[cols=">1,<3,>1", width="40%"]
 |===
 3+^| *books*
 | *id*  | *title*                   | *page_count*
@@ -26,7 +26,7 @@ Vi återanvänder bok-exemplet från föregående avsnitt:
 
 Säg att vi vill även vill lagra författarens namn. Vi lägger därför till en kolumn:
 
-[cols=">1,<3,>1,<3", width="50%"]
+[cols=">1,<3,>1,<3", width="45%"]
 |===
 4+^| *books*
 | *id*  | *title*                   | *page_count*  | *author*
@@ -38,7 +38,7 @@ Säg att vi vill även vill lagra författarens namn. Vi lägger därför till e
 
 Inga problem, men säg att vi även vill lagra författarens nationalitet, födelseår och skostorlek. 
 
-[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+[cols=">1,<3,>1,<3,<2,>1,>1", width="70%"]
 |===
 7+^| *books*
 | *id*  | *title*                   | *page_count*  | *author*          | *nationality* | *birth_year* | *shoe_size*
@@ -50,7 +50,7 @@ Inga problem, men säg att vi även vill lagra författarens nationalitet, föde
 
 Nu börjar tabellen se lite konstig ut: Tabellen heter "books" men innehåller attributen "nationality", "birth_year" och "shoe_size". De låter inte som attribut (egenskaper) en bok har. Vi kan förstås lägga in "author_" framför varje attribut som är kopplat till en författare snarare än en bok:
 
-[cols=">1,<3,>1,<3,<2,>1,>1", width="60%"]
+[cols=">1,<3,>1,<3,<2,>1,>1", width="70%"]
 |===
 7+^| *books*
 | *id*  | *title*                   | *page_count*  | *author*          | *author_nationality* | *author_birth_year* | *author_shoe_size*
@@ -128,6 +128,7 @@ För att kunna ta till sig och tillämpa teorin bakom normalformerna behöver ma
 En tilläggsanomali (insertion anomaly) innebär att man inte kan lägga till data i en rad i en tabell innan man har information nog att fylla alla celler i raden.
 
 .En tabell som visar på möjliga tilläggsanomalier
+[cols="1,2,1,1" width="45%"]
 |===
 4+^| *students*
 | *name*  | *address*    | *course_code* | *course_name*
@@ -150,6 +151,7 @@ Detta är exempel på insertion anomalys. Insertion anomalys uppstår när man h
 En uppdateringsanomali (update anomaly) kan uppstå när man upprepar samma information på olika ställen i databasen. Det finns då en risk att man missar att ändra datan på flera olika ställen.
 
 .En tabell som visar på en uppdateringsanomali
+[cols="1,2,1,1" width="45%"]
 |===
 4+^| *students*
 | *name*  | *address*    | *course_code* | *course_name*
@@ -167,6 +169,7 @@ I tabellen ovan har adressen för beata endast uppdaterats i en av raderna. Upda
 En borttagningsanomali (deletion anomaly) innebär att man, när man tar bort en rad i en tabell, kan råka ta bort annan information som inte återkommer någon annanstans i databasern.
 
 .En tabell som visar på en möjlig borttagninsanomali
+[cols="1,2,1,1" width="45%"]
 |===
 4+^| *students*
 | *name*  | *address*    | *course_code* | *course_name*
@@ -184,6 +187,7 @@ Om man i tabellen ovan tar bort all information om "adam" så kommer även `cour
 Ett funktionellt beroende (fb) är ett beroende mellan attribut i en tabell. Låt oss anta att vi har en tabell med personnummer och namn:
 
 .En tabell med ett funktionellt beroende mellan personnummer och namn
+[width="40%"]
 |===
 2+^| *personer*
 | *personnummer* | *namn* 
@@ -200,6 +204,7 @@ Detta funktionella beroende kan beskrivas som `personnummer -> namn` vilket utl�
 Generaliserat brukar man skriva ut funktionella betenden som `A -> B`
 
 .En tabell med _flera_ funktionella beroenden
+[cols="1,2,1,1" width="45%"]
 |===
 4+^| *students*
 | *name*  | *address*    | *course_code* | *course_name*
@@ -218,6 +223,7 @@ I tabellen `students` ovan finns två olika, av varandra oberoende, funktionella
 Ett funktionellt beroende kan innehålla flera determinanter, det vill säga ett _flera_ attribut kan _tillsammans_ bestämma värdet på ett (eller flera) andra attribut.
 
 .En tabell med funktionella beroenden med flera determinanter
+[cols="2,2,3,1,1,2,1" width="70%"]
 |===
 7+^| *songs*
 | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
@@ -253,6 +259,7 @@ I `songs`-tabellen ovan är `{title, artist_name} => path` ett fullt funktionell
 Vilka ffb skulle kunna finnas i tabellen nedan?
 
 .En konstig tabell med funktionella beroenden
+[width="45%"]
 |===
 4+^| *strange_table*
 | *A* | *B*	| *C* | *D*
@@ -272,6 +279,8 @@ Vilka ffb skulle kunna finnas i tabellen nedan?
 Om `a -> b` och dessutom `b -> c` så är c transitivt beroende av a via b (förutsatt att b eller c inte bestämmer a)
 
 .En tabell med transitionella beroenden
+[cols="1,3,2,3,3,3" width="80%"]
+
 |===
 6+^| *employees*
 | *id* | *name*            | *position* | *school_name*   | *school_address* | *school_phone*
@@ -322,6 +331,7 @@ Regler för Första Normalformen (1NF)
 Första normalformen är egentligen den enda normalform en relationsdatabas _måste_ uppfylla för att fungera (men för att undvika uppdateringsanomalier (update anomalies) så är det rekommenderat att normalisera tom 3NF).
 
 .En students-tabell som inte når upp till 1NF
+[width="65%"]
 |===
 3+^| *students*
 | *personnr*     | *namn*               | *courses* 
@@ -356,6 +366,7 @@ Man skulle även kunna lösa problemet genom att skapa en kolumn för varje kurs
 En möjlig lösning som skulle uppfylla 1NF är att varje elev förekommer på flera rader:
 
 .En students-tabell som når upp till 1NF
+[cols="3,3,1" width="45%"]
 |===
 3+^| *students*
 | *personnr*     | *namn*               | *courses* 
@@ -376,6 +387,7 @@ Om man ser tillbaks till tilläggs/uppdaterings/borttagningsanomalierna kan man 
 Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två olika tabeller:
 
 .en students-tabell som når upp till 1NF
+[width="40%"]
 |===
 2+^| *students*
 | *personnr*     | *namn*                
@@ -386,6 +398,7 @@ Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två
 |=== 
 
 .en courses-tabell som når upp till 1NF
+[width="40%"]
 |===
 2+^| *courses*
 | *personnr*   | *course* 
@@ -406,6 +419,7 @@ Ett _bättre_ alternativ är att uppfylla 1NF genom att dela upp tabellen i två
 
 Normalisera nedanstående tabell så den uppfyller 1NF.
 
+[width="40%"]
 |===
 2+^| *friends*
 | *name*  | *phone_numbers*
@@ -426,6 +440,7 @@ Tabeller som uppfyller 2NF har mindre redundans är tabeller i 1NF men de kan f
 Eftersom alla funktionella beroenden där det finns en _ensam_ determinant är _fullständiga_ funktioneller beroenden, innebär det att alla tabeller som upfyller 1NF och har en primärnyckel bestående av enbart 1 attribut automatiskt uppfyller 2NF. Detta är även det enklaste sättet att garantera 2NF.
 
 .songs-tabellen
+[cols="2,2,3,1,1,2,1" width="70%"]
 |===
 7+^| *songs*
 | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
@@ -445,7 +460,8 @@ I `songs`-tabellen är `album`, `year`, `length` samt `path` icke-nyckel-attribu
 
 Vi börjar med att ange ett nytt attribut (`id`) som primärnyckel:
 
-.songs-tabellen med ny primärnyckel 
+.songs-tabellen med ny primärnyckel
+[cols="1,2,2,3,1,1,2,1" width="75%"]
 |===
 8+^| *songs*
 | *id* | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*        | *genre*
@@ -467,6 +483,7 @@ För att komma åt detta behöver vi bryta ut `genre` till en egen tabell, då d
 För att garantera att `genre`-tabellen uppnår 2NF ser vi samtidigt till att ge den en primärnyckel (`id`) (eftersom genre i vår modell inte har några andra attribut kopplade till sig behövs det inte egentligen en ny primärnyckel, men det är enklast att oftast göra likadant).
 
 .genres-tabellen
+[cols="1,2" width="20%"]
 |===
 2+^| *genres* 
 | *id* | *genre*
@@ -476,6 +493,7 @@ För att garantera att `genre`-tabellen uppnår 2NF ser vi samtidigt till att ge
 |===
 
 .songs-tabellen utan genre
+[cols="1,2,3,1,1,2,1" width=65%"]
 |===
 7+^| *songs*
 | *id* | *title*          | *artist_name* | *album*                  | *year* | *length* | *path*       
@@ -494,6 +512,7 @@ I enligt med diskussionen om kurser i avsnittet om 1NF går det inte att lägga 
 Detta innebär att vi i detta fall behöver skapa en tredje-tabell:
 
 .genres-songs-tabellen
+[width="30%"]
 |===
 2+^| *genres* 
 | *song_id* | *genre_id*
@@ -516,6 +535,7 @@ Nu uppfyller samtliga 3 tabeller 2NF.
 
 Normalisera nedanstående tabell som hjälper ett bibliotek hålla koll på sina låneböcker så den uppfyller 2NF
 
+[cols="1,3,1,4,2,1" width="90%"]
 |===
 6+^| *books*
 | *title_id* | *isbn*            | *loan_barcode* | *title*                             | *author*         | *condition*
@@ -536,6 +556,7 @@ Regler för Tredje Normalformen (3NF)
 - Inget icke-nyckel-attribut är transitivt beroende av primärnyckeln.
 
 .En tabell med transitionella beroenden
+[cols="3,1,2,2,2" width="75%"]
 |===
 5+^| *employees*
 | *name*            | *position* | *school_name*   | *school_address* | *school_phone*
@@ -551,6 +572,7 @@ De transitionella beroendena i tabellen ovan (`name -> school_name` och `school_
 
 Genom att bryta ut de transitionella beroendena (och därmed den redundanta datan) i egna tabeller kan vi uppnå 3NF:
 
+[cols="3,1,3" width="40%"]
 .En employees-tabell utan transitionella beroenden
 |===
 3+^| *employees*
@@ -564,6 +586,7 @@ Genom att bryta ut de transitionella beroendena (och därmed den redundanta data
 |===
 
 .En schools-tabell utan transitionella beroenden
+[width="45%"]
 |===
 3+^| *schools*
 | *school_name*   | *school_address* | *school_phone*
@@ -608,6 +631,7 @@ Regler för Boyce-Codd Normalform (BCNF)
 - Varje attribut i tabellen måste vara kopplat till nyckeln, hela nyckeln och inget annat.
 
 .En schools-tabell med ny primärnyckel
+[cols="1,3,3,3" width="50%"]
 |===
 4+^| *schools*
 | *id* | *school_name*   | *school_address* | *school_phone*
@@ -616,6 +640,7 @@ Regler för Boyce-Codd Normalform (BCNF)
 |===
 
 .En employees-tabell med två främmande nycklar
+[cols="1,3,1,1" width="45%"]
 |===
 4+^| *employees*
 | *id* | *name*            | *position_id* | *school_id* 
@@ -628,6 +653,7 @@ Regler för Boyce-Codd Normalform (BCNF)
 |===
 
 .En positions-tabell 
+[cols="1,3" width="20%"]
 |===
 2+^| *positions*
 | *id* | *name*     
