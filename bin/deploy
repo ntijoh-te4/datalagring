@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# Manual deploy: build the book locally and push docs/ to gh-pages.
+#
+# Use as a fallback when GitHub Actions is slow or stuck. Mirrors what the
+# asciidoctor.yml workflow does (build docs/index.html, sync docs/ contents
+# to the gh-pages branch).
+#
+# Usage: bin/deploy
+#
+# Requires: ruby + asciidoctor gem (run "bundle install" once first).
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_ROOT"
+
+# --- Sanity checks ------------------------------------------------------------
+
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+if [[ "$CURRENT_BRANCH" != "master" ]]; then
+  echo "warning: deploying from branch '$CURRENT_BRANCH', not master."
+  read -r -p "continue? [y/N] " reply
+  [[ "$reply" =~ ^[Yy]$ ]] || { echo "aborted."; exit 1; }
+fi
+
+if ! git diff-index --quiet HEAD --; then
+  echo "error: working tree has uncommitted changes — commit or stash first."
+  exit 1
+fi
+
+if ! command -v asciidoctor >/dev/null 2>&1; then
+  echo "error: asciidoctor not found. Run 'bundle install' first."
+  exit 1
+fi
+
+SOURCE_SHA="$(git rev-parse --short HEAD)"
+WORKTREE_DIR="$(mktemp -d -t datalagring-deploy-XXXXXX)"
+
+cleanup() {
+  if [[ -d "$WORKTREE_DIR" ]]; then
+    git worktree remove --force "$WORKTREE_DIR" 2>/dev/null || rm -rf "$WORKTREE_DIR"
+  fi
+}
+trap cleanup EXIT
+
+# --- Build --------------------------------------------------------------------
+
+echo "==> building docs/index.html"
+asciidoctor -D docs --backend=html5 -o index.html docs/index.adoc
+
+# --- Sync to gh-pages worktree ------------------------------------------------
+
+echo "==> fetching gh-pages"
+git fetch origin gh-pages
+
+# Ensure local gh-pages tracks origin/gh-pages
+if git show-ref --verify --quiet refs/heads/gh-pages; then
+  git update-ref refs/heads/gh-pages refs/remotes/origin/gh-pages
+else
+  git branch gh-pages origin/gh-pages
+fi
+
+echo "==> preparing worktree"
+git worktree add "$WORKTREE_DIR" gh-pages
+
+echo "==> syncing docs/ → gh-pages root"
+# Wipe the worktree (except its .git pointer file)
+find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+cp -R "$REPO_ROOT/docs/." "$WORKTREE_DIR/"
+
+# --- Commit and push ----------------------------------------------------------
+
+cd "$WORKTREE_DIR"
+git add -A
+
+if git diff --cached --quiet; then
+  echo "no changes to deploy."
+  exit 0
+fi
+
+git commit -m "manual deploy from $CURRENT_BRANCH @ $SOURCE_SHA"
+git push origin gh-pages
+
+cd "$REPO_ROOT"
+echo "==> deployed."

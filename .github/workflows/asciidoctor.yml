@@ -3,7 +3,11 @@ name: build adocs
 on:
   push:
     branches:
-    - master
+      - master
+    paths:
+      - 'docs/**'
+      - 'Gemfile'
+  workflow_dispatch:
 jobs:
   adoc_build:
     runs-on: ubuntu-18.04

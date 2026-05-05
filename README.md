@@ -50,6 +50,18 @@ GitHub Actions tar hand om allt vid varje push till `master`:
 
 För att deploy ska fungera krävs en deploy key i repo-secrets under namnet `ACTIONS_DEPLOY_KEY`.
 
+### Manuell deploy som fallback
+
+När GitHub Actions är långsamt eller hänger sig kan du deploya direkt från en lokal maskin med:
+
+```sh
+bin/deploy
+```
+
+Scriptet bygger boken lokalt, sätter upp en git-worktree för `gh-pages`, synkar `docs/`-innehållet och pushar. Det förutsätter att du har push-rättigheter på remoten och en clean working tree på master.
+
+Manuell deploy och Actions-deploy är inte exklusiva — om Actions-jobbet senare drar igång gör det sin egen force-push med samma innehåll (samma master-commit), så ingen konflikt uppstår.
+
 ## Aktivera utkast
 
 Sektionen `05_utkast/` är dold från publicerad bok via en utkommenterad rad i `docs/index.adoc`:
