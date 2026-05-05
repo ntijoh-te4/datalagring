@@ -1,0 +1,105 @@
+= API och programmatisk åtkomst
+
+I praktiska applikationer pratar man inte direkt med databasen via en CLI eller ett GUI — man pratar med den från _kod_. Det här kapitlet handlar om vad som händer på databassidan när en applikation gör det.
+
+[NOTE]
+====
+*Hänvisning:* Ni har redan jobbat med Entity Framework Core i en tidigare kurs, och med REST-API:er i en kurs om webbutveckling. Det här kapitlet förutsätter den bakgrunden — vi går inte igenom vad ett API är eller vad en ORM gör. Istället tittar vi på vad som faktiskt händer mellan applikationen och databasen, och vad man som utvecklare bör vara medveten om.
+====
+
+== Anslutningens livscykel
+
+För att en applikation ska kunna ställa frågor till en databas måste den först _ansluta_ — alltså öppna en TCP-anslutning, autentisera sig, välja en databas, och eventuellt förhandla om kryptering. Det tar tid, ofta tiotals millisekunder.
+
+Ett naivt mönster ser ut så här:
+
+[source,ruby]
+----
+# Anslut, fråga, stäng — för varje förfrågan
+def get_user(id)
+  db = connect_to_database <1>
+  user = db.execute("SELECT * FROM users WHERE id = ?", [id])
+  db.close <2>
+  user
+end
+----
+<1> Öppnar en ny anslutning för varje anrop.
+<2> Stänger anslutningen direkt efter.
+
+För en applikation som hanterar tusentals förfrågningar per sekund blir kostnaden för att öppna och stänga anslutningar oacceptabel.
+
+== Connection pooling
+
+Lösningen är _connection pooling_: applikationen håller en _pool_ av redan öppna anslutningar och lånar ut dem efter behov. När en förfrågan är klar lämnas anslutningen tillbaka till poolen istället för att stängas.
+
+[NOTE]
+====
+*Hänvisning:* När ni använt Entity Framework Core sköts detta automatiskt — varje gång ni anropar `db.Users.Where(...)` lånar EF Core en anslutning ur poolen, kör frågan, och lämnar tillbaka anslutningen. Ni behöver i princip aldrig hantera anslutningar manuellt.
+====
+
+Connection pooling konfigureras typiskt med två parametrar:
+
+- *Minimum pool size* — hur många anslutningar håller poolen alltid öppna?
+- *Maximum pool size* — hur många får finnas samtidigt? (Skydd mot att applikationen sänker databasen.)
+
+Om alla anslutningar i poolen är upptagna får nästa förfrågan vänta tills en anslutning blir ledig. Det är därför maximum pool size är en viktig knapp — för litet pool och applikationen får kö, för stort pool och databasen blir överbelastad.
+
+== Transaktioner i kod
+
+Som vi sett tidigare i boken garanterar transaktioner att en serie operationer antingen sker i sin helhet eller inte alls. När man programmerar mot en databas kan man uttryckligen styra detta.
+
+.Ruby/Rails — transaktion programmatiskt
+[source,ruby]
+----
+ActiveRecord::Base.transaction do <1>
+  source.update!(balance: source.balance - amount)
+  target.update!(balance: target.balance + amount)
+end <2>
+----
+<1> Allt mellan `do` och `end` körs som en enda transaktion.
+<2> Om något kastar ett undantag gör Rails automatiskt en `ROLLBACK`. Annars `COMMIT`.
+
+.C# / EF Core — motsvarande
+[source,csharp]
+----
+using var transaction = db.Database.BeginTransaction(); <1>
+try
+{
+    source.Balance -= amount;
+    target.Balance += amount;
+    db.SaveChanges();
+
+    transaction.Commit(); <2>
+}
+catch
+{
+    transaction.Rollback(); <3>
+    throw;
+}
+----
+<1> Påbörjar en transaktion mot databasen.
+<2> Skriver alla förändringar permanent.
+<3> Vid fel återställs databasen till läget före transaktionen.
+
+== Raw SQL vs ORM
+
+Eleverna känner ORM-tankesättet från Entity Framework. Det är värt att förstå _när_ man väljer raw SQL istället:
+
+[cols="<3,<5", width="90%"]
+|===
+2+^| *När välja vad*
+| *Använd ORM (EF / Active Record)*                  | *Använd raw SQL*
+| 90 % av all "vanlig" CRUD                          | Komplexa rapport-frågor med flera JOINs och aggregeringar
+| När produktivitet är viktigare än maximal prestanda| När exakt SQL-formulering är avgörande för prestandan
+| När datamodellen är väldefinierad                  | När man pratar med vyer eller stored procedures som inte mappar till objekt
+|===
+
+I praktiken blandar de flesta produktions­applikationer båda — ORM för det mesta, raw SQL för de få frågor där det krävs.
+
+== Vidareläsning
+
+[NOTE]
+====
+- Rails: https://guides.rubyonrails.org/active_record_basics.html[Active Record Basics] och https://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html[Transactions]
+- EF Core: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/[DbContext configuration] och https://learn.microsoft.com/en-us/ef/core/saving/transactions[Transactions]
+====

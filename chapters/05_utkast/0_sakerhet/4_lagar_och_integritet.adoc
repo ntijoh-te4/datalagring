@@ -1,0 +1,140 @@
+= Lagar och integritet
+
+Att lagra data om personer är inte bara en teknisk fråga — det är också en juridisk fråga. I Sverige och resten av EU regleras hanteringen av personuppgifter främst av _Dataskyddsförordningen_, mer känd som _GDPR_.
+
+== Vad är en personuppgift?
+
+En personuppgift är _all information som direkt eller indirekt kan kopplas till en levande person_.
+
+Direkta personuppgifter:
+
+- Namn
+- Personnummer
+- Adress
+- Telefonnummer
+- E-postadress
+- Foto
+
+Indirekta personuppgifter (uppgifter som blir personuppgifter i kombination med annan information):
+
+- IP-adress
+- Bilars registreringsnummer
+- Användar-id i ett system
+- Cookie-id
+
+.Anonymisering vs pseudonymisering
+[NOTE]
+====
+- _Anonymiserad_ data går inte att koppla tillbaka till en person, ens av den som lagrade datan. Anonymiserad data omfattas inte av GDPR.
+- _Pseudonymiserad_ data är ersatt med ett id eller en kod, men kan fortfarande kopplas tillbaka via en separat tabell. Pseudonymiserad data är _fortfarande_ personuppgifter och omfattas av GDPR.
+====
+
+=== Känsliga personuppgifter
+
+Vissa personuppgifter räknas som _särskilt känsliga_ och får i princip inte hanteras alls utan starka skäl och skyddsåtgärder:
+
+- Etniskt ursprung
+- Politiska åsikter
+- Religiös eller filosofisk övertygelse
+- Medlemskap i fackförening
+- Hälsouppgifter
+- Sexuell läggning
+- Genetiska och biometriska uppgifter
+
+== GDPR — Dataskyddsförordningen
+
+Dataskyddsförordningen (engelska: General Data Protection Regulation, _GDPR_) är en EU-förordning som trädde i kraft den 25 maj 2018. Den ersatte den tidigare svenska personuppgiftslagen (PUL).
+
+Eftersom GDPR är en _förordning_ — inte ett _direktiv_ — gäller den direkt som lag i alla EU-länder utan att den behöver översättas till nationell lagstiftning.
+
+=== De grundläggande principerna
+
+GDPR bygger på sju grundläggande principer för all hantering av personuppgifter:
+
+1. *Laglighet, korrekthet och öppenhet* — det måste finnas en laglig grund för behandlingen, och den registrerade ska informeras om den.
+2. *Ändamålsbegränsning* — uppgifterna får bara användas för det ändamål de samlades in för.
+3. *Uppgiftsminimering* — samla bara in de uppgifter som faktiskt behövs.
+4. *Korrekthet* — uppgifterna ska vara korrekta och uppdaterade.
+5. *Lagringsminimering* — uppgifterna ska sparas så kort tid som möjligt.
+6. *Integritet och konfidentialitet* — uppgifterna ska skyddas mot obehörig åtkomst, förlust och ändring.
+7. *Ansvarsskyldighet* — den som behandlar uppgifterna ska kunna _bevisa_ att man följer principerna ovan.
+
+=== Den registrerades rättigheter
+
+GDPR ger den person uppgifterna handlar om (den _registrerade_) ett antal rättigheter:
+
+- *Rätt till information* om att och hur uppgifterna behandlas.
+- *Rätt till tillgång* — att få veta vilka uppgifter som lagras om en själv.
+- *Rätt till rättelse* — att få felaktiga uppgifter rättade.
+- *Rätt till radering* ("rätten att bli bortglömd") — att få sina uppgifter raderade.
+- *Rätt till begränsning* — att tillfälligt frysa behandlingen.
+- *Rätt till dataportabilitet* — att få sina uppgifter i ett format som kan flyttas till en annan tjänst.
+- *Rätt att invända* mot viss behandling, t.ex. direktreklam.
+
+=== Roller enligt GDPR
+
+GDPR definierar två centrala roller:
+
+- *Personuppgiftsansvarig* (engelska: data controller) — den som _bestämmer_ varför och hur personuppgifter ska behandlas. Vanligen ett företag eller en myndighet.
+- *Personuppgiftsbiträde* (engelska: data processor) — den som _behandlar_ uppgifter på uppdrag av den personuppgiftsansvarige, t.ex. en molnleverantör.
+
+Om skolan använder en molntjänst för betygshantering är _skolan_ personuppgiftsansvarig och _molnleverantören_ personuppgiftsbiträde. De måste teckna ett _personuppgiftsbiträdesavtal_ som reglerar hur uppgifterna får behandlas.
+
+== Tillsyn och påföljder
+
+I Sverige är _Integritetsskyddsmyndigheten_ (IMY) tillsynsmyndighet för GDPR. Det är dit man vänder sig om man misstänker att en organisation hanterar personuppgifter felaktigt.
+
+Vid allvarliga överträdelser kan IMY utfärda _sanktionsavgifter_ på upp till 20 miljoner euro eller 4 % av en organisations globala årsomsättning — det av de två som är högst.
+
+[NOTE]
+====
+GDPR har lett till ett antal stora bötesbelopp. Bland de mest uppmärksammade:
+
+- *Meta* (Facebooks moderbolag) — 1,2 miljarder euro (2023) för olaglig dataöverföring till USA.
+- *Amazon* — 746 miljoner euro (2021) för bristfällig hantering av annonsering.
+- *Klarna* — 7,5 miljoner kronor (2022) för otydlig information till kunder.
+====
+
+== Konsekvenser för en databasdesigner
+
+Som databasdesigner och utvecklare påverkar GDPR ditt dagliga arbete på flera sätt.
+
+=== Designa för dataminimering
+
+Innan du lägger till en kolumn — fråga dig själv om uppgiften faktiskt behövs. Behöver _verkligen_ varje användarregistrering inkludera födelsedatum?
+
+=== Designa för radering
+
+En användare kan begära att få alla sina uppgifter raderade. Om datan är spridd över många tabeller via främmande nycklar kan det vara komplicerat att städa upp ordentligt.
+
+Använd `ON DELETE CASCADE` med försiktighet och planering — det kan både hjälpa (genom att städa relaterad data) och stjälpa (genom att radera mer än man tänkt).
+
+=== Logga åtkomst till känsliga uppgifter
+
+Om en organisation behandlar känsliga personuppgifter förväntas det normalt att åtkomsten loggas. Vem läste vilken patientjournal när?
+
+=== Lagra inte gammal data i onödan
+
+Om kund-uppgifter sparats i 15 år trots att kunden inte handlat på 10 år är det troligen en överträdelse av lagringsminimeringen. Bygg in automatiska gallringsregler i applikationen.
+
+== Övningsuppgift
+
+Tänk dig att du designar databasen för en webbplats där användare kan boka pass på ett gym.
+
+För var och en av nedanstående uppgifter — bedöm:
+
+a. Är det en personuppgift? Om ja, är den känslig?
+b. Behövs den för tjänsten, eller kan den uteslutas?
+c. Hur länge bör uppgiften sparas efter att kunden avslutat sitt medlemskap?
+
+Uppgifterna är:
+
+- Förnamn och efternamn
+- Personnummer
+- E-postadress
+- Lösenord
+- Folkbokföringsadress
+- Hälsodeklaration ("Har du diabetes? Hjärtproblem?")
+- Bokningshistorik
+- IP-adress vid inloggning
+- Foto för medlemskortet

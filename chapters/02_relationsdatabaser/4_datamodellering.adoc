@@ -1,0 +1,188 @@
+= Datamodellering
+
+När man bygger en applikation som kräver en databas, t.ex en applikation för att hålla koll på böcker, brukar man börja med att göra en beskrivning av hur problemdomänen fungerar.
+
+Denna beskrivning på hög nivå kan kallas en konceptuell eller begreppsmässig beskrivning.
+När man pratar om relationsdatabaser använder man ofta ordet _schema_ för att beskriva denna konceptuella eller logiska modell av problemdomänen.
+
+För att på ett smidigt sätt kunna _modellera_, det vill säga _designa_ relationsdatabaser, finns två vanliga notationer som vi tittar på parallellt i det här kapitlet:
+
+- *ER-diagram* (Entity Relationship Diagrams) — togs fram specifikt för databasmodellering.
+- *UML klassdiagram* — kommer från objektorienterad systemdesign men används ofta också för databaser, särskilt när modellen ska användas både för applikationskoden och databasen.
+
+Båda visar samma sak: vilka _entiteter_ (eller _klasser_), _attribut_ och _sambandstyper_ (eller _relationer_) som finns i databasen — de beskriver inte den faktiska datan som lagras.
+
+[NOTE]
+====
+*Hänvisning:* Ni har troligen sett UML klassdiagram i en kurs om objektorientering eller systemutveckling. Här tittar vi specifikt på hur de används för databasmodellering.
+====
+
+I resten av kapitlet visar vi varje koncept i båda notationer parallellt: ER-diagram (handritade) till vänster och UML klassdiagram (renderat med mermaid) till höger.
+
+== Entitet / klass
+
+En entitet (engelska: entity) — eller _klass_ i UML — representerar en typ av sak som lagras i databasen. I båda notationerna ritas den som en rektangel med namnet (i singular) i mitten.
+
+[cols="^,^",frame=none,grid=none]
+|===
+| *ER-diagram* | *UML klassdiagram*
+
+a| image::02_relationsdatabaser/entities.png[]
+a|
+++++
+<div class="mermaid">
+classDiagram
+  class Book
+  class Author
+</div>
+++++
+|===
+
+== Attribut
+
+Attribut (engelska: attribute) representerar en egenskap på något som lagras i databasen. Alla attribut måste tillhöra en entitet (eller klass).
+
+I ER-diagram ritas varje attribut som en oval, med namnet i mitten, kopplad med ett streck till sin entitet. I UML listas attributen istället _inuti_ klassrektangeln, vanligen i ett mellanavsnitt under klassnamnet.
+
+Om ett attribut är unikt för entiteten — det vill säga att det i systemet som databasen modellerar inte får finnas två saker som har samma värde på det attributet — är det en _primärnyckel_. I ER markeras primärnyckeln med understrykning. I UML används ofta en _stereotyp_ — `\<<PK>>` — efter attributnamnet.
+
+[cols="^,^",frame=none,grid=none]
+|===
+| *ER-diagram* | *UML klassdiagram*
+
+a| image::02_relationsdatabaser/entities_with_attributes.png[]
+a|
+++++
+<div class="mermaid">
+classDiagram
+  class Book {
+    +id : int «PK»
+    +name : string
+    +page_count : int
+  }
+  class Author {
+    +id : int «PK»
+    +name : string
+    +birth_year : int
+    +nationality : string
+  }
+</div>
+++++
+|===
+
+[WARNING]
+====
+*Främmande nycklar*
+
+Främmande nycklar ska aldrig ritas ut som attribut — varken i ER-diagram eller i UML klassdiagram. Deras placering framgår av sambanden mellan entiteterna (se nästa rubrik).
+====
+
+== Sambandstyp / relation
+
+Sambandstyper (engelska: relation) visar kopplingar mellan två entiteter.
+
+I ER-diagram ritas relationen som en _romb_ kopplad med streck till de ingående entiteterna; i mitten av romben står ett eller flera ord som beskriver sambandet (oftast från ena entitetens perspektiv). I UML är det istället ett enkelt streck mellan de två klasserna, med en etikett på strecket.
+
+=== Kardinalitet / multiplicitet
+
+I varje ände av en sambandstyp framgår dess _kardinalitet_ (engelska: cardinality), eller _multiplicitet_ som det kallas i UML — som mer exakt beskriver hur många exempel av varje sida som kan delta i sambandet.
+
+Det finns tre grundläggande typer av kardinalitetsförhållanden:
+
+==== Ett-till-ett-samband (eller 1:1-samband)
+
+Ett 1:1-samband innebär att varje exempel av entiteten i den ena änden av sambandet hör ihop med _ett_ exempel av entiteten i andra änden.
+
+==== Ett-till-många-samband (eller 1:*-samband)
+
+Ett 1:*-samband innebär att entiteten i den ena änden av sambandet kan höra ihop med flera exempel av entiteten i den andra änden, men varje exempel i den andra änden hör bara ihop med ett exempel av den första entiteten.
+
+==== Många-till-Många-samband (eller \*:*-samband)
+
+Ett \*:*-samband innebär att ett exempel av var och en av de ingående entiteterna kan höra ihop med flera exempel av de övriga ingående entiteterna.
+
+[NOTE]
+====
+*UML är mer expressivt:* Förutom `1`, `*` och `0..1` stödjer UML även `1..*` (en eller fler), `0..*` (samma som `*`) och `m..n` (mellan m och n exempel). Om du behöver uttrycka exakta gränser passar UML ofta bättre.
+====
+
+[cols="^,^",frame=none,grid=none]
+|===
+| *ER-diagram* | *UML klassdiagram*
+
+a| image::02_relationsdatabaser/entities_with_attributes_and_relations.png[]
+a|
+++++
+<div class="mermaid">
+classDiagram
+  class Book {
+    +id : int «PK»
+    +name : string
+    +page_count : int
+  }
+  class Author {
+    +id : int «PK»
+    +name : string
+    +birth_year : int
+    +nationality : string
+  }
+  Author "1" --> "1..*" Book : wrote
+</div>
+++++
+|===
+
+I exemplet ovan kan man utläsa att *en* författare kan skriva *många* (men minst 1) böcker, men en bok kan bara ha en författare. Det är med andra ord ett en-till-många-samband.
+
+Sambandstypen är i exemplet ovan namngiven från författarens perspektiv ("wrote"), men skulle lika gärna kunna vara skriven från en boks perspektiv (t.ex. "written by" eller "belongs to").
+
+== Aggregation och komposition
+
+UML har två särskilda relationstyper som ER-diagram inte har en direkt motsvarighet till:
+
+- *Aggregation* (öppen romb) — "har en"-relation där delarna kan existera utan helheten. Ett bibliotek "har" böcker, men böckerna finns även om biblioteket läggs ner.
+- *Komposition* (fylld romb) — "består av"-relation där delarna inte kan existera utan helheten. Ett dokument "består av" sidor — när dokumentet tas bort försvinner sidorna.
+
+I databastermer motsvarar komposition ofta `ON DELETE CASCADE` på den främmande nyckeln — när "helheten" raderas försvinner "delarna" automatiskt.
+
+[cols="^",frame=none,grid=none]
+|===
+| *UML klassdiagram*
+
+a|
+++++
+<div class="mermaid">
+classDiagram
+  Library "1" o-- "*" Book : aggregation
+  Document "1" *-- "*" Page : composition
+</div>
+++++
+|===
+
+== Övningar
+
+=== Datorregister
+
+Alla elever på NTI Johanneberg får låna en dator. Det finns ett inventeringssystem med en databas där alla elever, datorer och lån finns registrerade.
+
+Systemet håller koll på:
+
+* Datorers modell och serienummer
+* Elevers namn och personnummer
+* Vilken elev som har lånat vilken dator
+* Samtliga serviceärenden för en specifik dator, och vem datorn tillhörde när serviceärendet startades.
+
+Rita upp de entiteter, attribut och sambandstyper som databasen behöver — gärna i båda notationerna.
+
+=== Matkort
+
+I årskurs tre får eleverna på NTI-Johanneberg matkort. Företaget som skapar och säljer matkorten till skolorna har (förhoppningsvis) en databas som håller koll på skolor, kort, och låntagare.
+
+De behöver kunna hålla kolla på:
+
+* Skolors adress och kontaktperson (så de kan skicka ut korten till rätt adress).
+* Korts serienummer och pinkod
+* Elevers namn och klass
+* Vilket kort som tillhör vilken elev
+* Vilken skola och klass en elev går i
+
+Rita upp de entiteter, attribut och sambandstyper som databasen behöver — gärna i båda notationerna.

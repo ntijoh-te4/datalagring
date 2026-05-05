@@ -1,0 +1,75 @@
+= Verktyg för administration och utveckling
+
+I praktiken jobbar man sällan direkt mot råa nätverksanslutningar mot databasen. Det finns ett gediget ekosystem av verktyg som gör det enklare att skriva frågor, utforska data, designa scheman och flytta data mellan miljöer.
+
+== Kommandorads­klienter (CLI)
+
+Varje databashanterare brukar ha en officiell kommandorads­klient. De är minimalistiska men extremt användbara — de finns alltid på servern, kräver ingen GUI, och är skript-bara.
+
+[cols="<2,<2,<3", width="80%"]
+|===
+3+^| *Vanliga kommandorads­klienter*
+| *DBMS*               | *Klient*  | *Anslutning*
+| SQLite               | `sqlite3` | `sqlite3 minfil.db`
+| PostgreSQL           | `psql`    | `psql -h host -U user dbname`
+| MySQL/MariaDB        | `mysql`   | `mysql -h host -u user -p dbname`
+| Microsoft SQL Server | `sqlcmd`  | `sqlcmd -S host -U user -P pwd -d dbname`
+|===
+
+I dessa klienter kan man köra SQL-frågor direkt och få resultaten utskrivna i terminalen. Bra att kunna när man hamnar SSH-inloggad på en server utan grafiskt gränssnitt.
+
+== Grafiska verktyg (GUI)
+
+Grafiska verktyg lägger ett mer användarvänligt skal ovanpå databashanteraren. De är speciellt värdefulla när man vill *utforska* en databas — bläddra i tabeller, se index, granska främmande nycklar, eller köra fram-och-tillbaka mellan flera frågor utan att slänga bort tidigare resultat.
+
+[cols="<2,<2,<4", width="90%"]
+|===
+3+^| *Vanliga GUI-verktyg*
+| *Verktyg*                                                                | *Kostnad*                    | *Bra för*
+| https://www.pgadmin.org/[pgAdmin]                                        | Gratis                       | PostgreSQL — officiellt verktyg
+| https://dbeaver.io/[DBeaver]                                             | Gratis (Community Edition)   | Stödjer i princip alla DBMS
+| https://www.mysql.com/products/workbench/[MySQL Workbench]               | Gratis                       | MySQL/MariaDB
+| https://tableplus.com/[TablePlus]                                        | Betal (gratis-version finns) | Snyggt, snabbt, alla DBMS
+| https://www.adminer.org/[Adminer]                                        | Gratis (en PHP-fil)          | Webbgränssnitt, lätt att deploya
+|===
+
+== Migrationsverktyg
+
+Att versionshantera databasens _schema_ är minst lika viktigt som att versionshantera koden. När en utvecklare lägger till en kolumn behöver alla andra utvecklare — och produktions­servern — kunna uppgradera sina databaser till samma struktur.
+
+Migrationsverktyg löser detta genom att låta utvecklaren skriva små _migrationer_ — script som beskriver en förändring av schemat — och hålla reda på vilka migrationer som körts var.
+
+[NOTE]
+====
+*Hänvisning:* Ni har redan jobbat med _Entity Framework Core Migrations_ i en tidigare kurs. Tankesättet är detsamma oavsett ekosystem: små, ordnade förändringar som körs i samma ordning på alla miljöer.
+====
+
+.Rails — generera och köra en migration
+[source,sh]
+----
+rails generate migration AddEmailToUsers email:string <1>
+rails db:migrate <2>
+----
+<1> Skapar en migrationsfil i `db/migrate/`.
+<2> Kör alla väntande migrationer mot databasen.
+
+.C# / EF Core — motsvarande
+[source,sh]
+----
+dotnet ef migrations add AddEmailToUsers <1>
+dotnet ef database update <2>
+----
+<1> Skapar en migrationsklass i `Migrations/`.
+<2> Kör alla väntande migrationer mot databasen.
+
+Andra vanliga, ramverks-oberoende migrationsverktyg är https://flywaydb.org/[Flyway] och https://www.liquibase.com/[Liquibase] — dessa är vanliga i större organisationer som har många olika applikationer mot samma databas.
+
+== Vidareläsning
+
+[NOTE]
+====
+- pgAdmin: https://www.pgadmin.org/docs/[pgAdmin Documentation]
+- DBeaver: https://github.com/dbeaver/dbeaver/wiki[DBeaver Wiki]
+- Rails: https://guides.rubyonrails.org/active_record_migrations.html[Active Record Migrations]
+- EF Core: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/[Migrations Overview]
+====

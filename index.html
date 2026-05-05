@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>Datalagring</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -84,10 +84,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -208,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -330,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -393,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -439,217 +437,128 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <style>
 pre.rouge table td { padding: 5px; }
 pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
-  font-style: italic;
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
 }
-pre.rouge .cp {
-  color: #999999;
-  font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
 }
 pre.rouge .gr {
-  color: #aa0000;
+  color: #f6f8fa;
 }
-pre.rouge .gh {
-  color: #999999;
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
 }
 pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
+  color: #116329;
+  background-color: #dafbe1;
 }
-pre.rouge .go {
-  color: #888888;
+pre.rouge .ges {
+  font-weight: bold;
+  font-style: italic;
 }
-pre.rouge .gp {
-  color: #555555;
+pre.rouge .kc {
+  color: #0550ae;
 }
-pre.rouge .gs {
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
   font-weight: bold;
 }
 pre.rouge .gu {
-  color: #aaaaaa;
-}
-pre.rouge .gt {
-  color: #aa0000;
-}
-pre.rouge .kc {
-  color: #000000;
+  color: #0550ae;
   font-weight: bold;
 }
-pre.rouge .kd {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kn {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kp {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kr {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sa {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .no {
-  color: #008080;
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
 }
 pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
+  color: #8250df;
 }
 pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
   font-weight: bold;
 }
-pre.rouge .nl {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .o {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .w {
-  color: #bbbbbb;
-}
-pre.rouge {
-  background-color: #f8f8f8;
-}
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+</script>
+<style>
+  .mermaid { text-align: center; }
+  .mermaid svg { max-width: 100%; height: auto; }
 </style>
 </head>
 <body class="article toc2 toc-left">
@@ -691,19 +600,21 @@ pre.rouge {
 <li><a href="#_normalformerna">2.3.3. Normalformerna</a></li>
 </ul>
 </li>
-<li><a href="#_er_modellering">2.4. ER-Modellering</a>
+<li><a href="#_datamodellering">2.4. Datamodellering</a>
 <ul class="sectlevel3">
-<li><a href="#_entitet">2.4.1. Entitet</a></li>
+<li><a href="#_entitet_klass">2.4.1. Entitet / klass</a></li>
 <li><a href="#_attribut_2">2.4.2. Attribut</a></li>
-<li><a href="#_sambandstyp">2.4.3. Sambandstyp</a></li>
-<li><a href="#_övningar">2.4.4. Övningar</a></li>
+<li><a href="#_sambandstyp_relation">2.4.3. Sambandstyp / relation</a></li>
+<li><a href="#_aggregation_och_komposition">2.4.4. Aggregation och komposition</a></li>
+<li><a href="#_övningar">2.4.5. Övningar</a></li>
 </ul>
 </li>
 <li><a href="#_transaktioner">2.5. Transaktioner</a>
 <ul class="sectlevel3">
 <li><a href="#_acid">2.5.1. ACID</a></li>
 <li><a href="#_rollback">2.5.2. Rollback</a></li>
-<li><a href="#_backup_och_snapshots">2.5.3. Backup och Snapshots</a></li>
+<li><a href="#_transaktioner_i_sql">2.5.3. Transaktioner i SQL</a></li>
+<li><a href="#_övningar_2">2.5.4. Övningar</a></li>
 </ul>
 </li>
 <li><a href="#_indexering">2.6. Indexering</a>
@@ -720,21 +631,26 @@ pre.rouge {
 </li>
 </ul>
 </li>
-<li><a href="#_nosql_datagbaser">3. NoSQL-datagbaser</a>
+<li><a href="#_backup_och_återställning">3. Backup och återställning</a>
 <ul class="sectlevel2">
-<li><a href="#_fördelar_med_nosql_databashanterare">3.1. Fördelar med NoSQL-databashanterare</a>
-<ul class="sectlevel3">
-<li><a href="#_big_data_2">3.1.1. Big Data</a></li>
-<li><a href="#_schemaless">3.1.2. Schemaless</a></li>
-<li><a href="#_scaling">3.1.3. Scaling</a></li>
+<li><a href="#_backup_och_snapshots">3.1. Backup och Snapshots</a></li>
 </ul>
 </li>
-<li><a href="#_nackdelar_med_nosql_databaser">3.2. Nackdelar med NoSQL-databaser</a>
+<li><a href="#_nosql_datagbaser">4. NoSQL-datagbaser</a>
+<ul class="sectlevel2">
+<li><a href="#_fördelar_med_nosql_databashanterare">4.1. Fördelar med NoSQL-databashanterare</a>
 <ul class="sectlevel3">
-<li><a href="#_avsaknad_av_acid">3.2.1. Avsaknad av ACID</a></li>
-<li><a href="#_avsaknad_av_mogenhet">3.2.2. Avsaknad av mogenhet</a></li>
-<li><a href="#_avsaknad_av_verktyg">3.2.3. Avsaknad av verktyg</a></li>
-<li><a href="#_avsaknad_av_en_gemensam_standard">3.2.4. Avsaknad av en gemensam standard</a></li>
+<li><a href="#_big_data_2">4.1.1. Big Data</a></li>
+<li><a href="#_schemaless">4.1.2. Schemaless</a></li>
+<li><a href="#_scaling">4.1.3. Scaling</a></li>
+</ul>
+</li>
+<li><a href="#_nackdelar_med_nosql_databaser">4.2. Nackdelar med NoSQL-databaser</a>
+<ul class="sectlevel3">
+<li><a href="#_avsaknad_av_acid">4.2.1. Avsaknad av ACID</a></li>
+<li><a href="#_avsaknad_av_mogenhet">4.2.2. Avsaknad av mogenhet</a></li>
+<li><a href="#_avsaknad_av_verktyg">4.2.3. Avsaknad av verktyg</a></li>
+<li><a href="#_avsaknad_av_en_gemensam_standard">4.2.4. Avsaknad av en gemensam standard</a></li>
 </ul>
 </li>
 </ul>
@@ -3566,7 +3482,7 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 </div>
 </div>
 <div class="sect2">
-<h3 id="_er_modellering">2.4. ER-Modellering</h3>
+<h3 id="_datamodellering">2.4. Datamodellering</h3>
 <div class="paragraph">
 <p>När man bygger en applikation som kräver en databas, t.ex en applikation för att hålla koll på böcker, brukar man börja med att göra en beskrivning av hur problemdomänen fungerar.</p>
 </div>
@@ -3575,43 +3491,116 @@ Detta innebär att <code>school_address</code> och <code>school_phone</code> är
 När man pratar om relationsdatabaser använder man ofta ordet <em>schema</em> för att beskriva denna konceptuella eller logiska modell av problemdomänen.</p>
 </div>
 <div class="paragraph">
-<p>För att på ett smidigt sätt kunna <em>modellera</em>, det vill säga <em>designa</em> relationsdatabaser finns <em>Entity Relationship Diagrams</em> (ER-diagram).</p>
+<p>För att på ett smidigt sätt kunna <em>modellera</em>, det vill säga <em>designa</em> relationsdatabaser, finns två vanliga notationer som vi tittar på parallellt i det här kapitlet:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ER-diagram</strong> (Entity Relationship Diagrams) — togs fram specifikt för databasmodellering.</p>
+</li>
+<li>
+<p><strong>UML klassdiagram</strong> — kommer från objektorienterad systemdesign men används ofta också för databaser, särskilt när modellen ska användas både för applikationskoden och databasen.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>ER-diagram illustrerar en databas logiska uppbyggnad, det vill säga vilka <em>entiteter</em>, <em>attribut</em> och <em>relationer</em> som finns i databasen - det beskriver inte den faktiska datan som lagras i databasen.</p>
+<p>Båda visar samma sak: vilka <em>entiteter</em> (eller <em>klasser</em>), <em>attribut</em> och <em>sambandstyper</em> (eller <em>relationer</em>) som finns i databasen — de beskriver inte den faktiska datan som lagras.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Hänvisning:</strong> Ni har troligen sett UML klassdiagram i en kurs om objektorientering eller systemutveckling. Här tittar vi specifikt på hur de används för databasmodellering.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>ER-diagram är en del av modelleringsspråket UML.</p>
+<p>I resten av kapitlet visar vi varje koncept i båda notationer parallellt: ER-diagram (handritade) till vänster och UML klassdiagram (renderat med mermaid) till höger.</p>
 </div>
 <div class="sect3">
-<h4 id="_entitet">2.4.1. Entitet</h4>
+<h4 id="_entitet_klass">2.4.1. Entitet / klass</h4>
 <div class="paragraph">
-<p>En entitet (engelska: entity) representerar en en typ av sak som lagras i databasen. Entiteter ritas som rektanglar, med namnet (i singular) i mitten.</p>
+<p>En entitet (engelska: entity) — eller <em>klass</em> i UML — representerar en typ av sak som lagras i databasen. I båda notationerna ritas den som en rektangel med namnet (i singular) i mitten.</p>
 </div>
-<div class="imageblock">
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>ER-diagram</strong></th>
+<th class="tableblock halign-center valign-top"><strong>UML klassdiagram</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="imageblock">
 <div class="content">
 <img src="img/02_relationsdatabaser/entities.png" alt="entities">
 </div>
-<div class="title">Två entiteter</div>
-</div>
+</div></div></td>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="mermaid">
+classDiagram
+  class Book
+  class Author
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_attribut_2">2.4.2. Attribut</h4>
 <div class="paragraph">
-<p>Attribut (engelska: attribute) representerar en egenskap på något som lagras i databasen. Attribut ritas som en ovaler, med namnet i mitten. Alla attribut måste tillhöra en tabell, och man drar ett streck mellan entiteten och attributet för att visa vilken entitet ett attribut tillhör.</p>
+<p>Attribut (engelska: attribute) representerar en egenskap på något som lagras i databasen. Alla attribut måste tillhöra en entitet (eller klass).</p>
 </div>
 <div class="paragraph">
-<p>Om ett attribut på en entitet är unikt för den entiteten, det vill säga, det får i systemet som databasen modellerar inte finnas två saker som har samma värde på det attributet stryker man under det attributet.</p>
+<p>I ER-diagram ritas varje attribut som en oval, med namnet i mitten, kopplad med ett streck till sin entitet. I UML listas attributen istället <em>inuti</em> klassrektangeln, vanligen i ett mellanavsnitt under klassnamnet.</p>
 </div>
-<div class="imageblock">
+<div class="paragraph">
+<p>Om ett attribut är unikt för entiteten — det vill säga att det i systemet som databasen modellerar inte får finnas två saker som har samma värde på det attributet — är det en <em>primärnyckel</em>. I ER markeras primärnyckeln med understrykning. I UML används ofta en <em>stereotyp</em> — <code>&lt;&lt;PK&gt;&gt;</code> — efter attributnamnet.</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>ER-diagram</strong></th>
+<th class="tableblock halign-center valign-top"><strong>UML klassdiagram</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="imageblock">
 <div class="content">
 <img src="img/02_relationsdatabaser/entities_with_attributes.png" alt="entities with attributes">
 </div>
-<div class="title">Två entiteter med attribut</div>
-</div>
-<div class="paragraph">
-<p><code>Primärnycklarna</code> är alltid understrukna.</p>
-</div>
+</div></div></td>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="mermaid">
+classDiagram
+  class Book {
+    +id : int «PK»
+    +name : string
+    +page_count : int
+  }
+  class Author {
+    +id : int «PK»
+    +name : string
+    +birth_year : int
+    +nationality : string
+  }
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -3623,7 +3612,7 @@ När man pratar om relationsdatabaser använder man ofta ordet <em>schema</em> f
 <p><strong>Främmande nycklar</strong></p>
 </div>
 <div class="paragraph">
-<p>Främmande nycklar ska aldrig ritas ut i ER-diagrammet, deras placering framgår av relationerna (se nästa rubrik)</p>
+<p>Främmande nycklar ska aldrig ritas ut som attribut — varken i ER-diagram eller i UML klassdiagram. Deras placering framgår av sambanden mellan entiteterna (se nästa rubrik).</p>
 </div>
 </td>
 </tr>
@@ -3631,32 +3620,31 @@ När man pratar om relationsdatabaser använder man ofta ordet <em>schema</em> f
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sambandstyp">2.4.3. Sambandstyp</h4>
+<h4 id="_sambandstyp_relation">2.4.3. Sambandstyp / relation</h4>
 <div class="paragraph">
-<p>Sambandstyper (engelska: relation) visar på kopplingar mellan två entiteter. Sambandstyper ritas som romber. I mitten av romben står ett ett eller flera ord som beskriver entiteternas samband (oftast från ena entitetens perspektiv).</p>
+<p>Sambandstyper (engelska: relation) visar kopplingar mellan två entiteter.</p>
 </div>
 <div class="paragraph">
-<p>Varje sambandstyp är kopplad med streck till de ingående entiteterna.</p>
+<p>I ER-diagram ritas relationen som en <em>romb</em> kopplad med streck till de ingående entiteterna; i mitten av romben står ett eller flera ord som beskriver sambandet (oftast från ena entitetens perspektiv). I UML är det istället ett enkelt streck mellan de två klasserna, med en etikett på strecket.</p>
 </div>
 <div class="sect4">
-<h5 id="_kardinalitetsförhållanden">Kardinalitetsförhållanden</h5>
+<h5 id="_kardinalitet_multiplicitet">Kardinalitet / multiplicitet</h5>
 <div class="paragraph">
-<p>I varje ände av en sambandstyp framgår dess <em>kardinalitet</em> (engelska: cardinality), som mer exakt beskriver vad entiteterna har för <em>kardinalitetsförhållanden</em> eller samband.
-Det finns tre typer av kardinalitetsförhållanden:</p>
+<p>I varje ände av en sambandstyp framgår dess <em>kardinalitet</em> (engelska: cardinality), eller <em>multiplicitet</em> som det kallas i UML — som mer exakt beskriver hur många exempel av varje sida som kan delta i sambandet.</p>
+</div>
+<div class="paragraph">
+<p>Det finns tre grundläggande typer av kardinalitetsförhållanden:</p>
 </div>
 <div class="sect5">
 <h6 id="_ett_till_ett_samband_eller_11_samband">Ett-till-ett-samband (eller 1:1-samband)</h6>
 <div class="paragraph">
-<p>Ett 1:1-samband innebär att de ingående entiteterna kan höra ihop med <em>ett</em> exempel av entiteten i andra änden av sambandet.</p>
+<p>Ett 1:1-samband innebär att varje exempel av entiteten i den ena änden av sambandet hör ihop med <em>ett</em> exempel av entiteten i andra änden.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_ett_till_många_samband_eller_1_samband">Ett-till-många-samband (eller 1:*-samband)</h6>
 <div class="paragraph">
-<p>Ett 1:*-samband innebär att de ingående entiteterna kan höra ihop med <em>ett</em> exempel av entiteten i andra änden av sambandet.</p>
-</div>
-<div class="paragraph">
-<p>En sambandstyp där entiteten i den ena änden av sambandet kan höra ihop med flera exempel av entiten i den andra änden, men varje exempel i den andra änden hör bara ihop med ett exempel av den första entiteten.</p>
+<p>Ett 1:*-samband innebär att entiteten i den ena änden av sambandet kan höra ihop med flera exempel av entiteten i den andra änden, men varje exempel i den andra änden hör bara ihop med ett exempel av den första entiteten.</p>
 </div>
 </div>
 <div class="sect5">
@@ -3664,24 +3652,105 @@ Det finns tre typer av kardinalitetsförhållanden:</p>
 <div class="paragraph">
 <p>Ett *:*-samband innebär att ett exempel av var och en av de ingående entiteterna kan höra ihop med flera exempel av de övriga ingående entiteterna.</p>
 </div>
-<div class="imageblock">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>UML är mer expressivt:</strong> Förutom <code>1</code>, <code><strong></code> och <code>0..1</code> stödjer UML även <code>1..</strong></code> (en eller fler), <code>0..<strong></code> (samma som <code></strong></code>) och <code>m..n</code> (mellan m och n exempel). Om du behöver uttrycka exakta gränser passar UML ofta bättre.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>ER-diagram</strong></th>
+<th class="tableblock halign-center valign-top"><strong>UML klassdiagram</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="imageblock">
 <div class="content">
 <img src="img/02_relationsdatabaser/entities_with_attributes_and_relations.png" alt="entities with attributes and relations">
 </div>
-<div class="title">Två entiteter med attribut och sambandstyp</div>
+</div></div></td>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="mermaid">
+classDiagram
+  class Book {
+    +id : int «PK»
+    +name : string
+    +page_count : int
+  }
+  class Author {
+    +id : int «PK»
+    +name : string
+    +birth_year : int
+    +nationality : string
+  }
+  Author "1" --> "1..*" Book : wrote
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>I exemplet ovan kan man utläsa att <strong>en</strong> författare kan skriva <strong>många</strong> (men minst 1) böcker, men en bok kan bara ha en författare. Det är med andra ord ett en-till-många-samband.</p>
 </div>
 <div class="paragraph">
-<p>I exemplet ovan kan man utläsa att <strong>en</strong> författare kan skriva <strong>många</strong> (men minst 1) böcker,
-men en bok kan bara ha en författare. Det är med andra ord en en-till-många-samband.</p>
-</div>
-<div class="paragraph">
-<p>Sambandstypen är i exemplet ovan är namngiven från författarens perspektiv ("wrote"), men skulle lika gärna kunna vara skriven från en boks perspektiv (t.ex "written by" eller "belongs to".</p>
+<p>Sambandstypen är i exemplet ovan namngiven från författarens perspektiv ("wrote"), men skulle lika gärna kunna vara skriven från en boks perspektiv (t.ex. "written by" eller "belongs to").</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_övningar">2.4.4. Övningar</h4>
+<h4 id="_aggregation_och_komposition">2.4.4. Aggregation och komposition</h4>
+<div class="paragraph">
+<p>UML har två särskilda relationstyper som ER-diagram inte har en direkt motsvarighet till:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Aggregation</strong> (öppen romb) — "har en"-relation där delarna kan existera utan helheten. Ett bibliotek "har" böcker, men böckerna finns även om biblioteket läggs ner.</p>
+</li>
+<li>
+<p><strong>Komposition</strong> (fylld romb) — "består av"-relation där delarna inte kan existera utan helheten. Ett dokument "består av" sidor — när dokumentet tas bort försvinner sidorna.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I databastermer motsvarar komposition ofta <code>ON DELETE CASCADE</code> på den främmande nyckeln — när "helheten" raderas försvinner "delarna" automatiskt.</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>UML klassdiagram</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><div class="content"><div class="mermaid">
+classDiagram
+  Library "1" o-- "*" Book : aggregation
+  Document "1" *-- "*" Page : composition
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_övningar">2.4.5. Övningar</h4>
 <div class="sect4">
 <h5 id="_datorregister">Datorregister</h5>
 <div class="paragraph">
@@ -3707,7 +3776,7 @@ men en bok kan bara ha en författare. Det är med andra ord en en-till-många-s
 </ul>
 </div>
 <div class="paragraph">
-<p>Rita upp de entiteter, attribut och sambandstyper som databasen behöver.</p>
+<p>Rita upp de entiteter, attribut och sambandstyper som databasen behöver — gärna i båda notationerna.</p>
 </div>
 </div>
 <div class="sect4">
@@ -3738,7 +3807,7 @@ men en bok kan bara ha en författare. Det är med andra ord en en-till-många-s
 </ul>
 </div>
 <div class="paragraph">
-<p>Rita upp de entiteter, attribut och sambandstyper som databasen behöver.</p>
+<p>Rita upp de entiteter, attribut och sambandstyper som databasen behöver — gärna i båda notationerna.</p>
 </div>
 </div>
 </div>
@@ -3869,9 +3938,184 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </div>
 </div>
 <div class="sect3">
-<h4 id="_backup_och_snapshots">2.5.3. Backup och Snapshots</h4>
+<h4 id="_transaktioner_i_sql">2.5.3. Transaktioner i SQL</h4>
 <div class="paragraph">
-<p>De flesta databashanterare har inbyggd funktionalitet för att ta säkerhetskopior på databasen. I de flesta fall förvaras dessa backups på en annan dator och-   gärna i en annan serverhall.</p>
+<p>I SQL hanteras transaktioner med tre nyckelord:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>BEGIN TRANSACTION</code> — startar en ny transaktion. Allt som skrivs efter detta är "preliminärt" tills transaktionen avslutas.</p>
+</li>
+<li>
+<p><code>COMMIT</code> — avslutar transaktionen och gör alla ändringar permanenta.</p>
+</li>
+<li>
+<p><code>ROLLBACK</code> — avslutar transaktionen utan att spara något — databasen ser ut precis som innan <code>BEGIN TRANSACTION</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>I SQLite (och de flesta databashanterare) räcker det att skriva <code>BEGIN;</code> istället för <code>BEGIN TRANSACTION;</code> — formerna är synonyma.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_exempel_överföring_mellan_konton">Exempel: överföring mellan konton</h5>
+<div class="paragraph">
+<p>Anta följande tabell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">accounts</span> <span class="p">(</span>
+  <span class="n">id</span>      <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="k">owner</span>   <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">balance</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">CHECK</span> <span class="p">(</span><span class="n">balance</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">accounts</span> <span class="p">(</span><span class="k">owner</span><span class="p">,</span> <span class="n">balance</span><span class="p">)</span> <span class="k">VALUES</span>
+  <span class="p">(</span><span class="s1">'Anna'</span><span class="p">,</span>   <span class="mi">5000</span><span class="p">),</span>
+  <span class="p">(</span><span class="s1">'Bertil'</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>CHECK</code>-begränsningen säkerställer att inget konto kan hamna på negativt saldo.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>För att flytta 2 000 kr från Anna till Bertil — utan att riskera att pengarna försvinner mitt i — skriver vi de två <code>UPDATE</code>-satserna inuti en transaktion:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">BEGIN</span> <span class="n">TRANSACTION</span><span class="p">;</span>
+<span class="k">UPDATE</span> <span class="n">accounts</span> <span class="k">SET</span> <span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">-</span> <span class="mi">2000</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">UPDATE</span> <span class="n">accounts</span> <span class="k">SET</span> <span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">+</span> <span class="mi">2000</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">COMMIT</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Om något går fel — exempelvis om vi försöker flytta 6 000 kr (mer än Anna har) — bryter första <code>UPDATE</code>-satsen mot <code>CHECK</code>-begränsningen <code>balance &gt;= 0</code>. Då vill vi avbryta hela transaktionen istället för att gå vidare:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">BEGIN</span> <span class="n">TRANSACTION</span><span class="p">;</span>
+<span class="k">UPDATE</span> <span class="n">accounts</span> <span class="k">SET</span> <span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">-</span> <span class="mi">6000</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">-- misslyckas: CHECK-fel</span>
+<span class="k">ROLLBACK</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Efter <code>ROLLBACK</code> ser kontona ut precis som innan vi körde <code>BEGIN TRANSACTION</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SQLite: <a href="https://www.sqlite.org/lang_transaction.html">BEGIN, COMMIT, ROLLBACK</a></p>
+</li>
+<li>
+<p>SQLite: <a href="https://www.sqlite.org/lang_createtable.html#ckconst">CHECK constraints</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_2">2.5.4. Övningar</h4>
+<div class="sect4">
+<h5 id="_identifiera_acid_egenskapen">Identifiera ACID-egenskapen</h5>
+<div class="paragraph">
+<p>För varje scenario nedan, ange vilken av ACID-egenskaperna (Atomicity, Consistency, Isolation, Durability) som skulle ha förhindrat problemet — och förklara kort varför.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>En överföring drogs från konto A men hann aldrig läggas in på konto B innan strömmen gick. När databasen startade om igen var pengarna borta.</p>
+</li>
+<li>
+<p>Två kassörer på samma butik säljer samtidigt den sista enheten av en vara. Båda försäljningarna registreras, och lagersaldot blir -1.</p>
+</li>
+<li>
+<p>En användare tar bort sitt konto, men dess inlägg ligger kvar och pekar på ett användar-ID som inte längre finns.</p>
+</li>
+<li>
+<p>En bank bekräftade en överföring för en kund. En timme senare kraschade servern, och när den startade om var överföringen borta.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_bibliotekssystem">Bibliotekssystem</h5>
+<div class="paragraph">
+<p>Du har fått i uppdrag att designa databasen bakom ett mindre bibliotek. Verksamheten behöver hålla reda på böcker (med flera exemplar av populära titlar), medlemmar, samt vilka exemplar som är utlånade till vem och när.</p>
+</div>
+<div class="paragraph">
+<p>Lös följande, i den ordning som passar dig:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Modellera</strong> databasen i ett ER-diagram <em>eller</em> ett UML klassdiagram.</p>
+</li>
+<li>
+<p><strong>Skriv schemat</strong> som <code>CREATE TABLE</code>-satser i SQLite, inklusive primärnycklar, främmande nycklar och de <code>CHECK</code>-begränsningar du tycker behövs.</p>
+</li>
+<li>
+<p><strong>Identifiera</strong> vilka av systemets operationer som behöver skyddas av en transaktion. Motivera utifrån ACID-egenskaperna — vilken egenskap är det främst som hade brustit utan transaktion?</p>
+</li>
+<li>
+<p><strong>Implementera</strong> minst en av dessa operationer som en SQL-transaktion. Visa ett exempel på indata och förväntat resultat — och vad som händer om något går fel mitt i.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Tänk på att modellen och transaktionen hänger ihop: om du t.ex. modellerar <code>book</code> och <code>loan</code> som separata entiteter blir utlåningen en annan transaktion än om du har en räknare <code>available_copies</code> direkt på <code>book</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_eget_scenario">Eget scenario</h5>
+<div class="paragraph">
+<p>Välj <em>ett</em> av följande scenarier — eller ett eget förslag — och gör samma fyra steg som i bibliotekssystem-uppgiften:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Webbshop</strong> — kunder lägger ordrar med flera produkter; lager ska minskas och betalning registreras.</p>
+</li>
+<li>
+<p><strong>Spel med inventarier</strong> — spelare kan byta föremål med varandra; båda spelarnas inventarier uppdateras samtidigt.</p>
+</li>
+<li>
+<p><strong>Gymsystem</strong> — medlemmar bokar pass; antalet platser per pass är begränsat och får inte överskridas.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>När du är klar — försök komma på <em>ett</em> scenario i din valda domän där isolation-egenskapen specifikt är det som hindrar ett problem (alltså ett race condition mellan två samtidiga transaktioner).</p>
+</div>
 </div>
 </div>
 </div>
@@ -4140,18 +4384,29 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 </div>
 <div class="sect1">
-<h2 id="_nosql_datagbaser">3. NoSQL-datagbaser</h2>
+<h2 id="_backup_och_återställning">3. Backup och återställning</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fördelar_med_nosql_databashanterare">3.1. Fördelar med NoSQL-databashanterare</h3>
+<h3 id="_backup_och_snapshots">3.1. Backup och Snapshots</h3>
+<div class="paragraph">
+<p>De flesta databashanterare har inbyggd funktionalitet för att ta säkerhetskopior på databasen. I de flesta fall förvaras dessa backups på en annan dator och-   gärna i en annan serverhall.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nosql_datagbaser">4. NoSQL-datagbaser</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fördelar_med_nosql_databashanterare">4.1. Fördelar med NoSQL-databashanterare</h3>
 <div class="sect3">
-<h4 id="_big_data_2">3.1.1. Big Data</h4>
+<h4 id="_big_data_2">4.1.1. Big Data</h4>
 <div class="paragraph">
 <p>Om din domän innebär att du kommer hantera stora (riktigt stora) mängder data (så-kallad "Big Data") kan en NoSQL-databashanterare se till att prestandan inte blir lidande (på bekostnad av ACID-garantier).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_schemaless">3.1.2. Schemaless</h4>
+<h4 id="_schemaless">4.1.2. Schemaless</h4>
 <div class="paragraph">
 <p>Relationsdatabaser är baserade på rigida regler kring hur datan ska vara strukturerad. En NoSQL-databashanterare låter dig utan problem ändra prå strukturer och lagra olika typer av data tillsammans.</p>
 </div>
@@ -4160,34 +4415,34 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 </div>
 <div class="sect3">
-<h4 id="_scaling">3.1.3. Scaling</h4>
+<h4 id="_scaling">4.1.3. Scaling</h4>
 <div class="paragraph">
 <p>NO-SQL-databashanterare är designade från grunden för att vara lätt att dela upp på olika servrar.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_nackdelar_med_nosql_databaser">3.2. Nackdelar med NoSQL-databaser</h3>
+<h3 id="_nackdelar_med_nosql_databaser">4.2. Nackdelar med NoSQL-databaser</h3>
 <div class="sect3">
-<h4 id="_avsaknad_av_acid">3.2.1. Avsaknad av ACID</h4>
+<h4 id="_avsaknad_av_acid">4.2.1. Avsaknad av ACID</h4>
 <div class="paragraph">
 <p>De flesta No-SQL-databashanterare kan inte på samma sätt som en relationsdatabas garantera ACID. Istället brukar man tala om <a href="https://en.wikipedia.org/wiki/Eventual_consistency">Eventual Consistency</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_mogenhet">3.2.2. Avsaknad av mogenhet</h4>
+<h4 id="_avsaknad_av_mogenhet">4.2.2. Avsaknad av mogenhet</h4>
 <div class="paragraph">
 <p>No-SQL-databashanterare har inte årtionden av forskning och beprövad erfarenhet bakom sig. Detta innebär att det kan vara svårt att hitta korrekt, vetenskapligt bekräftad information.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_verktyg">3.2.3. Avsaknad av verktyg</h4>
+<h4 id="_avsaknad_av_verktyg">4.2.3. Avsaknad av verktyg</h4>
 <div class="paragraph">
 <p>Eftersom No-SQL-databashanterare är såpass nya, och, i många fall baserade på olika teorier, saknas ofta t.ex. analys/prestanda/eller andra rapporteringsverktyg.-</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_en_gemensam_standard">3.2.4. Avsaknad av en gemensam standard</h4>
+<h4 id="_avsaknad_av_en_gemensam_standard">4.2.4. Avsaknad av en gemensam standard</h4>
 <div class="paragraph">
 <p>Det finns många olika No-SQL-databashanterare, och de fungerar på olika sätt; Det finns ingen gemensam standard som det finns för relationsdatabaser. Detta kan göra det väldigt kostsamt och krångligt att byta från en No-SQL-databashanterare till en annan.</p>
 </div>
@@ -4198,7 +4453,7 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-26 12:28:46 UTC
+Last updated 2026-05-05 10:08:28 +0200
 </div>
 </div>
 </body>

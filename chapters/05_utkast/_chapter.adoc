@@ -1,0 +1,27 @@
+= Utkast
+
+Det här kapitlet samlar utkast på sektioner som ännu inte är inarbetade i bokens huvuddelar. Tanken är att läsa igenom dem och bestämma:
+
+- Vilka som ska arbetas in (och i så fall var de passar bäst i bokens struktur).
+- Vilka som ska skrivas om eller komprimeras innan de flyttas.
+- Vilka som inte behövs.
+
+Stilen, kodexempelmönstret (Ruby/Rails först, sen C# / EF Core) och pedagogiska tonen försöker matcha resten av boken.
+
+include::0_sakerhet/_chapter.adoc[leveloffset=+1]
+
+include::1_backup_och_aterstallning.adoc[leveloffset=+1]
+
+include::2_verktyg.adoc[leveloffset=+1]
+
+include::3_api_atkomst.adoc[leveloffset=+1]
+
+include::4_vyer_och_stored_procedures.adoc[leveloffset=+1]
+
+include::5_json_xml_fillagring.adoc[leveloffset=+1]
+
+include::6_nosql_praktik.adoc[leveloffset=+1]
+
+include::7_skalbarhet.adoc[leveloffset=+1]
+
+include::9_smatillagg.adoc[leveloffset=+1]

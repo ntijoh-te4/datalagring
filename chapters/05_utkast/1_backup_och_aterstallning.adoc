@@ -1,0 +1,100 @@
+= Backup och återställning
+
+Backup handlar om att ta säkerhetskopior av databasen så att man kan återställa data vid en katastrof: hårdvarufel, brand, fysisk stöld, ransomware-angrepp eller den vanligaste — mänskligt misstag. ("Vem körde `DELETE FROM orders` utan WHERE-villkor?")
+
+Att en backup _finns_ räcker dock inte. Den behöver också gå att _återställa_. En backup-rutin som aldrig har testats är inte en backup-rutin — den är en förhoppning.
+
+== Backup-typer
+
+=== Full backup
+
+En full backup tar en komplett kopia av hela databasen vid en given tidpunkt. Det är den enklaste typen, och även den mest tidskrävande och utrymmes­krävande att utföra.
+
+=== Differentiell backup
+
+En differentiell backup tar en kopia av all data som ändrats sedan _senaste fulla backupen_. Den är snabbare än en full backup, men ju längre det går mellan fulla backups, desto större blir den differentiella.
+
+=== Inkrementell backup
+
+En inkrementell backup tar en kopia av all data som ändrats sedan _senaste backupen av något slag_ (full eller inkrementell). Den är typiskt minst, snabbast att skapa, men kräver hela kedjan av tidigare inkrementella backups vid återställning.
+
+[cols="<2,<3,<3,<2", width="95%"]
+|===
+4+^| *Jämförelse mellan backup-typerna*
+| *Typ*           | *Tar kopia av…*                  | *Återställning kräver…*             | *Storlek*
+| Full            | Hela databasen                   | Endast denna backup                 | Stor
+| Differentiell   | Allt sedan senaste fulla         | Senaste fulla + denna               | Medel
+| Inkrementell    | Allt sedan senaste (oavsett typ) | Senaste fulla + alla mellanliggande | Liten
+|===
+
+En vanlig praxis är att kombinera dem: full backup en gång i veckan, differentiell varje natt, inkrementell varje timme.
+
+== RPO och RTO
+
+Två begrepp som styr designen av en backup-strategi:
+
+- *RPO* (Recovery Point Objective) — hur mycket data är acceptabelt att förlora? Om man tar backup en gång per dygn är RPO upp till 24 timmar.
+- *RTO* (Recovery Time Objective) — hur snabbt måste systemet vara igång igen efter en krasch?
+
+Lägre RPO och RTO kostar mer (oftare backups, snabbare hårdvara, replikering). Frågan att ställa är inte "vilket är minst möjligt?" utan "vad är affärs­mässigt acceptabelt?"
+
+== Var ska backups lagras?
+
+Det räcker inte att en backup tas — den måste också vara på en plats där den faktiskt skyddar mot _det_ som skulle kunna gå fel. En backup som ligger på samma disk som databasen är värdelös vid hårdvarufel.
+
+En vanlig tumregel är *3-2-1-regeln*:
+
+- *3* kopior av data (originalet plus två backups)
+- på *2* olika typer av medier (t.ex. lokal disk + molnlagring)
+- varav *1* förvaras på en geografiskt annan plats (för att överleva brand eller fysisk stöld)
+
+== Återställning
+
+=== Återställa hela databasen (restore)
+
+Den enklaste typen av återställning är att läsa in en backup på nytt — antingen i samma databas, eller på en helt ny server.
+
+[source,sh]
+----
+# PostgreSQL — full backup till fil
+pg_dump skoladatabas > backup.sql <1>
+
+# Återställning
+psql tom_databas < backup.sql <2>
+----
+<1> Skapar en SQL-fil med alla `CREATE TABLE`- och `INSERT`-satser som behövs för att återskapa databasen.
+<2> Spelar upp filen mot en ny, tom databas.
+
+=== Point-in-time recovery (PITR)
+
+I produktionssystem vill man ofta kunna återställa databasen till en _exakt tidpunkt_ — t.ex. "10 minuter innan vi körde den där felaktiga UPDATE-frågan".
+
+Detta gör databashanteraren möjligt genom att kombinera:
+
+- En äldre full backup.
+- En _transaktionslogg_ (engelska: write-ahead log, WAL) som spelar upp varje commit som skett efter backupen.
+
+Genom att stoppa uppspelningen vid en specifik tidsstämpel hamnar databasen i exakt det tillstånd den hade vid den tidpunkten.
+
+=== Återställning av transaktioner
+
+Inom en pågående transaktion gör databasen redan en form av lokal "återställning" via `ROLLBACK`. När hela databasen kraschar kan vissa transaktioner ha skrivit data till disk medan andra inte hunnit committas — uppstartsproceduren använder då transaktions­loggen för att antingen rulla framåt (för committade) eller rulla bakåt (för icke-committade) tills databasen är konsistent igen. Detta är en del av ACID-garantin (durability).
+
+== Vidareläsning
+
+[NOTE]
+====
+- PostgreSQL: https://www.postgresql.org/docs/current/backup.html[Backup and Restore]
+- MySQL: https://dev.mysql.com/doc/refman/8.0/en/backup-and-recovery.html[Backup and Recovery]
+- SQL Server: https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/back-up-and-restore-of-sql-server-databases[Back Up and Restore]
+====
+
+== Övningsuppgift
+
+Tänk dig att du driver en e-handelsplattform med 10 000 ordrar per dag. Föreslå en backup-strategi som tar hänsyn till:
+
+- *RPO* — hur mycket data är acceptabelt att förlora vid en katastrof?
+- *RTO* — hur snabbt måste systemet vara igång igen?
+- *Lagrings­utrymme* — backups kostar pengar.
+
+Jämför två förslag: ett där full backup tas varje natt, och ett där full backup tas en gång i veckan kombinerat med differentiella varje natt.
