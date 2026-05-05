@@ -6,7 +6,7 @@ include::2_tabeller_och_relationer.adoc[leveloffset=+1]
 
 include::3_normalisering.adoc[leveloffset=+1]
 
-include::4_er_diagram.adoc[leveloffset=+1]
+include::4_datamodellering.adoc[leveloffset=+1]
 
 include::5_transaktioner.adoc[leveloffset=+1]
 

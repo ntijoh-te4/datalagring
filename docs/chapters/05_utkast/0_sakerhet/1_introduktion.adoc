@@ -1,0 +1,37 @@
+= Introduktion till databassäkerhet
+
+Datalagring handlar inte bara om att designa effektiva tabeller och skriva snabba frågor. Så fort en databas innehåller verklig data — kunduppgifter, betyg, lönelistor, journaler — kommer en hel rad ytterligare frågor in i bilden:
+
+- Vem har rätt att läsa, ändra eller ta bort vilken data?
+- Hur skyddar vi datan om någon stjäl databasservern eller en backup-disk?
+- Hur lagrar vi lösenord på ett sätt som inte avslöjar dem för en angripare?
+- Vad får vi enligt lagen lagra om personer, och hur länge?
+
+I det här kapitlet går vi igenom hur man hanterar dessa frågor i praktiken: hur man styr åtkomst med _auktorisering_, hur man hanterar känsliga uppgifter, och vilka lagar som styr vad vi får och inte får göra med personuppgifter.
+
+== CIA — tre grundläggande principer
+
+Inom IT-säkerhet pratar man ofta om _CIA-triaden_, en förkortning för tre grundläggande egenskaper som ett system förväntas upprätthålla.
+
+=== Confidentiality (sekretess)
+
+Information ska bara vara åtkomlig för de personer som har rätt att se den. Att en obehörig kan _läsa_ en kund-tabell är ett brott mot sekretessen, även om hen inte ändrar något.
+
+=== Integrity (data-integritet)
+
+Information ska vara korrekt och får inte ändras av obehöriga eller av misstag. Att en angripare ändrar ett saldo i en banktabell, eller att en bugg gör att en användarpost skrivs över, är båda brott mot data-integriteten.
+
+=== Availability (tillgänglighet)
+
+Information ska vara tillgänglig när den behövs. Att en databas ligger nere när användarna försöker logga in är ett brott mot tillgängligheten — även om datan i sig är intakt.
+
+.Två olika "integriteter"
+[NOTE]
+====
+Ordet _integritet_ används på svenska i två helt olika betydelser, och det är lätt att blanda ihop dem:
+
+- *Data-integritet* (engelska: data integrity) — att data är korrekt och oförändrad. Det är _i_ i CIA-triaden.
+- *Personlig integritet* (engelska: privacy) — en persons rätt att själv bestämma över information om sig själv. Det är vad GDPR (se sista avsnittet) handlar om.
+
+Båda är viktiga inom datalagring, men de betyder olika saker.
+====

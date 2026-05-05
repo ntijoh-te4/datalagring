@@ -1,0 +1,124 @@
+= JSON och XML som lagringsformat
+
+Inte all data behöver bo i en relationsdatabas. Ibland är en fil i ett strukturerat format ett mycket enklare och bättre val.
+
+[NOTE]
+====
+*Hänvisning:* JSON känner ni igen från arbetet med REST-API:er i en tidigare kurs. Här tittar vi på JSON ur ett _lagrings_-perspektiv istället: när vill man ha sin data i en JSON-fil, eller i en JSON-kolumn i en databas, snarare än i normaliserade tabeller?
+====
+
+== JSON som lagringsformat
+
+=== JSON-filer
+
+För konfigurationsdata, exporter, eller mindre datamängder som inte behöver sökas igenom är en JSON-fil ofta tillräckligt.
+
+[source,json]
+----
+{
+  "settings": {
+    "language": "sv-SE",
+    "theme": "dark",
+    "notifications": true
+  },
+  "recent_files": [
+    "/Users/anna/dokument/projekt.docx",
+    "/Users/anna/dokument/anteckningar.md"
+  ]
+}
+----
+
+*Fördelar:*
+
+- Läsbart för både människor och maskiner.
+- Inga beroenden — alla språk har JSON-stöd inbyggt.
+- Versionshanteras naturligt i Git.
+
+*Nackdelar:*
+
+- Hela filen måste läsas in för att ändras eller sökas i.
+- Inga garantier för dataintegritet (ingen relationskontroll, inga constraints).
+- Skalar dåligt med stor datamängd.
+
+=== JSON-kolumner i relationsdatabaser
+
+Moderna relationsdatabaser (PostgreSQL, MySQL, SQL Server) stödjer JSON som datatyp. Det betyder att man kan _kombinera_ relationsdatabasens garantier med JSON:s flexibilitet.
+
+[source,sql]
+----
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    occurred_at TIMESTAMP NOT NULL,
+    event_type TEXT NOT NULL,
+    payload JSONB <1>
+);
+
+INSERT INTO events (occurred_at, event_type, payload) VALUES
+('2026-04-28 10:00', 'user.login',    '{"user_id": 42, "ip": "10.0.0.1"}'),
+('2026-04-28 10:05', 'order.created', '{"order_id": 1001, "total_eur": 49.99}');
+----
+<1> `JSONB` är PostgreSQL:s binära JSON-typ — snabb och indexerbar.
+
+Man kan sedan söka direkt i JSON-strukturen:
+
+[source,sql]
+----
+SELECT * FROM events
+WHERE payload->>'user_id' = '42'; <1>
+----
+<1> `->>` extraherar ett textvärde från ett JSON-objekt.
+
+JSON-kolumner är användbara när:
+
+- Olika rader har olika fält (t.ex. olika typer av events).
+- Strukturen ofta ändras.
+- Det finns ett _kärn-schema_ (här: `id`, `occurred_at`, `event_type`) plus _flexibel data_ (`payload`).
+
+== XML som lagringsformat
+
+XML (eXtensible Markup Language) är ett äldre, mer ordrikt alternativ till JSON. Vissa områden använder fortfarande XML i stor skala:
+
+- *Kontorsfiler* — `.docx`, `.xlsx`, `.odt` är komprimerade ZIP-filer som innehåller XML.
+- *RSS- och Atom-feeds*.
+- *SVG-grafik*.
+- *SOAP-baserade webbtjänster* (ofta enterprise-system, t.ex. äldre bank- eller försäkrings­plattformar).
+- *Konfigurationsfiler* i Java-världen (Maven `pom.xml`, Spring-konfiguration).
+
+.Samma data — JSON
+[source,json]
+----
+{
+  "book": {
+    "title": "1984",
+    "author": "George Orwell",
+    "pages": 328
+  }
+}
+----
+
+.Samma data — XML
+[source,xml]
+----
+<book>
+  <title>1984</title>
+  <author>George Orwell</author>
+  <pages>328</pages>
+</book>
+----
+
+XML har ett par drag som JSON saknar:
+
+- *Attribut* utöver innehåll: `<book id="1">...</book>`.
+- *Schema-validering* via XSD (XML Schema Definition) som kan uttrycka mer komplexa regler än JSON Schema.
+- *Namespaces* för att blanda XML från flera källor i samma dokument.
+
+Men för de flesta nya system är JSON enklare, mindre, och har bättre verktygs­stöd — XML lever idag mest kvar där det redan är etablerat.
+
+== Vidareläsning
+
+[NOTE]
+====
+- PostgreSQL JSON: https://www.postgresql.org/docs/current/datatype-json.html[JSON Types] och https://www.postgresql.org/docs/current/functions-json.html[JSON Functions]
+- SQL Server JSON: https://learn.microsoft.com/en-us/sql/relational-databases/json/json-data-sql-server[JSON Data]
+- W3C XML Schema: https://www.w3.org/XML/Schema[XSD]
+====

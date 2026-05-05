@@ -1,9 +1,14 @@
 #Junk
 **/.DS_Store
 
+# Editor / IDE
+.vscode/
+.claude/
+
 # Book build output
 _book
 book.html
+docs/index.html
 
 # eBook build output
 *.epub
@@ -11,3 +16,6 @@ book.html
 *.pdf
 
 Gemfile.lock
+
+# Author reference materials (Skolverkets ämnesplaner etc.)
+Ämnesplaner/

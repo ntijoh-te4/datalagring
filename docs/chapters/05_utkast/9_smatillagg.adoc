@@ -1,0 +1,72 @@
+= Småtillägg
+
+Ett antal mindre stycken som täcker resterande punkter i centralt innehåll, men som var och en är för små för att utgöra ett eget kapitel.
+
+== Användningsområden för datalagring
+
+Datalagring spelar en roll i nästan varje digital tjänst. Några exempel som illustrerar bredden:
+
+- *Banker och betal­tjänster* — kontonummer, transaktioner, saldon. Hög säkerhet, ACID-transaktioner är icke-förhandlingsbart.
+- *Sociala nätverk* — användare, inlägg, vänner, gillamarkeringar. Enorma datamängder, höga läs­frekvenser, tillåter ofta eventual consistency.
+- *E-handel* — produkter, ordrar, kundregister. Kombinerar transaktions­säkerhet (för ordrar) med snabb sökning (för katalog).
+- *Sjukvård* — journaler, recept, undersöknings­resultat. Extra hög integritets­känslighet — dataskydds­regler styr starkt.
+- *IoT-sensorer* — temperatur, fuktighet, energi­förbrukning. Tids­serie­data, höga skriv­frekvenser, ofta i specialiserade time-series databases.
+- *Spel* — spelar­profiler, highscores, inventarier, achievements. Ofta blandning av relationell + cache + NoSQL.
+- *Forskning* — experiment­data, mätserier, genom­data. Mycket olika behov beroende på domän.
+
+Olika domäner har olika krav, och det är därför det inte finns _en_ databastyp som är "bäst" — valet beror på vad applikationen behöver.
+
+== Dataintegritet och feltolerans utöver ACID
+
+ACID är grunden, men en produktions­databas möter också andra typer av fel än det som ACID hanterar.
+
+=== Constraints och referensintegritet
+
+`PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, `NOT NULL` och `CHECK` är databas­hanterarens sätt att garantera att datan följer reglerna oavsett vilken applikation som skrivit den. Om två olika applikationer skriver mot samma databas är dessa constraints ofta sista försvars­linjen mot felaktig data.
+
+=== Hårdvarufel och RAID
+
+Diskar går sönder. _RAID_ (Redundant Array of Independent Disks) är ett samlingsnamn för tekniker att skriva data till flera fysiska diskar samtidigt, så att en disk kan gå sönder utan att data förloras. Vanliga nivåer:
+
+- *RAID 1* — speglar en disk till en annan.
+- *RAID 5/6* — fördelar data plus paritet över flera diskar.
+- *RAID 10* — kombinerar speglning och stripning för hög prestanda + redundans.
+
+=== Replikation som feltolerans
+
+Som diskuterades i kapitlet om skalbarhet — replikation används inte _bara_ för att skala läsningar, utan också för att hantera serverhaverier. Om primary-servern går ner kan en replika promoveras till ny primary.
+
+=== Korruption och bit-rot
+
+Över tid kan data på disk degradera ("bit-rot"). Filsystem som ZFS och databaser som PostgreSQL har inbyggda checksums för att upptäcka när data har förvanskats — och i kombination med replikation/RAID kan korrumperade block ofta repareras automatiskt.
+
+== Teorier om databastyper
+
+Centralt innehåll på Nivå 2 nämner "teorier om valda databastyper". En kort fördjupning:
+
+=== Relationsmodellen
+
+Relationsmodellen, formulerad av Edgar F. Codd 1970, bygger på två matematiska grunder:
+
+- *Mängdlära* — en tabell är en mängd av tupler (rader). Ordningen mellan rader spelar ingen roll, och ingen rad får finnas två gånger.
+- *Predikatlogik* — frågor uttrycks som logiska påståenden som filtrerar mängderna. `SELECT * FROM users WHERE age > 18` motsvarar mängden `\{u ∈ users | u.age > 18}`.
+
+Codds 12 regler (egentligen 13, numrerade 0–12) ställer formella krav på vad en databas måste klara av för att räknas som en _äkta_ relations­databas. Få system uppfyller alla — de fungerar ändå som en filosofisk grund.
+
+=== Dokumentmodellen
+
+Dokumentdatabaser bygger inte på en lika strikt teoretisk grund. Istället bygger de på pragmatiska observationer: data har ofta hierarkisk struktur, och att dela upp den i tabeller och sedan limma ihop med JOIN är inte alltid den naturligaste modellen.
+
+Forskare som https://martin.kleppmann.com/[Martin Kleppmann] (boken _Designing Data-Intensive Applications_) har försökt formalisera dokument­modellen i efterhand.
+
+=== Graf-modellen
+
+Graf­databaser (t.ex. https://neo4j.com/[Neo4j]) bygger på _grafteori_ — noder och kanter. De är optimerade för frågor som "hitta alla vänner till mina vänner som gillar samma musik som jag" — frågor som blir hopplöst dyra i en relationsdatabas men triviala i en graf.
+
+== Vidareläsning
+
+[NOTE]
+====
+- Codds originalpaper (1970): https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf[A Relational Model of Data for Large Shared Data Banks]
+- Martin Kleppmann — Designing Data-Intensive Applications: https://dataintensive.net/[dataintensive.net]
+====

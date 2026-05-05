@@ -1,0 +1,73 @@
+= Skalbarhet, replikation och sharding
+
+När en applikation växer kommer en enda databasserver förr eller senare att inte räcka till. Det finns två huvudsakliga sätt att skala — vertikalt och horisontellt.
+
+[NOTE]
+====
+*Hänvisning:* Ni har troligen sett begrepp som "load balancer" i webbutvecklings­kursen — det här är samma grundidé applicerad på data istället för på webbservrar.
+====
+
+== Vertikal vs horisontell skalning
+
+[cols="<2,<4,<4", width="95%"]
+|===
+3+^| *Två sätt att skala databasen*
+| *Strategi*  | *Vad man gör*                                          | *Begränsning*
+| Vertikal    | Köp en kraftigare server (mer CPU, RAM, snabbare disk) | Det finns en gräns för hur stor en server kan bli — och kostnaden ökar exponentiellt
+| Horisontell | Lägg till fler servrar och fördela belastningen        | Krävs mer komplex arkitektur — replikation och/eller sharding
+|===
+
+Vertikal skalning ("scale up") är enklare men har en hård tak. Horisontell skalning ("scale out") är mer komplex men har i princip ingen övre gräns.
+
+== Replikation
+
+I _replikation_ håller flera servrar identiska kopior av samma data. Den vanligaste modellen är *primary/replica* (tidigare kallat _master/slave_):
+
+- En *primary* tar emot alla skrivningar.
+- En eller flera *replicas* speglar primaryns data och tar hand om läsningar.
+
+Detta är användbart när läs/skriv-förhållandet är obalanserat — vilket det nästan alltid är. Många applikationer har 90 % läsningar och 10 % skrivningar; genom att flytta läsningarna till replikor kan primary fokusera på skrivningar.
+
+[NOTE]
+====
+*Eventual consistency:* När en skrivning sker mot primary tar det en kort stund innan replikan har fått ändringen. Under det fönstret kan en läsning från replikan returnera _gammal_ data. För många användnings­områden är det acceptabelt; för andra (t.ex. visning av användarens egen ny-skapade post direkt efter skapandet) krävs särlösningar.
+====
+
+== Sharding
+
+Replikation gör databasen _redundant_, men varje server måste fortfarande rymma _hela_ datasetet. När datat blir större än vad en server kan hantera krävs *sharding*: att dela upp datat i bitar (shards) som ligger på olika servrar.
+
+Vanliga shardning­strategier:
+
+- *Hash-baserad* — beräkna en hash av en nyckel (t.ex. `user_id`), modulo antal shards.
+- *Range-baserad* — användare A–F ligger på shard 1, G–M på shard 2, osv.
+- *Geografisk* — europeiska kunder på en shard, amerikanska på en annan.
+
+NoSQL-databaser är ofta byggda för sharding från grunden. Relationsdatabaser kan också shard:as men det kräver mer manuellt arbete och leder ofta till begränsningar (t.ex. JOIN över shards är dyrt eller omöjligt).
+
+== CAP-teoremet
+
+Ett resultat från distribuerade system, formulerat av Eric Brewer:
+
+[quote, Eric Brewer (2000)]
+____
+Av *Consistency*, *Availability* och *Partition tolerance* kan ett distribuerat system bara välja två.
+____
+
+- *Consistency:* alla noder ser samma data samtidigt.
+- *Availability:* varje förfrågan får ett svar (om än kanske inte det senaste).
+- *Partition tolerance:* systemet fortsätter fungera även om vissa noder inte kan prata med varandra.
+
+Eftersom nätverkspartitioner i praktiken alltid är möjliga handlar valet ofta om _C eller A_:
+
+- *CP-system* (t.ex. traditionella relationsdatabaser, MongoDB i vissa konfigurationer) — vid en partition vägrar systemet svara på frågor mot den isolerade noden.
+- *AP-system* (t.ex. Cassandra, DynamoDB) — vid en partition fortsätter alla noder svara, men kan ha olika data tills partitionen läker.
+
+== Vidareläsning
+
+[NOTE]
+====
+- PostgreSQL: https://www.postgresql.org/docs/current/high-availability.html[High Availability, Load Balancing, and Replication]
+- MongoDB: https://www.mongodb.com/docs/manual/sharding/[Sharding]
+- CAP-teoremet: https://en.wikipedia.org/wiki/CAP_theorem[CAP theorem]
+====
