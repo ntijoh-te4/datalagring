@@ -12,4 +12,8 @@ include::5_transaktioner.adoc[leveloffset=+1]
 
 include::6_indexering.adoc[leveloffset=+1]
 
-include::7_stored_procedures.adoc[leveloffset=+1]
+include::7_vyer.adoc[leveloffset=+1]
+
+include::8_stored_procedures.adoc[leveloffset=+1]
+
+include::9_triggers.adoc[leveloffset=+1]

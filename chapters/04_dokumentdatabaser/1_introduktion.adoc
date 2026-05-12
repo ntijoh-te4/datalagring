@@ -1,0 +1,48 @@
+= Introduktion
+
+NoSQL (kortform för "Not only SQL") är ett samlingsnamn för databashanterare som inte använder relationsmodellen. Det finns flera familjer:
+
+* *Dokumentdatabaser* lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.
+* *Nyckel-värde-databaser* lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.
+* *Kolumndatabaser* organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.
+* *Grafdatabaser* lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.
+
+Det här kapitlet fokuserar på *dokumentdatabaser*. Det är den typ av NoSQL-databas som studenter oftast möter i fält, och den modell som ligger närmast objektorienterad programmering. Ett "dokument" är i princip en map/dict/hash som man sparar.
+
+== Relationsdatabaser och dokumentdatabaser sida vid sida
+
+För att förstå varför man väljer det ena eller andra hjälper det att lista vad respektive modell är bra och dålig på.
+
+=== Relationsdatabaser
+
+Fördelar:
+
+* Garanterad datakonsistens via ACID-transaktioner.
+* Stark dataintegritet via schema, främmande nycklar och `CHECK`-begränsningar.
+* Normalisering minskar utrymme, dubblettrisk och underhållskostnad.
+* Inbyggd validering av datatyper och regler.
+* En beprövad, standardiserad fråge-syntax (SQL) sedan 1970-talet.
+
+Nackdelar:
+
+* Schemat behöver designas i förväg. Om datastrukturen ändras kostar det arbete att migrera.
+* Mindre lämpat för data med stor variation, t.ex. dokument där olika instanser har olika fält.
+* Svåra att fördela över många servrar utan att förlora ACID-garantierna. Stora relationsdatabaser körs därför ofta på en enda kraftfull server. Den bilden börjar luckras upp av nyare verktyg som https://turso.tech/[Turso] och https://fly.io/docs/litefs/[LiteFS] (replikerar SQLite över världen), https://www.cockroachlabs.com/[CockroachDB] (distribuerad SQL med ACID via konsensusprotokoll), och mönstret att varje kund får en egen liten databas istället för att dela en stor.
+* Mindre lämpat för enormt stora datamängder ("Big Data") och kontinuerliga dataströmmar.
+
+=== Dokumentdatabaser
+
+Fördelar:
+
+* Inget schema krävs i förväg. Dokument kan ha varierande struktur.
+* Föränderliga datastrukturer hanteras smidigt. Nya fält kan läggas till över tid utan migrationer.
+* Designade för horisontell skalning över många servrar.
+* Lämpat för Big Data, kontinuerliga dataströmmar och decentraliserade datasamlingar.
+
+Nackdelar:
+
+* Ingen, eller "eventual", konsistens. Två klienter kan en kort tid se olika versioner av samma data.
+* Ingen, eller "eventual", integritet. Det blir klientens ansvar att hålla data konsekvent.
+* Data dupliceras ofta (mer om det i avsnittet om _embed vs reference_). När en uppgift ändras kan flera kopior behöva uppdateras.
+* Svårt eller omöjligt att validera dokumentens struktur centralt.
+* Ingen gemensam standard. Varje produkt har sitt eget frågespråk eller API.

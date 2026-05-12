@@ -1,0 +1,116 @@
+= Triggers
+
+En *trigger* är en funktion som databasen kör automatiskt när något händer i en tabell (typiskt en `INSERT`, `UPDATE` eller `DELETE`). Till skillnad från en procedure, som anropas explicit med `CALL`, kör en trigger sig själv som sidoeffekt av en annan operation.
+
+== Fördelar
+
+=== Automatisk konsistens
+
+En trigger garanterar att vissa följdåtgärder _alltid_ sker när en tabell ändras. Klienten behöver inte komma ihåg att uppdatera en relaterad tabell, eftersom databasen sköter det själv.
+
+=== Central regel-enforcement
+
+Om flera applikationer eller tjänster skriver till samma tabell behöver varje klient inte upprepa samma logik. Triggern ligger på tabellen, inte i klientkoden, och fångar varje skrivning oavsett källa.
+
+=== Audit-loggar utan ändring av skrivkod
+
+Ett vanligt mönster: en trigger på en tabell skriver varje ändring till en separat `*_audit`-tabell. Loggningen kan läggas till efter att applikationen är skriven, utan att en enda rad i den ursprungliga skrivkoden behöver ändras.
+
+== Nackdelar
+
+=== Osynlig magi
+
+Triggers kör sig själva. Det är både deras stora styrka och deras stora fara: logik som "bara händer" är lätt att glömma bort när man felsöker. En utvecklare som ser en oväntad rad i `konteringar_audit` måste veta att en trigger finns för att förstå varifrån den kom.
+
+=== Kostnad per skrivning
+
+En trigger körs vid _varje_ påverkad rad. På bulkinserts (t.ex. en miljon rader) körs triggern en miljon gånger. För tunga triggers blir det en mätbar prestandakostnad.
+
+=== Kaskaderande triggers
+
+Om en trigger ändrar en tabell som har sin egen trigger, kommer den triggern också att köras. Med några nivåers kaskader blir det mycket svårt att resonera kring vad som händer när en enda `INSERT` körs.
+
+== Syntax
+
+I Postgres skapas en trigger i två steg: först definieras en *triggerfunktion* (en vanlig `CREATE FUNCTION` som returnerar typen `TRIGGER`), sedan binds den till en tabell med `CREATE TRIGGER`.
+
+Säg att vi vill logga varje ny kontering till en separat audit-tabell:
+
+[source,sql]
+----
+CREATE TABLE konteringar_audit (
+  id           SERIAL PRIMARY KEY,
+  kontering_id INTEGER NOT NULL,
+  konto        TEXT NOT NULL,
+  debet        NUMERIC(12,2),
+  kredit       NUMERIC(12,2),
+  loggad_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE FUNCTION log_kontering() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO konteringar_audit (kontering_id, konto, debet, kredit)
+  VALUES (NEW.id, NEW.konto, NEW.debet, NEW.kredit);
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER konteringar_logging
+  AFTER INSERT ON konteringar
+  FOR EACH ROW
+  EXECUTE FUNCTION log_kontering();
+----
+
+Inuti triggerfunktionen finns specialvariabeln `NEW` som representerar raden som just lades till. (För `UPDATE` och `DELETE` finns även `OLD` som representerar hur raden såg ut innan ändringen.) `FOR EACH ROW` säger att funktionen ska köras en gång per påverkad rad, och `AFTER INSERT` att den ska köras direkt efter att `INSERT`-satsen genomförts.
+
+Nu får varje `INSERT INTO konteringar` automatiskt en motsvarande rad i `konteringar_audit`. Klienten behöver inte veta att loggningen sker.
+
+.Vidareläsning
+[NOTE]
+====
+- Postgres: https://www.postgresql.org/docs/current/sql-createtrigger.html[CREATE TRIGGER]
+- Postgres: https://www.postgresql.org/docs/current/triggers.html[Overview of Trigger Behavior]
+====
+
+== Övningar
+
+Övningarna återanvänder samma scaffold och databas som i kapitel 2.7 (Vyer) och 2.8 (Stored Procedures).
+
+=== Trigger: hålla saldot uppdaterat
+
+Funktionen `saldo()` från kapitel 2.8 räknar om saldot från grunden varje gång den anropas. På en stor databas är det dyrt. Istället vill vi att `konton.saldo` ska vara en _cachad_ kolumn som hålls i synk automatiskt.
+
+Skriv en trigger på `konteringar` som uppdaterar `konton.saldo` när en ny kontering läggs till. Tecknet beror på kontots typ, samma logik som i din `saldo`-function.
+
+Verifiera genom att köra ett par `CALL bokför(...)` och titta på `konton.saldo`-kolumnen direkt:
+
+[source,sql]
+----
+SELECT nummer, namn, saldo FROM konton WHERE saldo <> 0 ORDER BY nummer;
+----
+
+Tänk på:
+
+- Skapa triggern _innan_ ni gör några bokföringar, annars missar den de verifikat som redan finns. Vad gör ni om triggern skapades sent och cache:n är fel?
+- Vad händer om en kontering uppdateras (UPDATE) eller tas bort (DELETE)? Behöver triggern täcka fler händelser, eller är det ok att låta `konteringar` vara append-only?
+- Vad blir snabbare i längden, den cachade kolumnen eller `saldo()`-funktionen? Vad blir säkrare?
+
+=== Tillbaka till resultaträkning
+
+`resultaträkning`-vyn från kapitel 2.7 (Vyer) läser från `konton.saldo`-kolumnen. Med triggern på plats uppdateras `konton.saldo` automatiskt vid varje bokföring, så vyn återspeglar nu företagets ekonomi i realtid.
+
+Kör några bokföringar via `bokför` och `bokför_försäljning` (från kapitel 2.8) och kontrollera att `SELECT * FROM resultaträkning;` ger förväntat svar. Du behöver inte göra något manuellt för att hålla siffrorna aktuella.
+
+=== Affärslogik i databasen
+
+Nu har du sett tre verktyg som flyttar logik in i databasen: vyer (sparade frågor), stored procedures (sparad kod) och triggers (kod som körs automatiskt). Var och en av dem har sin plats.
+
+Tänk själv eller diskutera med en kursare: vilka av reglerna i ett bokföringssystem hör hemma som procedure/function/trigger/vy i databasen, och vilka hör hellre hemma i applikationskoden? Motivera utifrån för- och nackdelarna i de tre kapitlen.
+
+Konkreta exempel att diskutera:
+
+- "Saldon ska summera till noll över varje verifikat": invarianten ni precis byggde. I procedure, i en `CHECK`-constraint, eller i applikationen?
+- "Bankkontot får inte bli negativt": `CHECK (saldo >= 0)` på `konton`? I procedure? I applikationskoden?
+- "Verifikat får inte bokföras på framtida datum": trigger? Procedure-validering? Klient?
+- "Försäljning över 50 000 kr kräver godkännande av en revisor": databasen eller en helt annan systemkomponent?
+- "Resultaträkning och balansräkning": vyer, eller frågor i applikationskoden? Vad vinner / förlorar du på respektive val?

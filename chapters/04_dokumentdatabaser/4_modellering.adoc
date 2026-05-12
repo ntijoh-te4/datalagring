@@ -1,0 +1,93 @@
+= Modellering: embed eller reference
+
+I en relationsdatabas är det självklart hur man kopplar två entiteter: en främmande nyckel. En `posts`-rad har `author_id` som pekar på en `users`-rad. Klart.
+
+I en dokumentdatabas har du ett val. Du kan göra något liknande, eller du kan *bädda in* den ena entiteten direkt i den andra. Båda strategierna är giltiga, men de har olika trade-offs.
+
+== Exemplet
+
+Säg att vi modellerar ett system där användare tillhör grupper, t.ex. för en kursplattform eller https://toolie.se/groupie[Toolie's gruppslumpare]. En användare har ett `username`. En grupp har ett `groupname` och ett antal medlemmar. En medlem kan tillhöra flera grupper, en grupp har flera medlemmar.
+
+Det här går att lagra på två sätt.
+
+=== Variant 1: reference
+
+Användarna lagras i en collection. Grupperna lagras i en annan och innehåller bara id:n till sina medlemmar.
+
+[source,javascript]
+----
+db.users.insertMany([
+  { _id: "0x70...700", username: "grill.korv" },
+  { _id: "0x70...701", username: "Eva" }
+])
+
+db.groups.insertOne({
+  _id:       "0x60...700",
+  groupname: "Crazy Cowboys",
+  user_ids:  ["0x70...700", "0x70...701"]
+})
+----
+
+För att visa gruppens medlemmar måste klienten göra två frågor. Först hämta gruppen, sedan slå upp användarna utifrån listan med id.
+
+=== Variant 2: embed
+
+Grupperna innehåller hela användarobjektet (eller relevanta delar av det), inte bara id:t. Användarna finns ändå kvar i sin egen collection — den är "sanningen" — men en kopia av relevanta fält bäddas in i gruppen.
+
+[source,javascript]
+----
+db.groups.insertOne({
+  _id:       "0x60...700",
+  groupname: "Crazy Cowboys",
+  users: [
+    { _id: "0x70...700", username: "grill.korv" },
+    { _id: "0x70...701", username: "Eva" }
+  ]
+})
+----
+
+Nu räcker en enda fråga för att visa gruppen med dess medlemmar. Men `username` finns på två ställen i databasen. Om Eva byter namn behöver båda kopiorna uppdateras.
+
+== När vilken?
+
+Tumregler för när embedding lönar sig:
+
+* När de inbäddade dokumenten är *små*.
+* När den inbäddade datan *sällan ändras*.
+* När du nästan alltid läser dem tillsammans med ytter-dokumentet.
+* När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.
+* När antalet inbäddade dokument växer långsamt eller är begränsat.
+
+Tumregler för när reference lönar sig:
+
+* När de refererade dokumenten är *stora*.
+* När datan *ändras ofta*.
+* När du ofta läser ytter-dokumentet utan inner-dokumenten.
+* När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.
+* När antalet relaterade dokument är stort eller obegränsat.
+
+I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. `_id` och `username`), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.
+
+== Övning: embed eller reference
+
+Du ska utöka scaffold-appen från föregående avsnitt med en ny funktion. Användarna ska kunna posta korta *inlägg* i en grupp (tänk en enkel diskussionstråd).
+
+Varje inlägg har:
+
+* En författare (referens till eller kopia av en användare).
+* En textkropp.
+* En tidsstämpel.
+
+Innan du skriver någon kod, fundera över:
+
+. Var ska inläggen lagras? Som en egen `posts`-collection? Som en inbäddad lista i `groups`? Som en inbäddad lista i `users`?
+. Om du väljer att lagra inlägg i grupper (inbäddat eller med referenser), hur visar du författaren? Inbäddat eller via referens till `users`?
+
+Skriv ner ditt val och en motivering utifrån tumreglerna ovan, _innan_ du implementerar.
+
+Implementera sedan:
+
+. En route som tar emot ett nytt inlägg och sparar det.
+. En route som visar de senaste 10 inläggen i en grupp.
+
+När du är klar: vad skulle hända i din lösning om Eva ändrar sitt användarnamn? Påverkas inläggen?

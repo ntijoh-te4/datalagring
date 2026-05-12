@@ -559,6 +559,13 @@ pre.rouge .gs {
 <style>
   .mermaid { text-align: center; }
   .mermaid svg { max-width: 100%; height: auto; }
+
+  /* Floated tables (role="left" / role="right") so prose flows around */
+  .tableblock.left  { float: left;  margin: 0 1.5em 0.5em 0; }
+  .tableblock.right { float: right; margin: 0 0 0.5em 1.5em; }
+
+  /* Fluid table+text units (table floats left, prose flows right) */
+  .float-group { border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; padding: 0.75em 0; margin: 1em 0; }
 </style>
 </head>
 <body class="article toc2 toc-left">
@@ -619,14 +626,33 @@ pre.rouge .gs {
 </li>
 <li><a href="#_indexering">2.6. Indexering</a>
 <ul class="sectlevel3">
-<li><a href="#_varför_indexering">2.6.1. Varför Indexering</a></li>
+<li><a href="#_verifiera_att_indexet_används">2.6.1. Verifiera att indexet används</a></li>
 <li><a href="#_nackdelar">2.6.2. Nackdelar</a></li>
+<li><a href="#_övningar_3">2.6.3. Övningar</a></li>
 </ul>
 </li>
-<li><a href="#_stored_procedures">2.7. Stored Procedures</a>
+<li><a href="#_vyer">2.7. Vyer</a>
 <ul class="sectlevel3">
 <li><a href="#_fördelar">2.7.1. Fördelar</a></li>
 <li><a href="#_nackdelar_2">2.7.2. Nackdelar</a></li>
+<li><a href="#_syntax">2.7.3. Syntax</a></li>
+<li><a href="#_övningar_4">2.7.4. Övningar</a></li>
+</ul>
+</li>
+<li><a href="#_stored_procedures">2.8. Stored Procedures</a>
+<ul class="sectlevel3">
+<li><a href="#_fördelar_2">2.8.1. Fördelar</a></li>
+<li><a href="#_nackdelar_3">2.8.2. Nackdelar</a></li>
+<li><a href="#_syntax_i_postgres">2.8.3. Syntax i Postgres</a></li>
+<li><a href="#_övningar_5">2.8.4. Övningar</a></li>
+</ul>
+</li>
+<li><a href="#_triggers">2.9. Triggers</a>
+<ul class="sectlevel3">
+<li><a href="#_fördelar_3">2.9.1. Fördelar</a></li>
+<li><a href="#_nackdelar_4">2.9.2. Nackdelar</a></li>
+<li><a href="#_syntax_2">2.9.3. Syntax</a></li>
+<li><a href="#_övningar_6">2.9.4. Övningar</a></li>
 </ul>
 </li>
 </ul>
@@ -636,21 +662,77 @@ pre.rouge .gs {
 <li><a href="#_backup_och_snapshots">3.1. Backup och Snapshots</a></li>
 </ul>
 </li>
-<li><a href="#_nosql_datagbaser">4. NoSQL-datagbaser</a>
+<li><a href="#_dokumentdatabaser">4. Dokumentdatabaser</a>
 <ul class="sectlevel2">
-<li><a href="#_fördelar_med_nosql_databashanterare">4.1. Fördelar med NoSQL-databashanterare</a>
+<li><a href="#_introduktion_2">4.1. Introduktion</a>
 <ul class="sectlevel3">
-<li><a href="#_big_data_2">4.1.1. Big Data</a></li>
-<li><a href="#_schemaless">4.1.2. Schemaless</a></li>
-<li><a href="#_scaling">4.1.3. Scaling</a></li>
+<li><a href="#_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">4.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</a></li>
 </ul>
 </li>
-<li><a href="#_nackdelar_med_nosql_databaser">4.2. Nackdelar med NoSQL-databaser</a>
+<li><a href="#_dokumentmodellen">4.2. Dokumentmodellen</a>
 <ul class="sectlevel3">
-<li><a href="#_avsaknad_av_acid">4.2.1. Avsaknad av ACID</a></li>
-<li><a href="#_avsaknad_av_mogenhet">4.2.2. Avsaknad av mogenhet</a></li>
-<li><a href="#_avsaknad_av_verktyg">4.2.3. Avsaknad av verktyg</a></li>
-<li><a href="#_avsaknad_av_en_gemensam_standard">4.2.4. Avsaknad av en gemensam standard</a></li>
+<li><a href="#_collections">4.2.1. Collections</a></li>
+<li><a href="#_var_ligger_schemat_egentligen">4.2.2. Var ligger schemat egentligen?</a></li>
+</ul>
+</li>
+<li><a href="#_mongodb">4.3. MongoDB</a>
+<ul class="sectlevel3">
+<li><a href="#_crud_operationer">4.3.1. CRUD-operationer</a></li>
+<li><a href="#_index_och_sökning">4.3.2. Index och sökning</a></li>
+<li><a href="#_aggregering">4.3.3. Aggregering</a></li>
+<li><a href="#_övning_sätt_upp_miljön">4.3.4. Övning: sätt upp miljön</a></li>
+</ul>
+</li>
+<li><a href="#_modellering_embed_eller_reference">4.4. Modellering: embed eller reference</a>
+<ul class="sectlevel3">
+<li><a href="#_exemplet">4.4.1. Exemplet</a></li>
+<li><a href="#_när_vilken">4.4.2. När vilken?</a></li>
+<li><a href="#_övning_embed_eller_reference">4.4.3. Övning: embed eller reference</a></li>
+</ul>
+</li>
+<li><a href="#_konsistens_via_events">4.5. Konsistens via events</a>
+<ul class="sectlevel3">
+<li><a href="#_lösningen_publishsubscribe">4.5.1. Lösningen: publish/subscribe</a></li>
+<li><a href="#_en_enkel_eventbus">4.5.2. En enkel EventBus</a></li>
+<li><a href="#_publicera_från_modellen">4.5.3. Publicera från modellen</a></li>
+<li><a href="#_prenumerera_i_en_genserver">4.5.4. Prenumerera i en GenServer</a></li>
+<li><a href="#_varför_det_här_är_inbyggt_i_elixir">4.5.5. Varför det här är inbyggt i Elixir</a></li>
+<li><a href="#_övning_lägg_till_en_event_prenumerant">4.5.6. Övning: lägg till en event-prenumerant</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_säkerhet_och_integritet_2">5. Säkerhet och integritet</a>
+<ul class="sectlevel2">
+<li><a href="#_introduktion_till_databassäkerhet">5.1. Introduktion till databassäkerhet</a>
+<ul class="sectlevel3">
+<li><a href="#_cia_tre_grundläggande_principer">5.1.1. CIA: tre grundläggande principer</a></li>
+</ul>
+</li>
+<li><a href="#_auktorisering_och_behörigheter">5.2. Auktorisering och behörigheter</a>
+<ul class="sectlevel3">
+<li><a href="#_användare_och_roller">5.2.1. Användare och roller</a></li>
+<li><a href="#_grant_och_revoke">5.2.2. GRANT och REVOKE</a></li>
+<li><a href="#_roller_i_sql">5.2.3. Roller i SQL</a></li>
+<li><a href="#_principen_om_minsta_privilegium">5.2.4. Principen om minsta privilegium</a></li>
+<li><a href="#_övningsuppgift_5">5.2.5. Övningsuppgift</a></li>
+</ul>
+</li>
+<li><a href="#_säker_lagring_av_känsliga_uppgifter">5.3. Säker lagring av känsliga uppgifter</a>
+<ul class="sectlevel3">
+<li><a href="#_hashning_av_lösenord">5.3.1. Hashning av lösenord</a></li>
+<li><a href="#_kryptering">5.3.2. Kryptering</a></li>
+<li><a href="#_sql_injektion">5.3.3. SQL-injektion</a></li>
+<li><a href="#_övningsuppgift_6">5.3.4. Övningsuppgift</a></li>
+</ul>
+</li>
+<li><a href="#_lagar_och_integritet">5.4. Lagar och integritet</a>
+<ul class="sectlevel3">
+<li><a href="#_vad_är_en_personuppgift">5.4.1. Vad är en personuppgift?</a></li>
+<li><a href="#_gdpr_dataskyddsförordningen">5.4.2. GDPR: Dataskyddsförordningen</a></li>
+<li><a href="#_tillsyn_och_påföljder">5.4.3. Tillsyn och påföljder</a></li>
+<li><a href="#_konsekvenser_för_en_databasdesigner">5.4.4. Konsekvenser för en databasdesigner</a></li>
+<li><a href="#_övningsuppgift_7">5.4.5. Övningsuppgift</a></li>
 </ul>
 </li>
 </ul>
@@ -4121,22 +4203,82 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </div>
 <div class="sect2">
 <h3 id="_indexering">2.6. Indexering</h3>
-<div class="sect3">
-<h4 id="_varför_indexering">2.6.1. Varför Indexering</h4>
 <div class="paragraph">
 <p>När mängden i en databas växer försämras prestandan vid sökningar i databasen. Detta beror helt enkelt på att det finns fler rader databashanteraren måste söka igenom för att hitta den eller de rader som stämmer in på SQL-frågan.</p>
 </div>
 <div class="paragraph">
-<p>Följande exempel med linjär/binärsökning är inte helt sann, men kan användas som en mental modell för att förstå varför och hur index fungerar.</p>
+<p>Följande exempel med linjär/binärsökning är inte helt sant, men kan användas som en mental modell för att förstå varför och hur index fungerar.</p>
 </div>
 <div class="paragraph">
-<p>Man kan tänka sig att databashanteraren gör en linjär sökning genom tabellen. En linjär sökning har kostnaden O(n). Detta innebär att om 10 000 rader skulle ta en tiondels sekund att söka igenom skulle 100 000 rader ta en sekund att söka igenom.</p>
+<p>Man kan tänka sig att databashanteraren gör en linjär sökning genom tabellen. En linjär sökning har kostnaden O(<em>n</em>). Detta innebär att om 10 000 rader skulle ta en tiondels sekund att söka igenom skulle 100 000 rader ta en sekund att söka igenom.</p>
 </div>
 <div class="paragraph">
-<p>För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden 0(log(n))). Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?</p>
+<p>För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden O(log(<em>n</em>))).</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 30%;">
-<caption class="title">Table 27. En employees-tabell sorterad efter en autoinkrementerande primärnyckel</caption>
+<table class="tableblock frame-all grid-all" style="width: 75%;">
+<caption class="title">Table 27. Linjär vs binärsökning, antal jämförelser i värsta fall</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Antal rader</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Linjär (worst case)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Binärsökning (worst case)</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 000 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 000 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 000 000 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 000 000 000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Vid en miljard rader krävs alltså maximalt 30 jämförelser med binärsökning, men upp till en miljard med linjär.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vill du se det här i kod? Implementera själv binärsökning över en sorterad lista, låt funktionen räkna antalet jämförelser den gör, och pröva mot listor med 10, 100 och 10 000 element. Stämmer det med tabellen?</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<table class="tableblock frame-all grid-all left" style="width: 30%;">
+<caption class="title">Table 28. En employees-tabell sorterad efter en autoinkrementerande primärnyckel</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 42.8571%;">
@@ -4184,7 +4326,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </tbody>
 </table>
 <div class="paragraph">
-<p>Tabellen ovan är definerad med <code>id</code> som en autoinkrementerande primärnyckel (postgres: serial). Detta innebär att tabellen redan är indexerad efter <code>id</code>. Frågor som använder id:t för att söka efter en specifik användare kan därmed använda sig av binärsökningsalgoritmen för att snabbt hitta användaren.</p>
+<p>Tabellen till vänster är definerad med <code>id</code> som en autoinkrementerande primärnyckel (postgres: serial). Detta innebär att tabellen redan är indexerad efter <code>id</code>. Frågor som använder id:t för att söka efter en specifik användare kan därmed använda sig av binärsökningsalgoritmen för att snabbt hitta användaren.</p>
 </div>
 <div class="listingblock">
 <div class="title">Exempelfrågor</div>
@@ -4205,6 +4347,8 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </tr>
 </table>
 </div>
+</div>
+</div>
 <div class="paragraph">
 <p>Så länge tabellen är liten och/eller vi primärt använder <code>id</code> vid våra sökningar i <code>employees</code>-tabellen är det inga problem. Men om tabellen växer väldigt mycket och om många sökningar görs på t.ex. efternamn kan vi behöva tänka om och införa ytterligare index.</p>
 </div>
@@ -4213,7 +4357,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">employee_lastname</span> <span class="k">ON</span> <span class="n">employees</span><span class="p">(</span><span class="n">last_name</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">employee_lastname</span> <span class="k">ON</span> <span class="n">employees</span><span class="p">(</span><span class="n">last_name</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4225,10 +4369,12 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </table>
 </div>
 <div class="paragraph">
-<p>Man kan tänka att det, när man skapar ett index, skapas en ny tabell enligt nedan:</p>
+<p>Man kan tänka att det, när man skapar ett index, skapas en ny tabell:</p>
 </div>
-<table class="tableblock frame-all grid-all" style="width: 20%;">
-<caption class="title">Table 28. En indexeringstabell för employee_lastname</caption>
+<div class="openblock float-group">
+<div class="content">
+<table class="tableblock frame-all grid-all left" style="width: 20%;">
+<caption class="title">Table 29. En indexeringstabell för employee_lastname</caption>
 <colgroup>
 <col style="width: 75%;">
 <col style="width: 25%;">
@@ -4268,7 +4414,7 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </tbody>
 </table>
 <div class="paragraph">
-<p>Observera att tabellen ovan är sorterad efter efternamn, och innehåller en främmande nyckel som låter oss hämta användaren. Eftersom tabellen är sorterad kan vi nu mer effektivt söka på efternamn.</p>
+<p>Tabellen till vänster är sorterad efter efternamn, och innehåller en främmande nyckel som låter oss hämta användaren. Eftersom tabellen är sorterad kan vi nu mer effektivt söka på efternamn.</p>
 </div>
 <div class="listingblock">
 <div class="title">Exempelfrågor</div>
@@ -4290,6 +4436,69 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </table>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_verifiera_att_indexet_används">2.6.1. Verifiera att indexet används</h4>
+<div class="paragraph">
+<p>Hur vet man att databashanteraren faktiskt använder indexet man skapat? I SQLite skriver man <code>EXPLAIN QUERY PLAN</code> framför sin fråga och får tillbaka en kort beskrivning av hur databasen tänker hämta datan. Jämför samma fråga före och efter att man skapat ett index på <code>last_name</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="c1">-- Utan index:</span>
+<span class="k">EXPLAIN</span> <span class="n">QUERY</span> <span class="n">PLAN</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> <span class="k">WHERE</span> <span class="n">last_name</span> <span class="o">=</span> <span class="s1">'Naning'</span><span class="p">;</span>
+<span class="c1">-- =&gt; SCAN employees </span><i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">employee_lastname</span> <span class="k">ON</span> <span class="n">employees</span><span class="p">(</span><span class="n">last_name</span><span class="p">);</span>
+
+<span class="c1">-- Med indexet på plats:</span>
+<span class="k">EXPLAIN</span> <span class="n">QUERY</span> <span class="n">PLAN</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> <span class="k">WHERE</span> <span class="n">last_name</span> <span class="o">=</span> <span class="s1">'Naning'</span><span class="p">;</span>
+<span class="c1">-- =&gt; SEARCH employees USING INDEX employee_lastname (last_name=?) </span><i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Full genomsökning. SQLite läser igenom hela tabellen rad för rad (linjär sökning).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Indexet används. SQLite slår upp raden via indexet istället för att skanna.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Tumregel: <code>SCAN</code> = full genomsökning, <code>SEARCH USING INDEX</code> = uppslagning via index.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">EXPLAIN i andra databashanterare</div>
+<div class="paragraph">
+<p><code>EXPLAIN QUERY PLAN</code> är SQLite-specifik syntax. Andra databashanterare gör samma sak med andra kommandon:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>PostgreSQL</strong>: <code>EXPLAIN &lt;fråga&gt;</code> ger frågeplanen. <code>EXPLAIN ANALYZE &lt;fråga&gt;</code> kör också frågan och visar faktiska körtider per steg.</p>
+</li>
+<li>
+<p><strong>MySQL</strong>: <code>EXPLAIN &lt;fråga&gt;</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Outputten ser olika ut men begreppen är liknande. <code>Seq Scan</code> i Postgres motsvarar SQLites <code>SCAN</code>, och <code>Index Scan</code> motsvarar <code>SEARCH USING INDEX</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
 <div class="sect3">
 <h4 id="_nackdelar">2.6.2. Nackdelar</h4>
 <div class="paragraph">
@@ -4298,33 +4507,473 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 <div class="listingblock">
 <div class="title">Lägga till en ny användare</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'Kim'</span><span class="p">,</span> <span class="s1">'Ekblad'</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'Kim'</span><span class="p">,</span> <span class="s1">'Ekblad'</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Detta får till följd att <code>employees_lastname</code>-indextabellen måste byggas om.</td>
+<td>Detta får till följd att <code>employee_lastname</code>-indextabellen måste byggas om.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Att bygga om en indexeringstabell är en relativt kostsam operation Det gör att det går långsammare att lägga till rader i en tabell med index. För att veta om det är värt att lägga till ett index bör man samla in statistik kring hur ofta det man vill indexera används vid sökningar, och hur ofta indexeringstabellerna behöver uppdateras.</p>
+<p>Att bygga om en indexeringstabell är en relativt kostsam operation. Det gör att det går långsammare att lägga till rader i en tabell med index.</p>
 </div>
 <div class="paragraph">
-<p>Observera slutligen att exemplet här enbart är en liknelse för vad som faktiskt händer - olika databashanterare kan skapa index på olika sätt, ofta används så-kallade <a href="https://www.youtube.com/watch?v=NI9wYuVIYcA">b-trees</a></p>
+<p>Ett index är dessutom, i den enkla modellen ovan, en duplicerad och sorterad kopia av en kolumn. Det innebär att varje index tar plats på disken. På tabeller med många index kan indexen tillsammans uppta mer plats än själva tabellen.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>För att veta om det är värt att lägga till ett index bör man samla in statistik kring hur ofta det man vill indexera används vid sökningar, och hur ofta indexeringstabellerna behöver uppdateras.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Index i verkligheten</div>
+<div class="paragraph">
+<p>Förklaringen i avsnittet ovan är en förenkling. Olika databashanterare implementerar index på olika sätt, men de flesta använder en datastruktur som heter <a href="https://www.youtube.com/watch?v=NI9wYuVIYcA">B-träd</a>. B-träd är optimerade för disk-läsningar och hanterar både snabba sökningar och uppdateringar bra.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SQLite: <a href="https://www.sqlite.org/lang_createindex.html">CREATE INDEX</a></p>
+</li>
+<li>
+<p>SQLite: <a href="https://www.sqlite.org/eqp.html">EXPLAIN QUERY PLAN</a></p>
+</li>
+<li>
+<p>SQLite: <a href="https://www.sqlite.org/queryplanner.html">The SQLite Query Optimizer Overview</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_3">2.6.3. Övningar</h4>
+<div class="paragraph">
+<p>Övningarna kommer i tre delar. Först bygger du ett dataset med ~1 000 000 rader med hjälp av Faker. Sedan tidmäter du sökningar med och utan index. Till sist utforskar du några varianter på egen hand.</p>
+</div>
+<div class="sect4">
+<h5 id="_skapa_ett_dataset">Skapa ett dataset</h5>
+<div class="paragraph">
+<p>För att se indexens påverkan på riktigt behöver du en tabell som är stor nog att skillnaden ska gå att mäta. <a href="https://github.com/faker-ruby/faker">Faker</a> är en Ruby-gem som genererar realistisk testdata (namn, e-postadresser, städer, datum osv.) i den mängd du behöver.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Skapa en mapp för övningen och lägg till en <code>Gemfile</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+<span class="n">gem</span> <span class="s1">'sqlite3'</span>
+<span class="n">gem</span> <span class="s1">'faker'</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Kör <code>bundle install</code>.</p>
+</div>
+</li>
+<li>
+<p>Skriv ett script <code>seed.rb</code> med följande startkod, och fyll i loopen som genererar och sätter in raderna:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="nb">require</span> <span class="s1">'sqlite3'</span>
+<span class="nb">require</span> <span class="s1">'faker'</span>
+
+<span class="no">ROWS</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<span class="no">DB_PATH</span> <span class="o">=</span> <span class="s1">'users.sqlite'</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="no">DB_PATH</span><span class="p">)</span> <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="no">DB_PATH</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="no">SQLite3</span><span class="o">::</span><span class="no">Database</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DB_PATH</span><span class="p">)</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="s2">"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT, city TEXT)"</span><span class="p">)</span>
+
+<span class="c1"># Fyll i: generera och sätt in ROWS rader med Faker</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Bläddra bland Fakers <a href="https://github.com/faker-ruby/faker/blob/main/GENERATORS.md">generatorer</a>. Lägg gärna till fler kolumner om du har lust, eller byt domän helt: Star Wars-karaktärer, kaffebeställningar, pokémon. Faker har allt du kan tänka dig (och en hel del du inte kan tänka dig).</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Bulkinserts är <strong>mycket</strong> snabbare inuti en transaktion. Utan en omslutande transaktion gör SQLite en commit efter varje enskild <code>INSERT</code>, vilket gör att en miljon insättningar tar betydligt längre tid än när de packas ihop i en enda transaktion.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="s2">"BEGIN TRANSACTION"</span><span class="p">)</span>
+<span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="s2">"INSERT INTO users (...) VALUES (?, ?, ?)"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="s2">"COMMIT"</span><span class="p">)</span></code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Räkna med 3-4 minuter på en modern laptop för att fylla tabellen med en miljon rader. Det är Faker som tar tid, inte SQLite. Kör först med 100 000 rader (cirka 20 sekunder) för att verifiera att scriptet fungerar, och bumpa upp till en miljon när du vet att det är rätt.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_mät_åtkomsttid_med_och_utan_index">Mät åtkomsttid med och utan index</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Hämta tre e-postadresser ur tabellen: en som ligger <em>först</em>, en <em>sist</em>, och en <em>adress som inte finns</em>.</p>
+</li>
+<li>
+<p>Skriv ett script <code>bench.rb</code> som tidmäter en sökning på <code>email = ?</code> för var och en av de tre adresserna. Kör varje sökning några gånger och ta medeltiden.</p>
+<div class="ulist">
+<div class="title">Reflektera</div>
+<ul>
+<li>
+<p>Skiljer sig tiden för <em>första</em> vs <em>sista</em> raden? Varför?</p>
+</li>
+<li>
+<p>Hur lång tid tar det att leta efter en rad som inte finns? Stämmer det med din mentala modell av en linjär sökning?</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Lägg till ett index på <code>email</code> och kör om mätningarna. Vad har förändrats?</p>
+</li>
+<li>
+<p>Använd <code>EXPLAIN QUERY PLAN</code> för att verifiera att SQLite verkligen använder indexet vid sökningarna ovan.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_utforska_vidare">Utforska vidare</h5>
+<div class="paragraph">
+<p>Välj minst två av följande och förklara dina observationer med hjälp av <code>EXPLAIN QUERY PLAN</code> och tidmätning:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Skrivkostnad.</strong> Bygg om datasetet, först <em>utan</em> något index och sedan <em>med</em> ett index på <code>email</code>, och mät tiden för bulkinsättningen i båda fallen. Hur stor är skrivkostnaden?</p>
+</li>
+<li>
+<p><strong>Sammansatt index.</strong> Skapa ett sammansatt index på <code>(city, name)</code>. Kör en sökning enbart på <code>city</code>, en enbart på <code>name</code>, och en på båda. Vilka av dem gynnas av indexet, och vilken inte? Varför?</p>
+</li>
+<li>
+<p><strong>Sortering.</strong> Mät <code>SELECT * FROM users ORDER BY email LIMIT 100;</code> med och utan ett index på <code>email</code>. Indexet hjälper inte bara <code>WHERE</code>-frågor. Vad händer här, och varför?</p>
+</li>
+<li>
+<p><strong>LIKE-mönster.</strong> Jämför <code>WHERE email LIKE 'anna%'</code> med <code>WHERE email LIKE '%@gmail.com'</code>. Använder båda indexet? Vad är skillnaden, och varför kan databashanteraren inte göra något åt det andra fallet?</p>
+</li>
+<li>
+<p><strong>Primärnyckeln.</strong> Sökningar på <code>id</code> är alltid snabba. Verifiera detta för <em>första</em>, <em>sista</em> och en <em>obefintlig</em> rad, och förklara varför det är så.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stored_procedures">2.7. Stored Procedures</h3>
+<h3 id="_vyer">2.7. Vyer</h3>
 <div class="paragraph">
-<p>En lagrad procedur (engelska: stored procedure) är kod (oftast i form av funktioner) som kan lagras i databashanteraren, och sedan anropas ock köras.
-Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQL-liknande syntax, men andra använder sig av Java eller C.</p>
+<p>En <strong>vy</strong> (engelska: view) är en sparad <code>SELECT</code>-fråga som beter sig som en tabell. När man <code>SELECT</code>:ar från en vy körs själva frågan på nytt, så datan i vyn är alltid lika aktuell som datan i de underliggande tabellerna.</p>
 </div>
 <div class="sect3">
 <h4 id="_fördelar">2.7.1. Fördelar</h4>
+<div class="sect4">
+<h5 id="_kapsla_in_komplicerad_sql">Kapsla in komplicerad SQL</h5>
+<div class="paragraph">
+<p>En komplex <code>SELECT</code> med flera <code>JOIN</code>, filter och beräkningar kan gömmas bakom en vy. Applikationen läser från vyn med en enkel <code>SELECT</code>, och själva komplexiteten ligger på ett ställe i databasen.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_enklare_gränssnitt">Enklare gränssnitt</h5>
+<div class="paragraph">
+<p>Genom en vy kan man exponera en denormaliserad bild av flera tabeller (en "join-färdig" version), så att klienter slipper själva förstå hur datan är spridd över relationsstrukturen.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_åtkomstkontroll">Åtkomstkontroll</h5>
+<div class="paragraph">
+<p>Man kan ge rättighet att läsa en vy utan att ge rättighet till de underliggande tabellerna. Klassiskt exempel: visa en <code>betyg_publika</code>-vy som filtrerar bort vissa kolumner, utan att ge åtkomst till den underliggande <code>betyg</code>-tabellen.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_gemensam_definition">Gemensam definition</h5>
+<div class="paragraph">
+<p>Om flera applikationer behöver samma härledda fråga kan vyn vara enda sanningens källa. Ändras logiken behöver ändringen bara göras på ett ställe.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nackdelar_2">2.7.2. Nackdelar</h4>
+<div class="sect4">
+<h5 id="_prestanda">Prestanda</h5>
+<div class="paragraph">
+<p>Varje <code>SELECT</code> från en vanlig vy kör hela den underliggande frågan på nytt. För dyra vyer som körs ofta blir kostnaden kännbar. Postgres och de flesta andra databashanterare har därför <strong>materialized views</strong> som lagrar resultatet och uppdateras manuellt eller schemalagt.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_begränsade_uppdateringar">Begränsade uppdateringar</h5>
+<div class="paragraph">
+<p>Vissa vyer går inte att skriva till. Om vyn aggregerar (<code>GROUP BY</code>, <code>SUM</code>) eller använder <code>JOIN</code> vet databasen inte hur ett <code>INSERT</code> eller <code>UPDATE</code> mot vyn ska översättas till de underliggande tabellerna.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_extra_abstraktionslager">Extra abstraktionslager</h5>
+<div class="paragraph">
+<p>När något går fel måste man förstå <em>två</em> saker: vyn och frågan den bygger på. För enkla vyer är det inget problem, men en vy som bygger på en annan vy som bygger på en tredje kan bli svår att felsöka.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_syntax">2.7.3. Syntax</h4>
+<div class="paragraph">
+<p>I Postgres skapas en vy med <code>CREATE VIEW</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">verifikat_rader</span> <span class="k">AS</span>
+<span class="k">SELECT</span>
+  <span class="n">v</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">v</span><span class="p">.</span><span class="n">datum</span><span class="p">,</span> <span class="n">v</span><span class="p">.</span><span class="n">beskrivning</span><span class="p">,</span>
+  <span class="n">k</span><span class="p">.</span><span class="n">konto</span><span class="p">,</span> <span class="n">ko</span><span class="p">.</span><span class="n">namn</span> <span class="k">AS</span> <span class="n">konto_namn</span><span class="p">,</span>
+  <span class="n">k</span><span class="p">.</span><span class="n">debet</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">kredit</span>
+<span class="k">FROM</span> <span class="n">verifikat</span> <span class="n">v</span>
+<span class="k">JOIN</span> <span class="n">konteringar</span> <span class="n">k</span> <span class="k">ON</span> <span class="n">k</span><span class="p">.</span><span class="n">verifikat_id</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">id</span>
+<span class="k">JOIN</span> <span class="n">konton</span> <span class="n">ko</span> <span class="k">ON</span> <span class="n">ko</span><span class="p">.</span><span class="n">nummer</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">konto</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sedan använder man den som vilken tabell som helst:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">verifikat_rader</span> <span class="k">WHERE</span> <span class="n">datum</span> <span class="o">=</span> <span class="s1">'2026-01-15'</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">,</span> <span class="n">konto</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>För dyra vyer som körs ofta finns <strong>materialized views</strong> som lagrar resultatet på disk:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="n">MATERIALIZED</span> <span class="k">VIEW</span> <span class="n">manadsrapport</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="p">...;</span>
+
+<span class="n">REFRESH</span> <span class="n">MATERIALIZED</span> <span class="k">VIEW</span> <span class="n">manadsrapport</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Materialized views måste refreshas manuellt (eller via ett schemalagt jobb) när underliggande data ändras.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/sql-createview.html">CREATE VIEW</a></p>
+</li>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/rules-materializedviews.html">Materialized Views</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_4">2.7.4. Övningar</h4>
+<div class="paragraph">
+<p>Övningarna i det här kapitlet, samt i kapitel 2.8 (Stored Procedures) och 2.9 (Triggers), bygger alla på samma scaffold och databas: en bokföringsapplikation för en enskild näringsverksamhet. Du sätter upp scaffolden här och återanvänder den i de följande två kapitlen.</p>
+</div>
+<div class="paragraph">
+<p>Databasen har tre tabeller (samma upplägg som ni jobbade med i Entreprenörskap):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>konton</code>: en kontoplan (kontonummer, namn, typ, cachat saldo)</p>
+</li>
+<li>
+<p><code>verifikat</code>: ett verifikat per affärshändelse</p>
+</li>
+<li>
+<p><code>konteringar</code>: en eller flera rader per verifikat, med kolumnerna <code>debet</code> och <code>kredit</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dubbel bokföring säger att summan av debet och kredit över ett verifikat alltid ska vara lika.</p>
+</div>
+<div class="sect4">
+<h5 id="_sätt_upp_miljön">Sätt upp miljön</h5>
+<div class="paragraph">
+<p>SQLite stödjer inte vyer av det här slaget (eller stored procedures, eller triggers), så övningarna körs mot Postgres. Vi använder Docker för att slippa lokal installation.</p>
+</div>
+<div class="paragraph">
+<p>Hämta <a href="exercises/stored_procedures/docker-compose.yml">docker-compose.yml</a> och starta databasen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Anslut med <code>psql</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> student <span class="nt">-d</span> bokforing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Verifiera att schemat är på plats. <code>\dt</code> ska lista de tre tabellerna, och kontoplanen ska vara seedad:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="n">nummer</span><span class="p">,</span> <span class="n">namn</span><span class="p">,</span> <span class="n">typ</span> <span class="k">FROM</span> <span class="n">konton</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">nummer</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre> nummer |          namn           |     typ
+--------+-------------------------+--------------
+ 1010   | Kassa                   | tillgång
+ 1030   | Kundfordringar          | tillgång
+ 1040   | Varubehållning          | tillgång
+ 1930   | Bank                    | tillgång
+ 2010   | Eget kapital            | eget_kapital
+ 2013   | Eget uttag              | eget_kapital
+ 2018   | Egen insättning         | eget_kapital
+ 2030   | Leverantörsskuld        | skuld
+ 2610   | Utgående moms           | skuld
+ 2640   | Ingående moms           | tillgång
+ 3001   | Försäljning vara 25%    | intäkt
+ 3011   | Försäljning tjänst 25%  | intäkt
+ 4010   | Inköp varor 25%         | kostnad
+ 5011   | Kontorshyra             | kostnad
+ 5410   | Förbrukningsinventarier | kostnad
+ 5900   | Marknadsföring          | kostnad
+(16 rows)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alla <code>saldo</code>-värden ska vara <code>0</code>. <code>verifikat</code> och <code>konteringar</code> är tomma.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_aktiva_konton">Aktiva konton</h5>
+<div class="paragraph">
+<p>Skriv en vy <code>aktiva_konton</code> som visar nummer, namn och typ för konton där saldot inte är <code>0</code>. Eftersom inga bokföringar gjorts ännu kommer vyn vara tom — den blir intressant först när du gör övningarna i de följande kapitlen.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_verifikat_med_konteringar">Verifikat med konteringar</h5>
+<div class="paragraph">
+<p>Skriv en vy <code>verifikat_rader</code> som joinar <code>verifikat</code>, <code>konteringar</code> och <code>konton</code> så att varje rad visar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>verifikatets <code>id</code>, <code>datum</code> och <code>beskrivning</code></p>
+</li>
+<li>
+<p>kontots <code>nummer</code> och <code>namn</code></p>
+</li>
+<li>
+<p><code>debet</code>- och <code>kredit</code>-beloppen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Använd vyn för att hitta alla rader för ett visst datum eller ett visst konto — utan att själv behöva skriva ihop JOIN-frågan varje gång.</p>
+</div>
+<div class="sect5">
+<h6 id="_utforska_vidare_resultaträkning">Utforska vidare: resultaträkning</h6>
+<div class="paragraph">
+<p>Skriv en vy <code>resultaträkning</code> som visar tre värden för företaget:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>intäkter</code>: totalt saldo över alla <code>intäkt</code>-konton</p>
+</li>
+<li>
+<p><code>kostnader</code>: totalt saldo över alla <code>kostnad</code>-konton</p>
+</li>
+<li>
+<p><code>resultat</code>: intäkter minus kostnader</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Vyn blir bara intressant när det finns bokföringar och <code>konton.saldo</code> är populerad. Återkom hit efter att du skrivit <code>bokför</code>-proceduren i kapitel 2.8 och saldo-triggern i kapitel 2.9.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stored_procedures">2.8. Stored Procedures</h3>
+<div class="paragraph">
+<p>En lagrad procedur (engelska: stored procedure) är kod (oftast i form av funktioner) som kan lagras i databashanteraren, och sedan anropas och köras. Vilket språk funktionen skrivs i beror på databashanteraren. En del har en SQL-liknande syntax, men andra använder sig av Java eller C.</p>
+</div>
+<div class="sect3">
+<h4 id="_fördelar_2">2.8.1. Fördelar</h4>
 <div class="sect4">
 <h5 id="_kompilering_och_optimering">Kompilering och optimering</h5>
 <div class="paragraph">
@@ -4334,16 +4983,13 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 <div class="sect4">
 <h5 id="_minskad_nätverkstrafik">Minskad nätverkstrafik</h5>
 <div class="paragraph">
-<p>Även mängden data som behöver skickas över nätverket till databashanteraren kan minska - istället för att skicka hela sql-strängen behöver man enbart anropa funktionen (och om funktionen tar några parametrar, skicka med dessa).</p>
-</div>
-<div class="paragraph">
-<p>Ofta konfigureras stored procedures för att automagiskt köra efter en annan fråga körts - i dessa fall undviks helt den nätverkstrafik som annars skulle krävts för att funktionen skulle köras. Ett exempel är när man vill uppdatera en tabell beroende på vad som händer i en annan tabell.</p>
+<p>Även mängden data som behöver skickas över nätverket till databashanteraren kan minska. Istället för att skicka hela SQL-strängen behöver man enbart anropa funktionen (och om funktionen tar några parametrar, skicka med dessa).</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_affärslogik_i_databasen">Affärslogik i databasen</h5>
 <div class="paragraph">
-<p>Stored procedures gör det möjligt att lägga in mycket av den funktionalitet som annars skulle legat i en klient/webbserver direkt i databashanteraren. Detta skulle minska risken för buggar från klient/webbserver skulle påverka databasens innehåll.</p>
+<p>Stored procedures gör det möjligt att lägga in mycket av den funktionalitet som annars skulle legat i en klient/webbserver direkt i databashanteraren. Detta minskar risken för att buggar i klient/webbserver påverkar databasens innehåll.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4355,12 +5001,12 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 <div class="sect4">
 <h5 id="_skydd_från_sql_injektion">Skydd från SQL-injektion</h5>
 <div class="paragraph">
-<p>Om databashanteraren använder stored procedures spelar det ingen roll hur mycket elak SQL en eventuell anfallare försöker skicka - det enda som kommer till databasen är funktionsanrop.</p>
+<p>Stored procedures tar parametrar via typade argument istället för att klistras ihop till SQL-strängar. Det ger samma skydd mot SQL-injektion som parametriserade frågor. Förutsättningen är att proceduren inte själv bygger dynamisk SQL med användarinmatning, eftersom skyddet då försvinner.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nackdelar_2">2.7.2. Nackdelar</h4>
+<h4 id="_nackdelar_3">2.8.2. Nackdelar</h4>
 <div class="sect4">
 <h5 id="_affärslogik_i_databasen_2">Affärslogik i databasen</h5>
 <div class="paragraph">
@@ -4370,13 +5016,424 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 <div class="sect4">
 <h5 id="_fastlåsning_i_databashanteringssystem">Fastlåsning i databashanteringssystem</h5>
 <div class="paragraph">
-<p>De flesta databashanterare har olika, inkompatibla språk och ramverk att för stored procedures.</p>
+<p>De flesta databashanterare har olika, inkompatibla språk och ramverk för stored procedures.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_specialistkompetens_krävs">Specialistkompetens krävs</h5>
 <div class="paragraph">
 <p>Den som skriver stored procedures behöver specialistkompetens, då de inbegriper nya språk och tankesätt.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_syntax_i_postgres">2.8.3. Syntax i Postgres</h4>
+<div class="paragraph">
+<p>I Postgres finns två varianter: <strong>funktioner</strong> (<code>CREATE FUNCTION</code>) som returnerar ett värde och kan användas i <code>SELECT</code>-frågor, och <strong>procedurer</strong> (<code>CREATE PROCEDURE</code>, från Postgres 11) som anropas med <code>CALL</code> och inte returnerar något.</p>
+</div>
+<div class="paragraph">
+<p>En enkel funktion som returnerar antal rader i <code>konton</code>-tabellen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">FUNCTION</span> <span class="n">antal_konton</span><span class="p">()</span> <span class="k">RETURNS</span> <span class="nb">INTEGER</span> <span class="k">AS</span> <span class="err">$$</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)::</span><span class="nb">INTEGER</span> <span class="k">FROM</span> <span class="n">konton</span><span class="p">;</span>
+<span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="k">SQL</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">antal_konton</span><span class="p">();</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funktioner som ska göra mer än ett enskilt <code>SELECT</code> (t.ex. fatta beslut eller jobba med lokala variabler) skrivs i procedurspråket <strong>PL/pgSQL</strong>. Här är en funktion som returnerar namn + typ för ett konto, eller <code>'Okänt konto'</code> om numret inte finns:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">FUNCTION</span> <span class="n">konto_beskrivning</span><span class="p">(</span><span class="n">konto_nummer</span> <span class="nb">TEXT</span><span class="p">)</span> <span class="k">RETURNS</span> <span class="nb">TEXT</span> <span class="k">AS</span> <span class="err">$$</span>
+<span class="k">DECLARE</span>
+  <span class="n">k_namn</span> <span class="nb">TEXT</span><span class="p">;</span>
+  <span class="n">k_typ</span>  <span class="nb">TEXT</span><span class="p">;</span>
+<span class="k">BEGIN</span>
+  <span class="k">SELECT</span> <span class="n">namn</span><span class="p">,</span> <span class="n">typ</span> <span class="k">INTO</span> <span class="n">k_namn</span><span class="p">,</span> <span class="n">k_typ</span>
+    <span class="k">FROM</span> <span class="n">konton</span> <span class="k">WHERE</span> <span class="n">nummer</span> <span class="o">=</span> <span class="n">konto_nummer</span><span class="p">;</span>
+  <span class="n">IF</span> <span class="n">k_namn</span> <span class="k">IS</span> <span class="k">NULL</span> <span class="k">THEN</span>
+    <span class="k">RETURN</span> <span class="s1">'Okänt konto'</span><span class="p">;</span>
+  <span class="k">ELSE</span>
+    <span class="k">RETURN</span> <span class="n">k_namn</span> <span class="o">||</span> <span class="s1">' ('</span> <span class="o">||</span> <span class="n">k_typ</span> <span class="o">||</span> <span class="s1">')'</span><span class="p">;</span>
+  <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+<span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">konto_beskrivning</span><span class="p">(</span><span class="s1">'1930'</span><span class="p">);</span>  <span class="c1">-- Bank (tillgång)</span>
+<span class="k">SELECT</span> <span class="n">konto_beskrivning</span><span class="p">(</span><span class="s1">'9999'</span><span class="p">);</span>  <span class="c1">-- Okänt konto</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tre nya byggstenar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DECLARE</code>-blocket reserverar lokala variabler. I exemplet två stycken: <code>k_namn</code> och <code>k_typ</code>, båda av typ <code>TEXT</code>. Värdena tilldelas senare i funktionen.</p>
+</li>
+<li>
+<p><code>SELECT &#8230;&#8203; INTO &#8230;&#8203;</code> hämtar värden från en <code>SELECT</code> <em>in i</em> variablerna istället för att returnera dem som ett resultat. Flera kolumner och variabler kan kombineras som ovan.</p>
+</li>
+<li>
+<p><code>IF &#8230;&#8203; THEN &#8230;&#8203; ELSE &#8230;&#8203; END IF;</code> är PL/pgSQL:s standardförgrening. Det finns även <code>ELSIF</code> för flervägsförgreningar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>För kortare logik, där man bara vill välja mellan värden, finns även <code>CASE</code>-uttrycket. Det fungerar både inuti <code>SELECT</code> och i PL/pgSQL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="n">nummer</span><span class="p">,</span> <span class="n">namn</span><span class="p">,</span>
+  <span class="k">CASE</span>
+    <span class="k">WHEN</span> <span class="n">typ</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'tillgång'</span><span class="p">,</span> <span class="s1">'kostnad'</span><span class="p">)</span> <span class="k">THEN</span> <span class="s1">'debet-konto'</span>
+    <span class="k">ELSE</span> <span class="s1">'kredit-konto'</span>
+  <span class="k">END</span> <span class="k">AS</span> <span class="n">kategori</span>
+<span class="k">FROM</span> <span class="n">konton</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">nummer</span> <span class="k">LIMIT</span> <span class="mi">5</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>CASE</code> är ofta mer kompakt än <code>IF/ELSE</code> när logiken bara är "välj värde baserat på villkor".</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ett tredje verktyg värt att känna till: <code>COALESCE(x, y, &#8230;&#8203;)</code> returnerar det första argumentet som inte är <code>NULL</code>. Användbart för att kortfattat hantera värden som kanske saknas. Till exempel ger <code>COALESCE(SUM(debet), 0)</code> resultatet <code>0</code> om det inte finns några rader att summera, istället för <code>NULL</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>En procedur som nollställer hela databasen (praktiskt mellan testkörningar):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">nollst</span><span class="err">ä</span><span class="n">ll_databasen</span><span class="p">()</span> <span class="k">AS</span> <span class="err">$$</span>
+<span class="k">BEGIN</span>
+  <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">konteringar</span><span class="p">;</span>
+  <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">verifikat</span><span class="p">;</span>
+  <span class="k">UPDATE</span> <span class="n">konton</span> <span class="k">SET</span> <span class="n">saldo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+<span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span><span class="p">;</span>
+
+<span class="k">CALL</span> <span class="n">nollst</span><span class="err">ä</span><span class="n">ll_databasen</span><span class="p">();</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>LANGUAGE SQL</code> används när kroppen är en eller flera vanliga SQL-satser. <code>LANGUAGE plpgsql</code> är Postgres-egna procedurspråk och behövs så fort du vill ha kontrollstrukturer som <code>IF</code>, loopar eller felhantering.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/sql-createfunction.html">CREATE FUNCTION</a></p>
+</li>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/sql-createprocedure.html">CREATE PROCEDURE</a></p>
+</li>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/plpgsql.html">PL/pgSQL</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_5">2.8.4. Övningar</h4>
+<div class="paragraph">
+<p>Övningarna återanvänder samma scaffold och databas som du satte upp i kapitel 2.7 (Vyer). Om du inte gjort den övningen ännu, gå tillbaka och kör <code>docker compose up</code> och <code>psql</code>-stegen där först.</p>
+</div>
+<div class="sect4">
+<h5 id="_function_saldo">Function: saldo</h5>
+<div class="paragraph">
+<p>Skriv en function <code>saldo(nummer)</code> som returnerar det aktuella saldot för ett konto, beräknat från <code>konteringar</code>-tabellen (inte från den cachade <code>saldo</code>-kolumnen).</p>
+</div>
+<div class="paragraph">
+<p>Tänk på att kontots typ avgör hur saldot beräknas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>För <code>tillgång</code> och <code>kostnad</code> är saldot <code>SUM(debet) − SUM(kredit)</code></p>
+</li>
+<li>
+<p>För <code>skuld</code>, <code>eget_kapital</code> och <code>intäkt</code> är det <code>SUM(kredit) − SUM(debet)</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Så länge <code>konteringar</code> är tom ska alla saldon vara 0. Lägg in en rad manuellt och verifiera att din funktion ger rätt svar.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_procedure_bokför">Procedure: bokför</h5>
+<div class="paragraph">
+<p>Skriv en procedure <code>bokför(datum, beskrivning, konto_debet, konto_kredit, belopp)</code> som registrerar ett verifikat med två konteringar:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>En ny rad i <code>verifikat</code></p>
+</li>
+<li>
+<p>En debet-rad i <code>konteringar</code> på <code>konto_debet</code> med beloppet <code>belopp</code></p>
+</li>
+<li>
+<p>En kredit-rad i <code>konteringar</code> på <code>konto_kredit</code> med samma <code>belopp</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Eftersom samma <code>belopp</code> används på båda sidor är dubbel bokföring garanterad av sig självt. Du behöver inte räkna efter.</p>
+</div>
+<div class="paragraph">
+<p>Testa:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Egen insättning 5 000 kr: Bank / Egen insättning</p>
+</li>
+<li>
+<p>Hyra 3 000 kr: Kontorshyra / Bank</p>
+</li>
+<li>
+<p>Försök bokföra med ett kontonummer som inte finns. Vad händer? Sparas verifikatet ändå, eller rullas allt tillbaka?</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Använd din <code>saldo</code>-function för att verifiera saldona på de berörda kontona.</p>
+</div>
+<div class="sect5">
+<h6 id="_utforska_vidare_försäljning_med_moms">Utforska vidare: försäljning med moms</h6>
+<div class="paragraph">
+<p>Verkliga försäljningar har tre konteringar: brutto in på Bank, netto till Försäljning, och moms till Utgående moms. Det går inte att beskriva med <code>bokför</code>-proceduren ovan.</p>
+</div>
+<div class="paragraph">
+<p>Skriv en specialiserad <code>bokför_försäljning(datum, brutto)</code> som tar bruttobeloppet (vad kunden betalar) och själv räknar ut moms och netto för en 25%-vara, för att sedan registrera de tre konteringarna i ett verifikat.</p>
+</div>
+<div class="paragraph">
+<p>Verifiera med en försäljning på 1 250 kr: saldot på Bank ska gå upp 1 250, Utgående moms 250 och Försäljning vara 25% 1 000.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tillbaka_till_resultaträkning">Tillbaka till resultaträkning</h5>
+<div class="paragraph">
+<p>Gå tillbaka till <code>resultaträkning</code>-vyn du sketch:ade i kapitel 2.7 (Vyer). Nu finns det bokföringar i databasen. Kör några bokföringar (t.ex. ett par <code>bokför_försäljning</code> och en hyra) och kontrollera att <code>SELECT * FROM resultaträkning;</code> ger förväntat svar.</p>
+</div>
+<div class="paragraph">
+<p>Notera dock att <code>resultaträkning</code>-vyn läser från <code>konton.saldo</code>-kolumnen, som fortfarande är 0 även efter dina bokföringar. För att fylla <code>konton.saldo</code> automatiskt behöver vi en <strong>trigger</strong> — vi tar oss an det i nästa kapitel.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_triggers">2.9. Triggers</h3>
+<div class="paragraph">
+<p>En <strong>trigger</strong> är en funktion som databasen kör automatiskt när något händer i en tabell (typiskt en <code>INSERT</code>, <code>UPDATE</code> eller <code>DELETE</code>). Till skillnad från en procedure, som anropas explicit med <code>CALL</code>, kör en trigger sig själv som sidoeffekt av en annan operation.</p>
+</div>
+<div class="sect3">
+<h4 id="_fördelar_3">2.9.1. Fördelar</h4>
+<div class="sect4">
+<h5 id="_automatisk_konsistens">Automatisk konsistens</h5>
+<div class="paragraph">
+<p>En trigger garanterar att vissa följdåtgärder <em>alltid</em> sker när en tabell ändras. Klienten behöver inte komma ihåg att uppdatera en relaterad tabell, eftersom databasen sköter det själv.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_central_regel_enforcement">Central regel-enforcement</h5>
+<div class="paragraph">
+<p>Om flera applikationer eller tjänster skriver till samma tabell behöver varje klient inte upprepa samma logik. Triggern ligger på tabellen, inte i klientkoden, och fångar varje skrivning oavsett källa.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_audit_loggar_utan_ändring_av_skrivkod">Audit-loggar utan ändring av skrivkod</h5>
+<div class="paragraph">
+<p>Ett vanligt mönster: en trigger på en tabell skriver varje ändring till en separat <code>*_audit</code>-tabell. Loggningen kan läggas till efter att applikationen är skriven, utan att en enda rad i den ursprungliga skrivkoden behöver ändras.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nackdelar_4">2.9.2. Nackdelar</h4>
+<div class="sect4">
+<h5 id="_osynlig_magi">Osynlig magi</h5>
+<div class="paragraph">
+<p>Triggers kör sig själva. Det är både deras stora styrka och deras stora fara: logik som "bara händer" är lätt att glömma bort när man felsöker. En utvecklare som ser en oväntad rad i <code>konteringar_audit</code> måste veta att en trigger finns för att förstå varifrån den kom.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_kostnad_per_skrivning">Kostnad per skrivning</h5>
+<div class="paragraph">
+<p>En trigger körs vid <em>varje</em> påverkad rad. På bulkinserts (t.ex. en miljon rader) körs triggern en miljon gånger. För tunga triggers blir det en mätbar prestandakostnad.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_kaskaderande_triggers">Kaskaderande triggers</h5>
+<div class="paragraph">
+<p>Om en trigger ändrar en tabell som har sin egen trigger, kommer den triggern också att köras. Med några nivåers kaskader blir det mycket svårt att resonera kring vad som händer när en enda <code>INSERT</code> körs.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_syntax_2">2.9.3. Syntax</h4>
+<div class="paragraph">
+<p>I Postgres skapas en trigger i två steg: först definieras en <strong>triggerfunktion</strong> (en vanlig <code>CREATE FUNCTION</code> som returnerar typen <code>TRIGGER</code>), sedan binds den till en tabell med <code>CREATE TRIGGER</code>.</p>
+</div>
+<div class="paragraph">
+<p>Säg att vi vill logga varje ny kontering till en separat audit-tabell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">konteringar_audit</span> <span class="p">(</span>
+  <span class="n">id</span>           <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">kontering_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">konto</span>        <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">debet</span>        <span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+  <span class="n">kredit</span>       <span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+  <span class="n">loggad_at</span>    <span class="n">TIMESTAMPTZ</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="n">NOW</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">FUNCTION</span> <span class="n">log_kontering</span><span class="p">()</span> <span class="k">RETURNS</span> <span class="k">TRIGGER</span> <span class="k">AS</span> <span class="err">$$</span>
+<span class="k">BEGIN</span>
+  <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">konteringar_audit</span> <span class="p">(</span><span class="n">kontering_id</span><span class="p">,</span> <span class="n">konto</span><span class="p">,</span> <span class="n">debet</span><span class="p">,</span> <span class="n">kredit</span><span class="p">)</span>
+  <span class="k">VALUES</span> <span class="p">(</span><span class="k">NEW</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="k">NEW</span><span class="p">.</span><span class="n">konto</span><span class="p">,</span> <span class="k">NEW</span><span class="p">.</span><span class="n">debet</span><span class="p">,</span> <span class="k">NEW</span><span class="p">.</span><span class="n">kredit</span><span class="p">);</span>
+  <span class="k">RETURN</span> <span class="k">NEW</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+<span class="err">$$</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TRIGGER</span> <span class="n">konteringar_logging</span>
+  <span class="k">AFTER</span> <span class="k">INSERT</span> <span class="k">ON</span> <span class="n">konteringar</span>
+  <span class="k">FOR</span> <span class="k">EACH</span> <span class="k">ROW</span>
+  <span class="k">EXECUTE</span> <span class="k">FUNCTION</span> <span class="n">log_kontering</span><span class="p">();</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Inuti triggerfunktionen finns specialvariabeln <code>NEW</code> som representerar raden som just lades till. (För <code>UPDATE</code> och <code>DELETE</code> finns även <code>OLD</code> som representerar hur raden såg ut innan ändringen.) <code>FOR EACH ROW</code> säger att funktionen ska köras en gång per påverkad rad, och <code>AFTER INSERT</code> att den ska köras direkt efter att <code>INSERT</code>-satsen genomförts.</p>
+</div>
+<div class="paragraph">
+<p>Nu får varje <code>INSERT INTO konteringar</code> automatiskt en motsvarande rad i <code>konteringar_audit</code>. Klienten behöver inte veta att loggningen sker.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/sql-createtrigger.html">CREATE TRIGGER</a></p>
+</li>
+<li>
+<p>Postgres: <a href="https://www.postgresql.org/docs/current/triggers.html">Overview of Trigger Behavior</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_6">2.9.4. Övningar</h4>
+<div class="paragraph">
+<p>Övningarna återanvänder samma scaffold och databas som i kapitel 2.7 (Vyer) och 2.8 (Stored Procedures).</p>
+</div>
+<div class="sect4">
+<h5 id="_trigger_hålla_saldot_uppdaterat">Trigger: hålla saldot uppdaterat</h5>
+<div class="paragraph">
+<p>Funktionen <code>saldo()</code> från kapitel 2.8 räknar om saldot från grunden varje gång den anropas. På en stor databas är det dyrt. Istället vill vi att <code>konton.saldo</code> ska vara en <em>cachad</em> kolumn som hålls i synk automatiskt.</p>
+</div>
+<div class="paragraph">
+<p>Skriv en trigger på <code>konteringar</code> som uppdaterar <code>konton.saldo</code> när en ny kontering läggs till. Tecknet beror på kontots typ, samma logik som i din <code>saldo</code>-function.</p>
+</div>
+<div class="paragraph">
+<p>Verifiera genom att köra ett par <code>CALL bokför(&#8230;&#8203;)</code> och titta på <code>konton.saldo</code>-kolumnen direkt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="n">nummer</span><span class="p">,</span> <span class="n">namn</span><span class="p">,</span> <span class="n">saldo</span> <span class="k">FROM</span> <span class="n">konton</span> <span class="k">WHERE</span> <span class="n">saldo</span> <span class="o">&lt;&gt;</span> <span class="mi">0</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">nummer</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tänk på:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Skapa triggern <em>innan</em> ni gör några bokföringar, annars missar den de verifikat som redan finns. Vad gör ni om triggern skapades sent och cache:n är fel?</p>
+</li>
+<li>
+<p>Vad händer om en kontering uppdateras (UPDATE) eller tas bort (DELETE)? Behöver triggern täcka fler händelser, eller är det ok att låta <code>konteringar</code> vara append-only?</p>
+</li>
+<li>
+<p>Vad blir snabbare i längden, den cachade kolumnen eller <code>saldo()</code>-funktionen? Vad blir säkrare?</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tillbaka_till_resultaträkning_2">Tillbaka till resultaträkning</h5>
+<div class="paragraph">
+<p><code>resultaträkning</code>-vyn från kapitel 2.7 (Vyer) läser från <code>konton.saldo</code>-kolumnen. Med triggern på plats uppdateras <code>konton.saldo</code> automatiskt vid varje bokföring, så vyn återspeglar nu företagets ekonomi i realtid.</p>
+</div>
+<div class="paragraph">
+<p>Kör några bokföringar via <code>bokför</code> och <code>bokför_försäljning</code> (från kapitel 2.8) och kontrollera att <code>SELECT * FROM resultaträkning;</code> ger förväntat svar. Du behöver inte göra något manuellt för att hålla siffrorna aktuella.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_affärslogik_i_databasen_3">Affärslogik i databasen</h5>
+<div class="paragraph">
+<p>Nu har du sett tre verktyg som flyttar logik in i databasen: vyer (sparade frågor), stored procedures (sparad kod) och triggers (kod som körs automatiskt). Var och en av dem har sin plats.</p>
+</div>
+<div class="paragraph">
+<p>Tänk själv eller diskutera med en kursare: vilka av reglerna i ett bokföringssystem hör hemma som procedure/function/trigger/vy i databasen, och vilka hör hellre hemma i applikationskoden? Motivera utifrån för- och nackdelarna i de tre kapitlen.</p>
+</div>
+<div class="paragraph">
+<p>Konkreta exempel att diskutera:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Saldon ska summera till noll över varje verifikat": invarianten ni precis byggde. I procedure, i en <code>CHECK</code>-constraint, eller i applikationen?</p>
+</li>
+<li>
+<p>"Bankkontot får inte bli negativt": <code>CHECK (saldo &gt;= 0)</code> på <code>konton</code>? I procedure? I applikationskoden?</p>
+</li>
+<li>
+<p>"Verifikat får inte bokföras på framtida datum": trigger? Procedure-validering? Klient?</p>
+</li>
+<li>
+<p>"Försäljning över 50 000 kr kräver godkännande av en revisor": databasen eller en helt annan systemkomponent?</p>
+</li>
+<li>
+<p>"Resultaträkning och balansräkning": vyer, eller frågor i applikationskoden? Vad vinner / förlorar du på respektive val?</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -4395,56 +5452,2015 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 </div>
 <div class="sect1">
-<h2 id="_nosql_datagbaser">4. NoSQL-datagbaser</h2>
+<h2 id="_dokumentdatabaser">4. Dokumentdatabaser</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fördelar_med_nosql_databashanterare">4.1. Fördelar med NoSQL-databashanterare</h3>
+<h3 id="_introduktion_2">4.1. Introduktion</h3>
+<div class="paragraph">
+<p>NoSQL (kortform för "Not only SQL") är ett samlingsnamn för databashanterare som inte använder relationsmodellen. Det finns flera familjer:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Dokumentdatabaser</strong> lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.</p>
+</li>
+<li>
+<p><strong>Nyckel-värde-databaser</strong> lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.</p>
+</li>
+<li>
+<p><strong>Kolumndatabaser</strong> organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.</p>
+</li>
+<li>
+<p><strong>Grafdatabaser</strong> lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Det här kapitlet fokuserar på <strong>dokumentdatabaser</strong>. Det är den typ av NoSQL-databas som studenter oftast möter i fält, och den modell som ligger närmast objektorienterad programmering. Ett "dokument" är i princip en map/dict/hash som man sparar.</p>
+</div>
 <div class="sect3">
-<h4 id="_big_data_2">4.1.1. Big Data</h4>
+<h4 id="_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">4.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</h4>
 <div class="paragraph">
-<p>Om din domän innebär att du kommer hantera stora (riktigt stora) mängder data (så-kallad "Big Data") kan en NoSQL-databashanterare se till att prestandan inte blir lidande (på bekostnad av ACID-garantier).</p>
+<p>För att förstå varför man väljer det ena eller andra hjälper det att lista vad respektive modell är bra och dålig på.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_schemaless">4.1.2. Schemaless</h4>
+<div class="sect4">
+<h5 id="_relationsdatabaser_2">Relationsdatabaser</h5>
 <div class="paragraph">
-<p>Relationsdatabaser är baserade på rigida regler kring hur datan ska vara strukturerad. En NoSQL-databashanterare låter dig utan problem ändra prå strukturer och lagra olika typer av data tillsammans.</p>
+<p>Fördelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Garanterad datakonsistens via ACID-transaktioner.</p>
+</li>
+<li>
+<p>Stark dataintegritet via schema, främmande nycklar och <code>CHECK</code>-begränsningar.</p>
+</li>
+<li>
+<p>Normalisering minskar utrymme, dubblettrisk och underhållskostnad.</p>
+</li>
+<li>
+<p>Inbyggd validering av datatyper och regler.</p>
+</li>
+<li>
+<p>En beprövad, standardiserad fråge-syntax (SQL) sedan 1970-talet.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Detta innebär även att det kan gå snabbare att komma igång med en No-SQL-databashanterare, då man snabbt och enkelt kan ändra på strukturen på data som lagras i databasen.</p>
+<p>Nackdelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Schemat behöver designas i förväg. Om datastrukturen ändras kostar det arbete att migrera.</p>
+</li>
+<li>
+<p>Mindre lämpat för data med stor variation, t.ex. dokument där olika instanser har olika fält.</p>
+</li>
+<li>
+<p>Svåra att fördela över många servrar utan att förlora ACID-garantierna. Stora relationsdatabaser körs därför ofta på en enda kraftfull server. Den bilden börjar luckras upp av nyare verktyg som <a href="https://turso.tech/">Turso</a> och <a href="https://fly.io/docs/litefs/">LiteFS</a> (replikerar SQLite över världen), <a href="https://www.cockroachlabs.com/">CockroachDB</a> (distribuerad SQL med ACID via konsensusprotokoll), och mönstret att varje kund får en egen liten databas istället för att dela en stor.</p>
+</li>
+<li>
+<p>Mindre lämpat för enormt stora datamängder ("Big Data") och kontinuerliga dataströmmar.</p>
+</li>
+</ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_scaling">4.1.3. Scaling</h4>
+<div class="sect4">
+<h5 id="_dokumentdatabaser_2">Dokumentdatabaser</h5>
 <div class="paragraph">
-<p>NO-SQL-databashanterare är designade från grunden för att vara lätt att dela upp på olika servrar.</p>
+<p>Fördelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inget schema krävs i förväg. Dokument kan ha varierande struktur.</p>
+</li>
+<li>
+<p>Föränderliga datastrukturer hanteras smidigt. Nya fält kan läggas till över tid utan migrationer.</p>
+</li>
+<li>
+<p>Designade för horisontell skalning över många servrar.</p>
+</li>
+<li>
+<p>Lämpat för Big Data, kontinuerliga dataströmmar och decentraliserade datasamlingar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nackdelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ingen, eller "eventual", konsistens. Två klienter kan en kort tid se olika versioner av samma data.</p>
+</li>
+<li>
+<p>Ingen, eller "eventual", integritet. Det blir klientens ansvar att hålla data konsekvent.</p>
+</li>
+<li>
+<p>Data dupliceras ofta (mer om det i avsnittet om <em>embed vs reference</em>). När en uppgift ändras kan flera kopior behöva uppdateras.</p>
+</li>
+<li>
+<p>Svårt eller omöjligt att validera dokumentens struktur centralt.</p>
+</li>
+<li>
+<p>Ingen gemensam standard. Varje produkt har sitt eget frågespråk eller API.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_nackdelar_med_nosql_databaser">4.2. Nackdelar med NoSQL-databaser</h3>
-<div class="sect3">
-<h4 id="_avsaknad_av_acid">4.2.1. Avsaknad av ACID</h4>
+<h3 id="_dokumentmodellen">4.2. Dokumentmodellen</h3>
 <div class="paragraph">
-<p>De flesta No-SQL-databashanterare kan inte på samma sätt som en relationsdatabas garantera ACID. Istället brukar man tala om <a href="https://en.wikipedia.org/wiki/Eventual_consistency">Eventual Consistency</a>.</p>
+<p>Den enklaste mentala modellen för en dokumentdatabas är denna:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 28.5714%;">
+<col style="width: 57.1429%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Språk</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Datatyp</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Literal</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ "username": "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ruby</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Hash</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C#</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Dictionary&lt;K, V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>new Dictionary&lt;string,string&gt; { ["username"] = "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HashMap&lt;K, V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map.of("username", "grill.korv")</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PHP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associative array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ "username" &#8658; "grill.korv" ]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Elixir</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map</code> / <code>Struct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%{username: "grill.korv"}</code> eller <code>%User{username: "grill.korv"}</code></p></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I en relationsdatabas lagras data i rader med fasta kolumner. I en dokumentdatabas lagras data som <strong>dokument</strong>, som i praktiken är JSON-objekt med fri struktur.</p>
+</div>
+<div class="paragraph">
+<p>Samma användardata, en gång relationellt och en gång som dokument:</p>
+</div>
+<div class="listingblock">
+<div class="title">Relationsdatabas</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">-- id | username   | email</span>
+<span class="c1">--  1 | grill.korv | grill@korv.se</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Dokumentdatabas</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
+  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
+  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dokument får innehålla nästan vad som helst, inklusive listor och nästlade objekt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
+  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
+  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">profile</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">bio</span><span class="p">:</span>      <span class="dl">"</span><span class="s2">Älskar att grilla.</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">location</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Stockholm</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="nx">roles</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">editor</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">moderator</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Det är samma data som hade krävt en <code>users</code>-tabell plus en <code>profiles</code>-tabell plus en <code>user_roles</code>-länktabell i en relationsdatabas. Här är allt packat i ett enda dokument.</p>
+</div>
+<div class="sect3">
+<h4 id="_collections">4.2.1. Collections</h4>
+<div class="paragraph">
+<p>Dokument lagras i <strong>collections</strong> (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.</p>
+</div>
+<div class="paragraph">
+<p>I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_mogenhet">4.2.2. Avsaknad av mogenhet</h4>
+<h4 id="_var_ligger_schemat_egentligen">4.2.2. Var ligger schemat egentligen?</h4>
 <div class="paragraph">
-<p>No-SQL-databashanterare har inte årtionden av forskning och beprövad erfarenhet bakom sig. Detta innebär att det kan vara svårt att hitta korrekt, vetenskapligt bekräftad information.</p>
+<p>Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.</p>
+</div>
+<div class="paragraph">
+<p>Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är <em>underförstått</em> och <em>utspritt i applikationskoden</em> istället för centralt definierat i databasen.</p>
+</div>
+<div class="paragraph">
+<p>Det får konsekvenser:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).</p>
+</li>
+<li>
+<p>Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller <code>CHECK</code>-constraint hjälper dig hitta de ställen som behöver uppdateras.</p>
+</li>
+<li>
+<p>Ett "schemalöst" projekt landar ofta i samma migrationsarbete som ett relationellt, fast nu sker det i applikationskoden istället för i databasen. Det blir mindre synligt och svårare att verifiera.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dokumentdatabasens "frihet" är alltså en omfördelning av ansvar, inte en eliminering av det. Den är fortfarande rätt val för en del problem, men "vi slipper designa scheman" är sällan en sann motivering.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mongodb">4.3. MongoDB</h3>
+<div class="paragraph">
+<p>I det här kapitlet använder vi <strong>MongoDB</strong> som konkret exempel. Det är den mest spridda dokumentdatabasen och en bra utgångspunkt för att förstå hur de fungerar. <a href="https://www.mongodb.com/atlas">MongoDB Atlas</a> erbjuder en gratisplan om du vill prova online. För övningarna i kapitlet kör vi en lokal Mongo-server via Docker.</p>
+</div>
+<div class="sect3">
+<h4 id="_crud_operationer">4.3.1. CRUD-operationer</h4>
+<div class="paragraph">
+<p>För varje vanlig SQL-operation finns en MongoDB-motsvarighet.</p>
+</div>
+<div class="sect4">
+<h5 id="_skapa">Skapa</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'grill.korv'</span><span class="p">,</span> <span class="s1">'grill@korv.se'</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_läs">Läs</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_uppdatera">Uppdatera</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">email</span> <span class="o">=</span> <span class="s1">'ny@korv.se'</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">updateOne</span><span class="p">(</span>
+  <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">$set</span><span class="p">:</span> <span class="p">{</span> <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ny@korv.se</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">)</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_radera">Radera</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">deleteOne</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_verktyg">4.2.3. Avsaknad av verktyg</h4>
+<h4 id="_index_och_sökning">4.3.2. Index och sökning</h4>
 <div class="paragraph">
-<p>Eftersom No-SQL-databashanterare är såpass nya, och, i många fall baserade på olika teorier, saknas ofta t.ex. analys/prestanda/eller andra rapporteringsverktyg.-</p>
+<p>MongoDB stödjer index på samma sätt som relationsdatabaser:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="dl">"</span><span class="s2">profile.location</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Index på fältet <code>username</code> (1 = stigande, -1 = fallande).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Index på ett <em>nästlat</em> fält. Relationsdatabaser stödjer ingen nästling alls; sådan data modelleras alltid som en separat tabell från början.</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avsaknad_av_en_gemensam_standard">4.2.4. Avsaknad av en gemensam standard</h4>
+<h4 id="_aggregering">4.3.3. Aggregering</h4>
 <div class="paragraph">
-<p>Det finns många olika No-SQL-databashanterare, och de fungerar på olika sätt; Det finns ingen gemensam standard som det finns för relationsdatabaser. Detta kan göra det väldigt kostsamt och krångligt att byta från en No-SQL-databashanterare till en annan.</p>
+<p>Istället för <code>GROUP BY</code> har MongoDB en <strong>aggregation pipeline</strong>: en sekvens av bearbetningssteg där datan flödar igenom.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">aggregate</span><span class="p">([</span>
+  <span class="p">{</span> <span class="na">$match</span><span class="p">:</span> <span class="p">{</span> <span class="na">active</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">},</span>                       <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="p">{</span> <span class="na">$group</span><span class="p">:</span> <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">$role</span><span class="dl">"</span><span class="p">,</span> <span class="na">count</span><span class="p">:</span> <span class="p">{</span> <span class="na">$sum</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>   <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="p">{</span> <span class="na">$sort</span><span class="p">:</span>  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">}</span> <span class="p">},</span>                          <i class="conum" data-value="3"></i><b>(3)</b>
+  <span class="p">{</span> <span class="na">$limit</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>                                       <i class="conum" data-value="4"></i><b>(4)</b>
+<span class="p">])</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Filtrera (motsvarar <code>WHERE</code>).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Gruppera och räkna (motsvarar <code>GROUP BY</code> + <code>COUNT</code>).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Sortera fallande.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Begränsa till fem rader.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/">Manual</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/crud/">CRUD Operations</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/aggregation/">Aggregation Operations</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_sätt_upp_miljön">4.3.4. Övning: sätt upp miljön</h4>
+<div class="paragraph">
+<p>Övningarna i resten av kapitlet bygger på ett färdigt Elixir-projekt som pratar med MongoDB. Resten av boken har använt Ruby/Sinatra som lingua franca för webbserver-kod. Det här kapitlet byter språk till <strong>Elixir</strong> med ramverket <strong>Pluggy</strong>, byggt på <a href="https://hex.pm/packages/plug">Plug</a> och <a href="https://github.com/ninenines/cowboy">Cowboy</a> (samma Pluggy som ni jobbade med i webbserver-kursen i början av TE4).</p>
+</div>
+<div class="paragraph">
+<p>Varför bytet? Sista delen av kapitlet handlar om <em>publish/subscribe-events</em> för att hålla inbäddade kopior i synk. I Ruby kräver det mönstret ett bibliotek. I Elixir är pub/sub bara hur språket fungerar i grunden. Mer om det när vi kommer dit.</p>
+</div>
+<div class="paragraph">
+<p>Du behöver inte skriva någon Plug-, Cowboy- eller mallkod själv; allt webb-relaterat finns redan. Din uppgift är att jobba med MongoDB-anropen i <code>lib/pluggy/models/</code> och, senare, lägga till en EventBus och prenumeranter.</p>
+</div>
+<div class="paragraph">
+<p>Hämta scaffolden: <a href="exercises/dokumentdatabaser/dokumentdatabaser.zip">dokumentdatabaser.zip</a>. Packa upp den i en egen mapp.</p>
+</div>
+<div class="paragraph">
+<p>Starta MongoDB:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Installera Elixir-biblioteken och starta appen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">mix deps.get
+iex <span class="nt">-S</span> mix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Öppna <a href="http://localhost:3000" class="bare">http://localhost:3000</a> i webbläsaren. Du ska se en (tom) lista över användare och ett formulär för att lägga till nya.</p>
+</div>
+<div class="paragraph">
+<p>Verifiera grundläggande CRUD genom webbgränssnittet:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Skapa två användare, t.ex. <code>grill.korv</code> och <code>Eva</code>.</p>
+</li>
+<li>
+<p>Gå till sidan för en användare och uppdatera e-postadressen.</p>
+</li>
+<li>
+<p>Gå till <code>/groups</code>, skapa en grupp som heter <code>Crazy Cowboys</code> med båda användarna som medlemmar.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Öppna också en <code>mongosh</code>-konsol mot din lokala Mongo-server och inspektera datan direkt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>mongo mongosh <span class="nb">test</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Hur ser dokumenten ut? Vad innehåller <code>groups</code>-dokumenten under fältet <code>users</code>? Det är det som leder vidare till nästa avsnitt.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modellering_embed_eller_reference">4.4. Modellering: embed eller reference</h3>
+<div class="paragraph">
+<p>I en relationsdatabas är det självklart hur man kopplar två entiteter: en främmande nyckel. En <code>posts</code>-rad har <code>author_id</code> som pekar på en <code>users</code>-rad. Klart.</p>
+</div>
+<div class="paragraph">
+<p>I en dokumentdatabas har du ett val. Du kan göra något liknande, eller du kan <strong>bädda in</strong> den ena entiteten direkt i den andra. Båda strategierna är giltiga, men de har olika trade-offs.</p>
+</div>
+<div class="sect3">
+<h4 id="_exemplet">4.4.1. Exemplet</h4>
+<div class="paragraph">
+<p>Säg att vi modellerar ett system där användare tillhör grupper, t.ex. för en kursplattform eller <a href="https://toolie.se/groupie">Toolie&#8217;s gruppslumpare</a>. En användare har ett <code>username</code>. En grupp har ett <code>groupname</code> och ett antal medlemmar. En medlem kan tillhöra flera grupper, en grupp har flera medlemmar.</p>
+</div>
+<div class="paragraph">
+<p>Det här går att lagra på två sätt.</p>
+</div>
+<div class="sect4">
+<h5 id="_variant_1_reference">Variant 1: reference</h5>
+<div class="paragraph">
+<p>Användarna lagras i en collection. Grupperna lagras i en annan och innehåller bara id:n till sina medlemmar.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertMany</span><span class="p">([</span>
+  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
+<span class="p">])</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">user_ids</span><span class="p">:</span>  <span class="p">[</span><span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>För att visa gruppens medlemmar måste klienten göra två frågor. Först hämta gruppen, sedan slå upp användarna utifrån listan med id.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_variant_2_embed">Variant 2: embed</h5>
+<div class="paragraph">
+<p>Grupperna innehåller hela användarobjektet (eller relevanta delar av det), inte bara id:t. Användarna finns ändå kvar i sin egen collection — den är "sanningen" — men en kopia av relevanta fält bäddas in i gruppen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">users</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nu räcker en enda fråga för att visa gruppen med dess medlemmar. Men <code>username</code> finns på två ställen i databasen. Om Eva byter namn behöver båda kopiorna uppdateras.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_när_vilken">4.4.2. När vilken?</h4>
+<div class="paragraph">
+<p>Tumregler för när embedding lönar sig:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När de inbäddade dokumenten är <strong>små</strong>.</p>
+</li>
+<li>
+<p>När den inbäddade datan <strong>sällan ändras</strong>.</p>
+</li>
+<li>
+<p>När du nästan alltid läser dem tillsammans med ytter-dokumentet.</p>
+</li>
+<li>
+<p>När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.</p>
+</li>
+<li>
+<p>När antalet inbäddade dokument växer långsamt eller är begränsat.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Tumregler för när reference lönar sig:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När de refererade dokumenten är <strong>stora</strong>.</p>
+</li>
+<li>
+<p>När datan <strong>ändras ofta</strong>.</p>
+</li>
+<li>
+<p>När du ofta läser ytter-dokumentet utan inner-dokumenten.</p>
+</li>
+<li>
+<p>När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.</p>
+</li>
+<li>
+<p>När antalet relaterade dokument är stort eller obegränsat.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. <code>_id</code> och <code>username</code>), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_embed_eller_reference">4.4.3. Övning: embed eller reference</h4>
+<div class="paragraph">
+<p>Du ska utöka scaffold-appen från föregående avsnitt med en ny funktion. Användarna ska kunna posta korta <strong>inlägg</strong> i en grupp (tänk en enkel diskussionstråd).</p>
+</div>
+<div class="paragraph">
+<p>Varje inlägg har:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>En författare (referens till eller kopia av en användare).</p>
+</li>
+<li>
+<p>En textkropp.</p>
+</li>
+<li>
+<p>En tidsstämpel.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Innan du skriver någon kod, fundera över:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Var ska inläggen lagras? Som en egen <code>posts</code>-collection? Som en inbäddad lista i <code>groups</code>? Som en inbäddad lista i <code>users</code>?</p>
+</li>
+<li>
+<p>Om du väljer att lagra inlägg i grupper (inbäddat eller med referenser), hur visar du författaren? Inbäddat eller via referens till <code>users</code>?</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Skriv ner ditt val och en motivering utifrån tumreglerna ovan, <em>innan</em> du implementerar.</p>
+</div>
+<div class="paragraph">
+<p>Implementera sedan:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>En route som tar emot ett nytt inlägg och sparar det.</p>
+</li>
+<li>
+<p>En route som visar de senaste 10 inläggen i en grupp.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>När du är klar: vad skulle hända i din lösning om Eva ändrar sitt användarnamn? Påverkas inläggen?</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_konsistens_via_events">4.5. Konsistens via events</h3>
+<div class="paragraph">
+<p>Embedding är snabbt att läsa men har en uppenbar svaghet. När källans data ändras går de inbäddade kopiorna ur synk.</p>
+</div>
+<div class="paragraph">
+<p>Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i <code>users</code> uppdateras. Men gruppen <code>Crazy Cowboys</code> har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.</p>
+</div>
+<div class="sect3">
+<h4 id="_lösningen_publishsubscribe">4.5.1. Lösningen: publish/subscribe</h4>
+<div class="paragraph">
+<p>I många dokumentdatabaser löser man detta med ett <strong>event-baserat</strong> tillvägagångssätt:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Varje operation som ändrar en användare publicerar ett <em>event</em>, en notifikation som säger "användaren med id X uppdaterades".</p>
+</li>
+<li>
+<p>Andra delar av systemet <em>prenumererar</em> (subscribe) på dessa events.</p>
+</li>
+<li>
+<p>När gruppens prenumerant får besked att Eva uppdaterats, går den igenom alla grupper där Eva är inbäddad och uppdaterar de inbäddade kopiorna.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>På så vis håller sig inbäddad data automatiskt aktuell, utan att den kod som uppdaterar användaren behöver veta något om grupper.</p>
+</div>
+<div class="paragraph">
+<p>Det är här Elixir-bytet betalar tillbaka. I många språk behöver man ett pub/sub-bibliotek för det här mönstret. I Elixir är pub/sub bara processer som skickar meddelanden till varandra, vilket är hur språket fungerar i grunden.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_en_enkel_eventbus">4.5.2. En enkel EventBus</h4>
+<div class="paragraph">
+<p>Tar man pub/sub till sin minsta beståndsdel landar man på en <code>GenServer</code> som håller reda på vilka processer som prenumererar på vilka events:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">GenServer</span>
+
+  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
+  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
+
+  <span class="k">def</span> <span class="n">subscribe</span><span class="p">(</span><span class="n">event</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">self</span><span class="p">()})</span>
+  <span class="k">def</span> <span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">})</span>
+
+  <span class="k">def</span> <span class="n">handle_call</span><span class="p">({</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pid</span><span class="p">},</span> <span class="n">_from</span><span class="p">,</span> <span class="n">state</span><span class="p">),</span>
+    <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:reply</span><span class="p">,</span> <span class="ss">:ok</span><span class="p">,</span> <span class="no">Map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="n">pid</span><span class="p">],</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">pid</span> <span class="o">|</span> <span class="nv">&amp;1</span><span class="p">])}</span>
+
+  <span class="k">def</span> <span class="n">handle_cast</span><span class="p">({</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">state</span> <span class="o">|&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[])</span> <span class="o">|&gt;</span> <span class="no">Enum</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">send</span><span class="p">(</span><span class="nv">&amp;1</span><span class="p">,</span> <span class="p">{</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">}))</span>
+    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Femton rader. Inget bibliotek behövs.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publicera_från_modellen">4.5.3. Publicera från modellen</h4>
+<div class="paragraph">
+<p>I användarmodellen blir det enkelt att lägga in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Models</span><span class="o">.</span><span class="no">User</span> <span class="k">do</span>
+  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span>
+
+  <span class="c1"># ... (find, all, create som tidigare) ...</span>
+
+  <span class="k">def</span> <span class="n">update</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"users"</span><span class="p">,</span>
+      <span class="p">%{</span><span class="s2">"_id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">id</span><span class="p">)},</span>
+      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"_id"</span><span class="p">])})</span>
+    <span class="no">EventBus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>När <code>User.update(&#8230;&#8203;)</code> körs publiceras <code>:user_updated</code> med användarens id.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_prenumerera_i_en_genserver">4.5.4. Prenumerera i en GenServer</h4>
+<div class="paragraph">
+<p>På andra hållet finns en prenumerant som lyssnar på <code>:user_updated</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">GenServer</span>
+  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="p">{</span><span class="no">EventBus</span><span class="p">,</span> <span class="no">Models</span><span class="p">}</span>
+
+  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">EventBus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="n">handle_info</span><span class="p">({</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">user_id</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">Models</span><span class="o">.</span><span class="no">User</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"groups"</span><span class="p">,</span>
+      <span class="p">%{</span><span class="s2">"users._id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">user_id</span><span class="p">)},</span>      <i class="conum" data-value="2"></i><b>(2)</b>
+      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="p">%{</span><span class="s2">"users.$.username"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]}})</span> <i class="conum" data-value="3"></i><b>(3)</b>
+
+    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Vid uppstart prenumererar GenServer:n på <code>:user_updated</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Hitta alla grupper där användaren är inbäddad.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Uppdatera den inbäddade <code>username</code> i varje sådan grupp.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>För att processerna ska köras vid uppstart läggs de till i <code>lib/pluggy/application.ex</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="no">Mongo</span><span class="p">,</span> <span class="ss">name:</span> <span class="ss">:mongo</span><span class="p">,</span> <span class="ss">url:</span> <span class="s2">"mongodb://localhost:27017/test"</span><span class="p">},</span>
+  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span><span class="p">,</span> <span class="p">[]},</span>                                          <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span><span class="p">,</span> <span class="p">[]},</span>                       <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="p">{</span><span class="no">Plug</span><span class="o">.</span><span class="no">Cowboy</span><span class="p">,</span> <span class="ss">scheme:</span> <span class="ss">:http</span><span class="p">,</span> <span class="ss">plug:</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Router</span><span class="p">,</span> <span class="ss">options:</span> <span class="p">[</span><span class="ss">port:</span> <span class="mi">3000</span><span class="p">]}</span>
+<span class="p">]</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>EventBus startas innan prenumeranter.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>GroupSubscriber prenumererar på <code>:user_updated</code> vid uppstart.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_varför_det_här_är_inbyggt_i_elixir">4.5.5. Varför det här är inbyggt i Elixir</h4>
+<div class="paragraph">
+<p>I Ruby skulle samma mönster kräva ett bibliotek som <code>wisper</code>, ett globalt händelseregister, och <code>subscribe</code>-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.</p>
+</div>
+<div class="paragraph">
+<p>I Elixir är varje del redan en språkfunktion:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Processer som skickar meddelanden är hur OTP fungerar.</p>
+</li>
+<li>
+<p><code>GenServer</code> är en byggsten i standardbiblioteket.</p>
+</li>
+<li>
+<p>En supervisor i <code>application.ex</code> startar både EventBus och prenumeranter automatiskt.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mönstret som kallas "publish/subscribe" går här inte <em>ovanpå</em> språket utan <em>genom</em> det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Elixir: <a href="https://hexdocs.pm/elixir/GenServer.html">GenServer</a></p>
+</li>
+<li>
+<p>Erlang/OTP: <a href="https://www.erlang.org/doc/man/pg.html"><code>:pg</code>, det inbyggda process-grupp-biblioteket</a></p>
+</li>
+<li>
+<p>Phoenix: <a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub, produktionsgrad pub/sub över noder</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/changeStreams/">Change Streams, en alternativ approach där MongoDB själv emiterar events</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_lägg_till_en_event_prenumerant">4.5.6. Övning: lägg till en event-prenumerant</h4>
+<div class="paragraph">
+<p>Scaffold-appen i tidigare övningar har en enkel arkitektur utan events. Nu ska du bygga om den för att använda event-baserad konsistens, enligt mönstret i koden ovan.</p>
+</div>
+<div class="paragraph">
+<p>Steg:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Skapa <code>lib/pluggy/event_bus.ex</code> med en GenServer som tar emot subscribe + publish, som i exemplet.</p>
+</li>
+<li>
+<p>Ändra <code>Pluggy.Models.User.update</code> så att den publicerar <code>:user_updated</code> efter Mongo-anropet.</p>
+</li>
+<li>
+<p>Skapa <code>lib/pluggy/subscribers/group_subscriber.ex</code> med en GenServer som prenumererar på <code>:user_updated</code> och uppdaterar inbäddade <code>username</code>-värden i berörda grupper.</p>
+</li>
+<li>
+<p>Lägg till <code>Pluggy.EventBus</code> och <code>Pluggy.Subscribers.GroupSubscriber</code> i barnlistan i <code>lib/pluggy/application.ex</code> så de startas automatiskt.</p>
+</li>
+<li>
+<p>Testa: ändra Evas namn via webbgränssnittet och kontrollera att gruppens listning visar det nya namnet, utan att du behövt lägga till någon kod i <code>User.update</code>-vägen som vet om grupper.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Fundera till sist:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Vilka andra events skulle vara värda att hantera? Om en användare <em>raderas</em>, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?</p>
+</li>
+<li>
+<p>Om systemet körs på flera servrar parallellt räcker det inte med en <code>GenServer</code> som bara känner till sin egen process. Vilka alternativ finns då? (<a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub</a> och MongoDB Change Streams är två sätt.)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_säkerhet_och_integritet_2">5. Säkerhet och integritet</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduktion_till_databassäkerhet">5.1. Introduktion till databassäkerhet</h3>
+<div class="paragraph">
+<p>Datalagring handlar inte bara om att designa effektiva tabeller och skriva snabba frågor. Så fort en databas innehåller verklig data (kunduppgifter, betyg, lönelistor, journaler) kommer en hel rad ytterligare frågor in i bilden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Vem har rätt att läsa, ändra eller ta bort vilken data?</p>
+</li>
+<li>
+<p>Hur skyddar vi datan om någon stjäl databasservern eller en backup-disk?</p>
+</li>
+<li>
+<p>Hur lagrar vi lösenord på ett sätt som inte avslöjar dem för en angripare?</p>
+</li>
+<li>
+<p>Vad får vi enligt lagen lagra om personer, och hur länge?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I det här kapitlet går vi igenom hur man hanterar dessa frågor i praktiken: hur man styr åtkomst med <em>auktorisering</em>, hur man hanterar känsliga uppgifter, och vilka lagar som styr vad vi får och inte får göra med personuppgifter.</p>
+</div>
+<div class="sect3">
+<h4 id="_cia_tre_grundläggande_principer">5.1.1. CIA: tre grundläggande principer</h4>
+<div class="paragraph">
+<p>Inom IT-säkerhet pratar man ofta om <em>CIA-triaden</em>, en förkortning för tre grundläggande egenskaper som ett system förväntas upprätthålla.</p>
+</div>
+<div class="sect4">
+<h5 id="_confidentiality_sekretess">Confidentiality (sekretess)</h5>
+<div class="paragraph">
+<p>Information ska bara vara åtkomlig för de personer som har rätt att se den. Att en obehörig kan <em>läsa</em> en kund-tabell är ett brott mot sekretessen, även om hen inte ändrar något.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_integrity_data_integritet">Integrity (data-integritet)</h5>
+<div class="paragraph">
+<p>Information ska vara korrekt och får inte ändras av obehöriga eller av misstag. Att en angripare ändrar ett saldo i en banktabell, eller att en bugg gör att en användarpost skrivs över, är båda brott mot data-integriteten.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_availability_tillgänglighet">Availability (tillgänglighet)</h5>
+<div class="paragraph">
+<p>Information ska vara tillgänglig när den behövs. Att en databas ligger nere när användarna försöker logga in är ett brott mot tillgängligheten, även om datan i sig är intakt.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Två olika "integriteter"</div>
+<div class="paragraph">
+<p>Ordet <em>integritet</em> används på svenska i två helt olika betydelser, och det är lätt att blanda ihop dem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Data-integritet</strong> (engelska: data integrity): att data är korrekt och oförändrad. Det är <em>i</em> i CIA-triaden.</p>
+</li>
+<li>
+<p><strong>Personlig integritet</strong> (engelska: privacy): en persons rätt att själv bestämma över information om sig själv. Det är vad GDPR (se sista avsnittet) handlar om.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Båda är viktiga inom datalagring, men de betyder olika saker.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_auktorisering_och_behörigheter">5.2. Auktorisering och behörigheter</h3>
+<div class="paragraph">
+<p>Auktorisering (engelska: authorization) handlar om vad en <em>redan inloggad</em> användare har rätt att göra. Detta skiljer sig från <em>autentisering</em> (engelska: authentication), som handlar om att avgöra <em>vem</em> användaren är.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Autentisering vs auktorisering</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Autentisering svarar på frågan "<strong>vem är du?</strong>" (oftast genom användarnamn och lösenord).</p>
+</li>
+<li>
+<p>Auktorisering svarar på frågan "<strong>vad får du göra?</strong>" (t.ex. läsa, skriva eller ta bort).</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_användare_och_roller">5.2.1. Användare och roller</h4>
+<div class="paragraph">
+<p>I de flesta databashanterare kan man skapa flera olika användare i databasen. Varje användare har sitt eget användarnamn och lösenord, och kan ges olika rättigheter.</p>
+</div>
+<div class="paragraph">
+<p>Att i en stor organisation tilldela rättigheter individuellt till varje användare blir snabbt ohanterligt. Därför grupperar man rättigheter i <em>roller</em>. En roll är ett namngivet knippe av rättigheter som man sedan tilldelar till en eller flera användare.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 75%;">
+<colgroup>
+<col style="width: 22.2222%;">
+<col style="width: 33.3333%;">
+<col style="width: 44.4445%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>Exempel på roller i en skoladministration</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Roll</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Användare</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rättigheter</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>larare</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">anna, johan, fatima</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa elev-tabellen, skriva i betyg-tabellen</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rektor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">andrew, fatima</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allt en lärare får + läsa lönetabellen</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elev</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">karl, viking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa sina egna betyg</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vaktmastare</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">inge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa och skriva i skåp-tabellen</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Lägg märke till att en användare kan ha flera roller. Fatima är både <code>larare</code> och <code>rektor</code> i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_grant_och_revoke">5.2.2. GRANT och REVOKE</h4>
+<div class="paragraph">
+<p>I SQL ger man rättigheter med <code>GRANT</code> och tar bort rättigheter med <code>REVOKE</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">students</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">lockers</span> <span class="k">TO</span> <span class="n">inge</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
+
+<span class="k">REVOKE</span> <span class="k">INSERT</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">FROM</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Anna får läsa från <code>students</code>-tabellen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Anna får lägga till och uppdatera rader i <code>grades</code>-tabellen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Inge får göra <em>allt</em> mot <code>lockers</code>-tabellen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Anna får inte längre lägga till rader i <code>grades</code>-tabellen.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Vanliga rättigheter som kan tilldelas är <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> och <code>DELETE</code>, samt rättigheter för att modifiera schemat (<code>CREATE</code>, <code>DROP</code>, <code>ALTER</code>).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_roller_i_sql">5.2.3. Roller i SQL</h4>
+<div class="paragraph">
+<p>I de flesta databashanterare kan man även skapa själva rollerna direkt i databasen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">ROLE</span> <span class="n">larare</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">students</span> <span class="k">TO</span> <span class="n">larare</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">TO</span> <span class="n">larare</span><span class="p">;</span>
+
+<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">johan</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">fatima</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Skapa en ny roll.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Tilldela rättigheter till rollen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Tilldela rollen till en användare.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>När man senare vill ändra vad lärare får göra behöver man bara uppdatera rollen. Alla användare som tillhör rollen påverkas automatiskt.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_principen_om_minsta_privilegium">5.2.4. Principen om minsta privilegium</h4>
+<div class="paragraph">
+<p>En grundregel inom säkerhet är <em>principen om minsta privilegium</em> (engelska: principle of least privilege): varje användare och varje program ska ha <em>precis</em> de rättigheter som krävs för uppgiften, varken mer eller mindre.</p>
+</div>
+<div class="paragraph">
+<p>Om en webbapplikation bara behöver läsa från en <code>produkter</code>-tabell ska användaren applikationen ansluter med <em>inte</em> ha rättighet att skriva i tabellen. Skulle applikationen råka ut för en SQL-injektion (se nästa avsnitt) eller annan bugg så är skadan begränsad.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Använd inte databasens administratörskonto från din applikation.</strong></p>
+</div>
+<div class="paragraph">
+<p>Det är frestande att alltid ansluta som <code>postgres</code> eller <code>root</code> eftersom det "bara fungerar". Men ett administratörskonto kan göra <em>allt</em>, inklusive att radera hela databasen. Skapa istället en separat användare för varje applikation, och ge den enbart de rättigheter den behöver.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningsuppgift_5">5.2.5. Övningsuppgift</h4>
+<div class="paragraph">
+<p>Tänk dig att du bygger ett bibliotekssystem med tabellerna <code>books</code>, <code>loans</code> och <code>members</code>.</p>
+</div>
+<div class="paragraph">
+<p>Tre olika program ansluter till databasen:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>En <em>publik webbsida</em> där besökare kan söka i bokkatalogen.</p>
+</li>
+<li>
+<p>En <em>utlåningsterminal</em> där bibliotekarier registrerar lån och återlämningar.</p>
+</li>
+<li>
+<p>En <em>administratörsapplikation</em> där chefen lägger till nya böcker och nya medlemmar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Skriv <code>CREATE ROLE</code>- och <code>GRANT</code>-satser för var och en av de tre programmen, så de har precis de rättigheter de behöver, varken mer eller mindre.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_säker_lagring_av_känsliga_uppgifter">5.3. Säker lagring av känsliga uppgifter</h3>
+<div class="paragraph">
+<p>Många databaser innehåller uppgifter som måste skyddas extra noga: lösenord, personnummer, hälsouppgifter, kontonummer. Att en angripare kommer åt en sådan databas kan få förödande konsekvenser för de personer datan handlar om.</p>
+</div>
+<div class="paragraph">
+<p>I det här avsnittet går vi igenom de tre vanligaste metoderna för att skydda känsliga uppgifter: <em>hashning</em>, <em>kryptering</em> och <em>parametriserade frågor</em>.</p>
+</div>
+<div class="sect3">
+<h4 id="_hashning_av_lösenord">5.3.1. Hashning av lösenord</h4>
+<div class="paragraph">
+<p>En <em>hashfunktion</em> är en matematisk funktion som tar en sträng (t.ex. ett lösenord) och omvandlar den till en till synes slumpmässig sträng av fast längd. Hashfunktioner har två viktiga egenskaper:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Samma indata ger <em>alltid</em> samma utdata.</p>
+</li>
+<li>
+<p>Det är (i praktiken) omöjligt att utifrån utdatan räkna ut vad indatan var.</p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 80%;">
+<colgroup>
+<col style="width: 28.5714%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="2"><p class="tableblock"><strong>Exempel på hashning (sha-256, förkortat)</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Indata</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Utdata</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hej</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>9c4ec4&#8230;&#8203;0f1be3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hej!</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2cf99c&#8230;&#8203;88b5a4</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hejsan</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>e1e7ce&#8230;&#8203;6b3d24</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Hej</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2178d3&#8230;&#8203;f8e791</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Lägg märke till att även en <em>väldigt</em> liten ändring i indatan (t.ex. ett utropstecken eller en stor bokstav) ger en helt annan utdata.</p>
+</div>
+<div class="paragraph">
+<p>När en användare registrerar sig <em>hashar</em> vi lösenordet och sparar enbart hashen i databasen. När användaren senare loggar in hashar vi det inskrivna lösenordet och jämför med hashen i databasen. Om hasharna stämmer får användaren logga in.</p>
+</div>
+<div class="paragraph">
+<p>Skulle databasen läcka ut har angriparen bara hasharna, inte lösenorden.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Använd inte vanliga hashfunktioner som SHA-256 eller MD5 för lösenord!</strong></p>
+</div>
+<div class="paragraph">
+<p>Vanliga hashfunktioner är designade för att vara <em>snabba</em>, vilket betyder att en angripare kan testa miljarder lösenord per sekund. Använd istället en <em>lösenordshashfunktion</em> som är <em>avsiktligt långsam</em>, t.ex. <code>bcrypt</code>, <code>scrypt</code> eller <code>argon2</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_salt">Salt</h5>
+<div class="paragraph">
+<p>Ett <em>salt</em> är en slumpmässig sträng som läggs till lösenordet innan det hashas. Saltet sparas tillsammans med hashen i databasen.</p>
+</div>
+<div class="paragraph">
+<p>Detta gör att två användare som råkar ha samma lösenord ändå får olika hashar i databasen, vilket gör det betydligt svårare för en angripare att använda förberäknade tabeller (s.k. <em>rainbow tables</em>) för att knäcka lösenord.</p>
+</div>
+<div class="paragraph">
+<p>Moderna lösenordsbibliotek som <code>bcrypt</code> hanterar saltet automatiskt; du behöver inte hantera det själv.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_kryptering">5.3.2. Kryptering</h4>
+<div class="paragraph">
+<p>Hashning är <em>envägs</em>: man kan hasha, men man kan aldrig "av-hasha". Det är därför hashning passar för lösenord. Vi behöver ju aldrig läsa tillbaka det riktiga lösenordet.</p>
+</div>
+<div class="paragraph">
+<p>Kryptering är <em>tvåvägs</em>: man kan kryptera en text till en obegriplig sträng, och man kan dekryptera den tillbaka, <em>om</em> man har rätt nyckel.</p>
+</div>
+<div class="paragraph">
+<p>Kryptering används där datan faktiskt behöver kunna läsas tillbaka, t.ex. personnummer, kontonummer eller textinnehållet i ett krypterat meddelande.</p>
+</div>
+<div class="sect4">
+<h5 id="_kryptering_i_vila">Kryptering i vila</h5>
+<div class="paragraph">
+<p>Kryptering i vila (engelska: encryption at rest) innebär att datan är krypterad när den ligger lagrad på disk. Skulle någon stjäla disken eller en backup-kopia av databasen är datan obegriplig utan rätt nyckel.</p>
+</div>
+<div class="paragraph">
+<p>De flesta moderna databashanterare har inbyggt stöd för <em>Transparent Data Encryption</em> (TDE), där hela databasen krypteras automatiskt på disk.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_kryptering_vid_överföring">Kryptering vid överföring</h5>
+<div class="paragraph">
+<p>Kryptering vid överföring (engelska: encryption in transit) innebär att datan är krypterad när den skickas mellan klient och databasserver. Detta sker normalt med TLS (Transport Layer Security), samma teknik som används för HTTPS-trafik på webben.</p>
+</div>
+<div class="paragraph">
+<p>Utan kryptering vid överföring kan vem som helst på samma nätverk lyssna av trafiken och se både SQL-frågor och svar i klartext.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_kryptering_på_applikationsnivå">Kryptering på applikationsnivå</h5>
+<div class="paragraph">
+<p>Både kryptering i vila och kryptering vid överföring sker på <em>infrastrukturnivå</em>, alltså databasen själv ser klartext. De skyddar mot stulna diskar och avlyssning på nätverket, men <em>inte</em> mot:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>En databasadministratör som läser data direkt i databasen.</p>
+</li>
+<li>
+<p>En angripare som fått tag på rätt åtkomstuppgifter och loggar in mot databasen.</p>
+</li>
+<li>
+<p>Personalen hos den molnleverantör som driftar databasen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>För riktigt känsligt innehåll väljer en del tjänster att kryptera datan <em>innan</em> den når databasen. Exempel: <a href="https://basecamp.com">Basecamp</a>/HEY för e-post och projektinnehåll, <a href="https://signal.org">Signal</a> för meddelanden, och lösenordshanterare som <a href="https://1password.com">1Password</a>. Databasen lagrar då bara obegripliga teckensträngar; bara applikationen (med rätt nyckel) kan dekryptera dem.</p>
+</div>
+<div class="paragraph">
+<p>I Ruby/Rails kan det se ut så här:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">encrypts</span> <span class="ss">:body</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="k">end</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="no">Message</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">body: </span><span class="s2">"Hemligt projekt"</span><span class="p">)</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="nb">puts</span> <span class="no">Message</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">id</span><span class="p">).</span><span class="nf">body</span> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Talar om för Rails att fältet <code>body</code> ska krypteras.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Innan raden lagras i databasen krypteras <code>body</code> automatiskt.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>När <code>body</code> läses tillbaka dekrypteras den automatiskt, så länge applikationen har rätt nyckel.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I C# / Entity Framework Core kan man göra samma sak via en <em>value converter</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">public</span> <span class="k">class</span> <span class="nc">Message</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Body</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">OnModelCreating</span><span class="p">(</span><span class="n">ModelBuilder</span> <span class="n">modelBuilder</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">modelBuilder</span><span class="p">.</span><span class="n">Entity</span><span class="p">&lt;</span><span class="n">Message</span><span class="p">&gt;()</span>
+        <span class="p">.</span><span class="nf">Property</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Body</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">HasConversion</span><span class="p">(</span> <i class="conum" data-value="1"></i><b>(1)</b>
+            <span class="n">plain</span>  <span class="p">=&gt;</span> <span class="n">Encryption</span><span class="p">.</span><span class="nf">Encrypt</span><span class="p">(</span><span class="n">plain</span><span class="p">),</span>
+            <span class="n">cipher</span> <span class="p">=&gt;</span> <span class="n">Encryption</span><span class="p">.</span><span class="nf">Decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span>
+        <span class="p">);</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>HasConversion</code> registrerar två funktioner: en som körs innan värdet skrivs till databasen, och en som körs när det läses tillbaka. Själva krypterings­logiken (<code>Encryption.Encrypt</code>/<code>Encryption.Decrypt</code>) skriver man antingen själv eller hämtar in via ett NuGet-paket.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rails: <a href="https://guides.rubyonrails.org/active_record_encryption.html">Active Record Encryption</a></p>
+</li>
+<li>
+<p>EF Core: <a href="https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions">Value Conversions</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_avvägningar">Avvägningar</h6>
+<div class="paragraph">
+<p>Kryptering på applikationsnivå har dock påtagliga nackdelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Du kan inte söka i krypterad data med SQL.</strong> <code>WHERE body LIKE '%projekt%'</code> fungerar inte längre, eftersom databasen bara ser den krypterade datan.</p>
+</li>
+<li>
+<p><strong>Indexering blir meningslöst</strong>, eftersom samma indata oftast krypteras till olika utdata varje gång.</p>
+</li>
+<li>
+<p><strong>Sortering fungerar inte</strong> på krypterade fält.</p>
+</li>
+<li>
+<p><strong>Nyckelhantering blir kritisk</strong>: tappar du nyckeln är datan obegriplig för alltid, även för dig själv.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Därför används tekniken oftast enbart på de <em>allra</em> känsligaste fälten (t.ex. innehållet i ett meddelande eller en patientjournal), inte på fält man behöver söka eller sortera på (t.ex. e-postadress eller efternamn).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Deterministisk kryptering</div>
+<div class="paragraph">
+<p>Det finns en variant som kallas <em>deterministisk kryptering</em>, där samma indata alltid ger samma utdata. Då kan man söka på exakt-matchning (t.ex. <code>WHERE email = '<a href="mailto:anna@example.com">anna@example.com</a>'</code>), eftersom applikationen kan kryptera söksträngen och jämföra med det krypterade värdet i databasen.</p>
+</div>
+<div class="paragraph">
+<p>Nackdelen är att en angripare som ser den krypterade datan kan se <em>vilka rader som har samma värde</em>, vilket i sig kan avslöja en hel del.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sql_injektion">5.3.3. SQL-injektion</h4>
+<div class="paragraph">
+<p>SQL-injektion är en av de äldsta och mest kända säkerhetsbristerna inom datalagring. Den uppstår när en applikation klistrar ihop SQL-frågor med inmatning från användaren utan att hålla isär datan från koden.</p>
+</div>
+<div class="listingblock">
+<div class="title">Ett klassiskt exempel (Ruby/Rails)</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">username</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:username</span><span class="p">]</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">password</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:password</span><span class="p">]</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">"SELECT * FROM users WHERE username = '</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">' AND password = '</span><span class="si">#{</span><span class="n">password</span><span class="si">}</span><span class="s2">'"</span>
+
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Användarens inmatning från ett formulär.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Frågan körs som om den vore en helt vanlig SQL-fråga.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Samma sårbarhet (C# / Entity Framework Core)</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="csharp"><span class="kt">var</span> <span class="n">username</span> <span class="p">=</span> <span class="n">Request</span><span class="p">.</span><span class="n">Form</span><span class="p">[</span><span class="s">"username"</span><span class="p">];</span>
+<span class="kt">var</span> <span class="n">password</span> <span class="p">=</span> <span class="n">Request</span><span class="p">.</span><span class="n">Form</span><span class="p">[</span><span class="s">"password"</span><span class="p">];</span>
+
+<span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">$"SELECT * FROM Users WHERE Username = '</span><span class="p">{</span><span class="n">username</span><span class="p">}</span><span class="s">' AND Password = '</span><span class="p">{</span><span class="n">password</span><span class="p">}</span><span class="s">'"</span><span class="p">;</span>
+
+<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="nf">FromSqlRaw</span><span class="p">(</span><span class="n">sql</span><span class="p">).</span><span class="nf">ToList</span><span class="p">();</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Med <code>FromSqlRaw</code> följer den färdig­interpolerade strängen rakt in i databasen, <em>exakt</em> samma sårbarhet som i Ruby-exemplet.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Om användaren skriver <code>admin' --</code> som användarnamn (lägg märke till citationstecknet och de två minustecknen) blir SQL-frågan:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'admin'</span> <span class="c1">--' AND password = ''</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Allt efter <code>--</code> behandlas som en kommentar av databashanteraren, så lösenordskontrollen körs aldrig. Angriparen är inloggad som administratör, utan att ens veta vad lösenordet är.</p>
+</div>
+<div class="sect4">
+<h5 id="_förebyggande_parametriserade_frågor">Förebyggande: parametriserade frågor</h5>
+<div class="paragraph">
+<p>Lösningen är att <em>aldrig</em> klistra ihop SQL-strängar med inmatning. Istället skickar man inmatningen som <em>parametrar</em>, separat från själva SQL-koden:</p>
+</div>
+<div class="listingblock">
+<div class="title">Ruby/Rails: säker variant</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">sql</span> <span class="o">=</span> <span class="s2">"SELECT * FROM users WHERE username = ? AND password = ?"</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">[</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">])</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>SQL-koden innehåller <code>?</code> som platshållare istället för värden.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Värdena skickas separat till databashanteraren.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">C# / Entity Framework Core: säker variant</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="csharp"><span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="nf">FromSqlInterpolated</span><span class="p">(</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="s">$"SELECT * FROM Users WHERE Username = </span><span class="p">{</span><span class="n">username</span><span class="p">}</span><span class="s"> AND Password = </span><span class="p">{</span><span class="n">password</span><span class="p">}</span><span class="s">"</span>
+<span class="p">).</span><span class="nf">ToList</span><span class="p">();</span>
+
+<span class="c1">// Eller, mer idiomatiskt i EF Core, via LINQ:</span>
+<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Users</span>
+    <span class="p">.</span><span class="nf">Where</span><span class="p">(</span><span class="n">u</span> <span class="p">=&gt;</span> <span class="n">u</span><span class="p">.</span><span class="n">Username</span> <span class="p">==</span> <span class="n">username</span> <span class="p">&amp;&amp;</span> <span class="n">u</span><span class="p">.</span><span class="n">Password</span> <span class="p">==</span> <span class="n">password</span><span class="p">)</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="p">.</span><span class="nf">FirstOrDefault</span><span class="p">();</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>FromSqlInterpolated</code> ser ut som vanlig string-interpolation, men EF Core förvandlar automatiskt värdena till parametrar.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>LINQ-frågor parametriseras alltid automatiskt. Det är en av huvudpoängerna med en ORM.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Eftersom databashanteraren får SQL-koden och datan <em>separat</em> blandas de aldrig ihop. Skriver användaren <code>admin' --</code> så söks det efter en användare som faktiskt heter <code>admin' --</code> (med citationstecken och allt), vilket inte finns.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Stored procedures (se kapitlet om relationsdatabaser) ger ett liknande skydd mot SQL-injektion, eftersom enbart funktionsanrop med parametrar skickas till databasen.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rails: <a href="https://guides.rubyonrails.org/active_record_querying.html#conditions">Active Record: Conditions</a></p>
+</li>
+<li>
+<p>EF Core: <a href="https://learn.microsoft.com/en-us/ef/core/querying/sql-queries">Raw SQL Queries</a> och <a href="https://learn.microsoft.com/en-us/ef/core/querying/">LINQ-frågor</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningsuppgift_6">5.3.4. Övningsuppgift</h4>
+<div class="paragraph">
+<p>I tabellen nedan lagras användarnamn och lösenord i klartext.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 50%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>users</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>username</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>password</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">anna</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hejsan123</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">johan</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">qwerty</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fatima</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tomten321</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Resonera dig fram till svaret på följande frågor:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Vilka är konsekvenserna om en angripare lyckas läsa hela tabellen?</p>
+</li>
+<li>
+<p>Hur skulle tabellen sett ut om lösenorden vore hashade istället för i klartext?</p>
+</li>
+<li>
+<p>Två av användarna har valt vanliga lösenord. Hur skulle ett salt göra det svårare för en angripare att utnyttja det?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lagar_och_integritet">5.4. Lagar och integritet</h3>
+<div class="paragraph">
+<p>Att lagra data om personer är inte bara en teknisk fråga. Det är också en juridisk fråga. I Sverige och resten av EU regleras hanteringen av personuppgifter främst av <em>Dataskyddsförordningen</em>, mer känd som <em>GDPR</em>.</p>
+</div>
+<div class="sect3">
+<h4 id="_vad_är_en_personuppgift">5.4.1. Vad är en personuppgift?</h4>
+<div class="paragraph">
+<p>En personuppgift är <em>all information som direkt eller indirekt kan kopplas till en levande person</em>.</p>
+</div>
+<div class="paragraph">
+<p>Direkta personuppgifter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Namn</p>
+</li>
+<li>
+<p>Personnummer</p>
+</li>
+<li>
+<p>Adress</p>
+</li>
+<li>
+<p>Telefonnummer</p>
+</li>
+<li>
+<p>E-postadress</p>
+</li>
+<li>
+<p>Foto</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Indirekta personuppgifter (uppgifter som blir personuppgifter i kombination med annan information):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>IP-adress</p>
+</li>
+<li>
+<p>Bilars registreringsnummer</p>
+</li>
+<li>
+<p>Användar-id i ett system</p>
+</li>
+<li>
+<p>Cookie-id</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Anonymisering vs pseudonymisering</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Anonymiserad</em> data går inte att koppla tillbaka till en person, ens av den som lagrade datan. Anonymiserad data omfattas inte av GDPR.</p>
+</li>
+<li>
+<p><em>Pseudonymiserad</em> data är ersatt med ett id eller en kod, men kan fortfarande kopplas tillbaka via en separat tabell. Pseudonymiserad data är <em>fortfarande</em> personuppgifter och omfattas av GDPR.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_känsliga_personuppgifter">Känsliga personuppgifter</h5>
+<div class="paragraph">
+<p>Vissa personuppgifter räknas som <em>särskilt känsliga</em> och får i princip inte hanteras alls utan starka skäl och skyddsåtgärder:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Etniskt ursprung</p>
+</li>
+<li>
+<p>Politiska åsikter</p>
+</li>
+<li>
+<p>Religiös eller filosofisk övertygelse</p>
+</li>
+<li>
+<p>Medlemskap i fackförening</p>
+</li>
+<li>
+<p>Hälsouppgifter</p>
+</li>
+<li>
+<p>Sexuell läggning</p>
+</li>
+<li>
+<p>Genetiska och biometriska uppgifter</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gdpr_dataskyddsförordningen">5.4.2. GDPR: Dataskyddsförordningen</h4>
+<div class="paragraph">
+<p>Dataskyddsförordningen (engelska: General Data Protection Regulation, <em>GDPR</em>) är en EU-förordning som trädde i kraft den 25 maj 2018. Den ersatte den tidigare svenska personuppgiftslagen (PUL).</p>
+</div>
+<div class="paragraph">
+<p>Eftersom GDPR är en <em>förordning</em> (inte ett <em>direktiv</em>) gäller den direkt som lag i alla EU-länder utan att den behöver översättas till nationell lagstiftning.</p>
+</div>
+<div class="sect4">
+<h5 id="_de_grundläggande_principerna">De grundläggande principerna</h5>
+<div class="paragraph">
+<p>GDPR bygger på sju grundläggande principer för all hantering av personuppgifter:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Laglighet, korrekthet och öppenhet</strong>: det måste finnas en laglig grund för behandlingen, och den registrerade ska informeras om den.</p>
+</li>
+<li>
+<p><strong>Ändamålsbegränsning</strong>: uppgifterna får bara användas för det ändamål de samlades in för.</p>
+</li>
+<li>
+<p><strong>Uppgiftsminimering</strong>: samla bara in de uppgifter som faktiskt behövs.</p>
+</li>
+<li>
+<p><strong>Korrekthet</strong>: uppgifterna ska vara korrekta och uppdaterade.</p>
+</li>
+<li>
+<p><strong>Lagringsminimering</strong>: uppgifterna ska sparas så kort tid som möjligt.</p>
+</li>
+<li>
+<p><strong>Integritet och konfidentialitet</strong>: uppgifterna ska skyddas mot obehörig åtkomst, förlust och ändring.</p>
+</li>
+<li>
+<p><strong>Ansvarsskyldighet</strong>: den som behandlar uppgifterna ska kunna <em>bevisa</em> att man följer principerna ovan.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_den_registrerades_rättigheter">Den registrerades rättigheter</h5>
+<div class="paragraph">
+<p>GDPR ger den person uppgifterna handlar om (den <em>registrerade</em>) ett antal rättigheter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Rätt till information</strong> om att och hur uppgifterna behandlas.</p>
+</li>
+<li>
+<p><strong>Rätt till tillgång</strong>: att få veta vilka uppgifter som lagras om en själv.</p>
+</li>
+<li>
+<p><strong>Rätt till rättelse</strong>: att få felaktiga uppgifter rättade.</p>
+</li>
+<li>
+<p><strong>Rätt till radering</strong> ("rätten att bli bortglömd"): att få sina uppgifter raderade.</p>
+</li>
+<li>
+<p><strong>Rätt till begränsning</strong>: att tillfälligt frysa behandlingen.</p>
+</li>
+<li>
+<p><strong>Rätt till dataportabilitet</strong>: att få sina uppgifter i ett format som kan flyttas till en annan tjänst.</p>
+</li>
+<li>
+<p><strong>Rätt att invända</strong> mot viss behandling, t.ex. direktreklam.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_roller_enligt_gdpr">Roller enligt GDPR</h5>
+<div class="paragraph">
+<p>GDPR definierar två centrala roller:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Personuppgiftsansvarig</strong> (engelska: data controller): den som <em>bestämmer</em> varför och hur personuppgifter ska behandlas. Vanligen ett företag eller en myndighet.</p>
+</li>
+<li>
+<p><strong>Personuppgiftsbiträde</strong> (engelska: data processor): den som <em>behandlar</em> uppgifter på uppdrag av den personuppgiftsansvarige, t.ex. en molnleverantör.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Om skolan använder en molntjänst för betygshantering är <em>skolan</em> personuppgiftsansvarig och <em>molnleverantören</em> personuppgiftsbiträde. De måste teckna ett <em>personuppgiftsbiträdesavtal</em> som reglerar hur uppgifterna får behandlas.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tillsyn_och_påföljder">5.4.3. Tillsyn och påföljder</h4>
+<div class="paragraph">
+<p>I Sverige är <em>Integritetsskyddsmyndigheten</em> (IMY) tillsynsmyndighet för GDPR. Det är dit man vänder sig om man misstänker att en organisation hanterar personuppgifter felaktigt.</p>
+</div>
+<div class="paragraph">
+<p>Vid allvarliga överträdelser kan IMY utfärda <em>sanktionsavgifter</em> på upp till 20 miljoner euro eller 4 % av en organisations globala årsomsättning, det av de två som är högst.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>GDPR har lett till ett antal stora bötesbelopp. Bland de mest uppmärksammade:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Meta</strong> (Facebooks moderbolag): 1,2 miljarder euro (2023) för olaglig dataöverföring till USA.</p>
+</li>
+<li>
+<p><strong>Amazon</strong>: 746 miljoner euro (2021) för bristfällig hantering av annonsering.</p>
+</li>
+<li>
+<p><strong>Klarna</strong>: 7,5 miljoner kronor (2022) för otydlig information till kunder.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_konsekvenser_för_en_databasdesigner">5.4.4. Konsekvenser för en databasdesigner</h4>
+<div class="paragraph">
+<p>Som databasdesigner och utvecklare påverkar GDPR ditt dagliga arbete på flera sätt.</p>
+</div>
+<div class="sect4">
+<h5 id="_designa_för_dataminimering">Designa för dataminimering</h5>
+<div class="paragraph">
+<p>Innan du lägger till en kolumn, fråga dig själv om uppgiften faktiskt behövs. Behöver <em>verkligen</em> varje användarregistrering inkludera födelsedatum?</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_designa_för_radering">Designa för radering</h5>
+<div class="paragraph">
+<p>En användare kan begära att få alla sina uppgifter raderade. Om datan är spridd över många tabeller via främmande nycklar kan det vara komplicerat att städa upp ordentligt.</p>
+</div>
+<div class="paragraph">
+<p>Använd <code>ON DELETE CASCADE</code> med försiktighet och planering. Det kan både hjälpa (genom att städa relaterad data) och stjälpa (genom att radera mer än man tänkt).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_logga_åtkomst_till_känsliga_uppgifter">Logga åtkomst till känsliga uppgifter</h5>
+<div class="paragraph">
+<p>Om en organisation behandlar känsliga personuppgifter förväntas det normalt att åtkomsten loggas. Vem läste vilken patientjournal när?</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_lagra_inte_gammal_data_i_onödan">Lagra inte gammal data i onödan</h5>
+<div class="paragraph">
+<p>Om kund-uppgifter sparats i 15 år trots att kunden inte handlat på 10 år är det troligen en överträdelse av lagringsminimeringen. Bygg in automatiska gallringsregler i applikationen.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningsuppgift_7">5.4.5. Övningsuppgift</h4>
+<div class="paragraph">
+<p>Tänk dig att du designar databasen för en webbplats där användare kan boka pass på ett gym.</p>
+</div>
+<div class="paragraph">
+<p>För var och en av nedanstående uppgifter, bedöm:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha">
+<li>
+<p>Är det en personuppgift? Om ja, är den känslig?</p>
+</li>
+<li>
+<p>Behövs den för tjänsten, eller kan den uteslutas?</p>
+</li>
+<li>
+<p>Hur länge bör uppgiften sparas efter att kunden avslutat sitt medlemskap?</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Uppgifterna är:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Förnamn och efternamn</p>
+</li>
+<li>
+<p>Personnummer</p>
+</li>
+<li>
+<p>E-postadress</p>
+</li>
+<li>
+<p>Lösenord</p>
+</li>
+<li>
+<p>Folkbokföringsadress</p>
+</li>
+<li>
+<p>Hälsodeklaration ("Har du diabetes? Hjärtproblem?")</p>
+</li>
+<li>
+<p>Bokningshistorik</p>
+</li>
+<li>
+<p>IP-adress vid inloggning</p>
+</li>
+<li>
+<p>Foto för medlemskortet</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -4453,7 +7469,7 @@ Vilket språk funktionen skrivs i beror på databashanteraren - en del har en SQ
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-05 10:08:28 +0200
+Last updated 2026-05-12 09:04:37 +0200
 </div>
 </div>
 </body>

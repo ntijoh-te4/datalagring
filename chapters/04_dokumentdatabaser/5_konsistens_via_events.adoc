@@ -1,0 +1,149 @@
+= Konsistens via events
+
+Embedding är snabbt att läsa men har en uppenbar svaghet. När källans data ändras går de inbäddade kopiorna ur synk.
+
+Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i `users` uppdateras. Men gruppen `Crazy Cowboys` har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.
+
+== Lösningen: publish/subscribe
+
+I många dokumentdatabaser löser man detta med ett *event-baserat* tillvägagångssätt:
+
+. Varje operation som ändrar en användare publicerar ett _event_, en notifikation som säger "användaren med id X uppdaterades".
+. Andra delar av systemet _prenumererar_ (subscribe) på dessa events.
+. När gruppens prenumerant får besked att Eva uppdaterats, går den igenom alla grupper där Eva är inbäddad och uppdaterar de inbäddade kopiorna.
+
+På så vis håller sig inbäddad data automatiskt aktuell, utan att den kod som uppdaterar användaren behöver veta något om grupper.
+
+Det är här Elixir-bytet betalar tillbaka. I många språk behöver man ett pub/sub-bibliotek för det här mönstret. I Elixir är pub/sub bara processer som skickar meddelanden till varandra, vilket är hur språket fungerar i grunden.
+
+== En enkel EventBus
+
+Tar man pub/sub till sin minsta beståndsdel landar man på en `GenServer` som håller reda på vilka processer som prenumererar på vilka events:
+
+[source,elixir]
+----
+defmodule Pluggy.EventBus do
+  use GenServer
+
+  def start_link(_), do: GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+  def init(_), do: {:ok, %{}}
+
+  def subscribe(event), do: GenServer.call(__MODULE__, {:subscribe, event, self()})
+  def publish(event, args), do: GenServer.cast(__MODULE__, {:publish, event, args})
+
+  def handle_call({:subscribe, event, pid}, _from, state),
+    do: {:reply, :ok, Map.update(state, event, [pid], &[pid | &1])}
+
+  def handle_cast({:publish, event, args}, state) do
+    state |> Map.get(event, []) |> Enum.each(&send(&1, {event, args}))
+    {:noreply, state}
+  end
+end
+----
+
+Femton rader. Inget bibliotek behövs.
+
+== Publicera från modellen
+
+I användarmodellen blir det enkelt att lägga in:
+
+[source,elixir]
+----
+defmodule Pluggy.Models.User do
+  alias Pluggy.EventBus
+
+  # ... (find, all, create som tidigare) ...
+
+  def update(id, params) do
+    Mongo.update_one(:mongo, "users",
+      %{"_id" => BSON.ObjectId.decode!(id)},
+      %{"$set" => Map.drop(params, ["id", "_id"])})
+    EventBus.publish(:user_updated, id) <1>
+  end
+end
+----
+<1> När `User.update(...)` körs publiceras `:user_updated` med användarens id.
+
+== Prenumerera i en GenServer
+
+På andra hållet finns en prenumerant som lyssnar på `:user_updated`:
+
+[source,elixir]
+----
+defmodule Pluggy.Subscribers.GroupSubscriber do
+  use GenServer
+  alias Pluggy.{EventBus, Models}
+
+  def start_link(_), do: GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+
+  def init(_) do
+    EventBus.subscribe(:user_updated) <1>
+    {:ok, %{}}
+  end
+
+  def handle_info({:user_updated, user_id}, state) do
+    user = Models.User.first(user_id)
+
+    Mongo.update_many(:mongo, "groups",
+      %{"users._id" => BSON.ObjectId.decode!(user_id)},      <2>
+      %{"$set" => %{"users.$.username" => user["username"]}}) <3>
+
+    {:noreply, state}
+  end
+end
+----
+<1> Vid uppstart prenumererar GenServer:n på `:user_updated`.
+<2> Hitta alla grupper där användaren är inbäddad.
+<3> Uppdatera den inbäddade `username` i varje sådan grupp.
+
+För att processerna ska köras vid uppstart läggs de till i `lib/pluggy/application.ex`:
+
+[source,elixir]
+----
+children = [
+  {Mongo, name: :mongo, url: "mongodb://localhost:27017/test"},
+  {Pluggy.EventBus, []},                                          <1>
+  {Pluggy.Subscribers.GroupSubscriber, []},                       <2>
+  {Plug.Cowboy, scheme: :http, plug: Pluggy.Router, options: [port: 3000]}
+]
+----
+<1> EventBus startas innan prenumeranter.
+<2> GroupSubscriber prenumererar på `:user_updated` vid uppstart.
+
+== Varför det här är inbyggt i Elixir
+
+I Ruby skulle samma mönster kräva ett bibliotek som `wisper`, ett globalt händelseregister, och `subscribe`-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.
+
+I Elixir är varje del redan en språkfunktion:
+
+* Processer som skickar meddelanden är hur OTP fungerar.
+* `GenServer` är en byggsten i standardbiblioteket.
+* En supervisor i `application.ex` startar både EventBus och prenumeranter automatiskt.
+
+Mönstret som kallas "publish/subscribe" går här inte _ovanpå_ språket utan _genom_ det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.
+
+.Vidareläsning
+[NOTE]
+====
+- Elixir: https://hexdocs.pm/elixir/GenServer.html[GenServer]
+- Erlang/OTP: https://www.erlang.org/doc/man/pg.html[`:pg`, det inbyggda process-grupp-biblioteket]
+- Phoenix: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html[Phoenix.PubSub, produktionsgrad pub/sub över noder]
+- MongoDB: https://www.mongodb.com/docs/manual/changeStreams/[Change Streams, en alternativ approach där MongoDB själv emiterar events]
+====
+
+== Övning: lägg till en event-prenumerant
+
+Scaffold-appen i tidigare övningar har en enkel arkitektur utan events. Nu ska du bygga om den för att använda event-baserad konsistens, enligt mönstret i koden ovan.
+
+Steg:
+
+. Skapa `lib/pluggy/event_bus.ex` med en GenServer som tar emot subscribe + publish, som i exemplet.
+. Ändra `Pluggy.Models.User.update` så att den publicerar `:user_updated` efter Mongo-anropet.
+. Skapa `lib/pluggy/subscribers/group_subscriber.ex` med en GenServer som prenumererar på `:user_updated` och uppdaterar inbäddade `username`-värden i berörda grupper.
+. Lägg till `Pluggy.EventBus` och `Pluggy.Subscribers.GroupSubscriber` i barnlistan i `lib/pluggy/application.ex` så de startas automatiskt.
+. Testa: ändra Evas namn via webbgränssnittet och kontrollera att gruppens listning visar det nya namnet, utan att du behövt lägga till någon kod i `User.update`-vägen som vet om grupper.
+
+Fundera till sist:
+
+* Vilka andra events skulle vara värda att hantera? Om en användare _raderas_, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?
+* Om systemet körs på flera servrar parallellt räcker det inte med en `GenServer` som bara känner till sin egen process. Vilka alternativ finns då? (https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html[Phoenix.PubSub] och MongoDB Change Streams är två sätt.)

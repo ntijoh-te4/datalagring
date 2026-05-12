@@ -25,7 +25,7 @@ Lägg märke till att även en _väldigt_ liten ändring i indatan (t.ex. ett ut
 
 När en användare registrerar sig _hashar_ vi lösenordet och sparar enbart hashen i databasen. När användaren senare loggar in hashar vi det inskrivna lösenordet och jämför med hashen i databasen. Om hasharna stämmer får användaren logga in.
 
-Skulle databasen läcka ut har angriparen bara hasharna — inte lösenorden.
+Skulle databasen läcka ut har angriparen bara hasharna, inte lösenorden.
 
 [WARNING]
 ====
@@ -40,13 +40,13 @@ Ett _salt_ är en slumpmässig sträng som läggs till lösenordet innan det has
 
 Detta gör att två användare som råkar ha samma lösenord ändå får olika hashar i databasen, vilket gör det betydligt svårare för en angripare att använda förberäknade tabeller (s.k. _rainbow tables_) för att knäcka lösenord.
 
-Moderna lösenordsbibliotek som `bcrypt` hanterar saltet automatiskt — du behöver inte hantera det själv.
+Moderna lösenordsbibliotek som `bcrypt` hanterar saltet automatiskt; du behöver inte hantera det själv.
 
 == Kryptering
 
-Hashning är _envägs_: man kan hasha, men man kan aldrig "av-hasha". Det är därför hashning passar för lösenord — vi behöver ju aldrig läsa tillbaka det riktiga lösenordet.
+Hashning är _envägs_: man kan hasha, men man kan aldrig "av-hasha". Det är därför hashning passar för lösenord. Vi behöver ju aldrig läsa tillbaka det riktiga lösenordet.
 
-Kryptering är _tvåvägs_: man kan kryptera en text till en obegriplig sträng, och man kan dekryptera den tillbaka — _om_ man har rätt nyckel.
+Kryptering är _tvåvägs_: man kan kryptera en text till en obegriplig sträng, och man kan dekryptera den tillbaka, _om_ man har rätt nyckel.
 
 Kryptering används där datan faktiskt behöver kunna läsas tillbaka, t.ex. personnummer, kontonummer eller textinnehållet i ett krypterat meddelande.
 
@@ -58,19 +58,19 @@ De flesta moderna databashanterare har inbyggt stöd för _Transparent Data Encr
 
 === Kryptering vid överföring
 
-Kryptering vid överföring (engelska: encryption in transit) innebär att datan är krypterad när den skickas mellan klient och databasserver. Detta sker normalt med TLS (Transport Layer Security) — samma teknik som används för HTTPS-trafik på webben.
+Kryptering vid överföring (engelska: encryption in transit) innebär att datan är krypterad när den skickas mellan klient och databasserver. Detta sker normalt med TLS (Transport Layer Security), samma teknik som används för HTTPS-trafik på webben.
 
 Utan kryptering vid överföring kan vem som helst på samma nätverk lyssna av trafiken och se både SQL-frågor och svar i klartext.
 
 === Kryptering på applikationsnivå
 
-Både kryptering i vila och kryptering vid överföring sker på _infrastrukturnivå_ — databasen själv ser klartext. De skyddar mot stulna diskar och avlyssning på nätverket, men _inte_ mot:
+Både kryptering i vila och kryptering vid överföring sker på _infrastrukturnivå_, alltså databasen själv ser klartext. De skyddar mot stulna diskar och avlyssning på nätverket, men _inte_ mot:
 
 - En databasadministratör som läser data direkt i databasen.
 - En angripare som fått tag på rätt åtkomstuppgifter och loggar in mot databasen.
 - Personalen hos den molnleverantör som driftar databasen.
 
-För riktigt känsligt innehåll väljer en del tjänster — t.ex. https://basecamp.com[Basecamp]/HEY för e-post och projektinnehåll, https://signal.org[Signal] för meddelanden, eller lösenordshanterare som https://1password.com[1Password] — att kryptera datan _innan_ den når databasen. Databasen lagrar då bara obegripliga teckensträngar; bara applikationen (med rätt nyckel) kan dekryptera dem.
+För riktigt känsligt innehåll väljer en del tjänster att kryptera datan _innan_ den når databasen. Exempel: https://basecamp.com[Basecamp]/HEY för e-post och projektinnehåll, https://signal.org[Signal] för meddelanden, och lösenordshanterare som https://1password.com[1Password]. Databasen lagrar då bara obegripliga teckensträngar; bara applikationen (med rätt nyckel) kan dekryptera dem.
 
 I Ruby/Rails kan det se ut så här:
 
@@ -85,7 +85,7 @@ puts Message.find(m.id).body <3>
 ----
 <1> Talar om för Rails att fältet `body` ska krypteras.
 <2> Innan raden lagras i databasen krypteras `body` automatiskt.
-<3> När `body` läses tillbaka dekrypteras den automatiskt — så länge applikationen har rätt nyckel.
+<3> När `body` läses tillbaka dekrypteras den automatiskt, så länge applikationen har rätt nyckel.
 
 I C# / Entity Framework Core kan man göra samma sak via en _value converter_:
 
@@ -107,7 +107,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         );
 }
 ----
-<1> `HasConversion` registrerar två funktioner — en som körs innan värdet skrivs till databasen, och en som körs när det läses tillbaka. Själva krypterings­logiken (`Encryption.Encrypt`/`Encryption.Decrypt`) skriver man antingen själv eller hämtar in via ett NuGet-paket.
+<1> `HasConversion` registrerar två funktioner: en som körs innan värdet skrivs till databasen, och en som körs när det läses tillbaka. Själva krypterings­logiken (`Encryption.Encrypt`/`Encryption.Decrypt`) skriver man antingen själv eller hämtar in via ett NuGet-paket.
 
 .Vidareläsning
 [NOTE]
@@ -123,7 +123,7 @@ Kryptering på applikationsnivå har dock påtagliga nackdelar:
 - *Du kan inte söka i krypterad data med SQL.* `WHERE body LIKE '%projekt%'` fungerar inte längre, eftersom databasen bara ser den krypterade datan.
 - *Indexering blir meningslöst*, eftersom samma indata oftast krypteras till olika utdata varje gång.
 - *Sortering fungerar inte* på krypterade fält.
-- *Nyckelhantering blir kritisk* — tappar du nyckeln är datan obegriplig för alltid, även för dig själv.
+- *Nyckelhantering blir kritisk*: tappar du nyckeln är datan obegriplig för alltid, även för dig själv.
 
 Därför används tekniken oftast enbart på de _allra_ känsligaste fälten (t.ex. innehållet i ett meddelande eller en patientjournal), inte på fält man behöver söka eller sortera på (t.ex. e-postadress eller efternamn).
 
@@ -132,14 +132,14 @@ Därför används tekniken oftast enbart på de _allra_ känsligaste fälten (t.
 ====
 Det finns en variant som kallas _deterministisk kryptering_, där samma indata alltid ger samma utdata. Då kan man söka på exakt-matchning (t.ex. `WHERE email = 'anna@example.com'`), eftersom applikationen kan kryptera söksträngen och jämföra med det krypterade värdet i databasen.
 
-Nackdelen är att en angripare som ser den krypterade datan kan se _vilka rader som har samma värde_ — vilket i sig kan avslöja en hel del.
+Nackdelen är att en angripare som ser den krypterade datan kan se _vilka rader som har samma värde_, vilket i sig kan avslöja en hel del.
 ====
 
 == SQL-injektion
 
 SQL-injektion är en av de äldsta och mest kända säkerhetsbristerna inom datalagring. Den uppstår när en applikation klistrar ihop SQL-frågor med inmatning från användaren utan att hålla isär datan från koden.
 
-.Ett klassiskt exempel — Ruby/Rails
+.Ett klassiskt exempel (Ruby/Rails)
 [source,ruby]
 ----
 username = params[:username] <1>
@@ -152,7 +152,7 @@ db.execute(sql) <2>
 <1> Användarens inmatning från ett formulär.
 <2> Frågan körs som om den vore en helt vanlig SQL-fråga.
 
-.Samma sårbarhet — C# / Entity Framework Core
+.Samma sårbarhet (C# / Entity Framework Core)
 [source,csharp]
 ----
 var username = Request.Form["username"];
@@ -162,7 +162,7 @@ var sql = $"SELECT * FROM Users WHERE Username = '{username}' AND Password = '{p
 
 var users = db.Users.FromSqlRaw(sql).ToList(); <1>
 ----
-<1> Med `FromSqlRaw` följer den färdig­interpolerade strängen rakt in i databasen — _exakt_ samma sårbarhet som i Ruby-exemplet.
+<1> Med `FromSqlRaw` följer den färdig­interpolerade strängen rakt in i databasen, _exakt_ samma sårbarhet som i Ruby-exemplet.
 
 Om användaren skriver `admin' --` som användarnamn (lägg märke till citationstecknet och de två minustecknen) blir SQL-frågan:
 
@@ -171,13 +171,13 @@ Om användaren skriver `admin' --` som användarnamn (lägg märke till citation
 SELECT * FROM users WHERE username = 'admin' --' AND password = ''
 ----
 
-Allt efter `--` behandlas som en kommentar av databashanteraren, så lösenordskontrollen körs aldrig. Angriparen är inloggad som administratör — utan att ens veta vad lösenordet är.
+Allt efter `--` behandlas som en kommentar av databashanteraren, så lösenordskontrollen körs aldrig. Angriparen är inloggad som administratör, utan att ens veta vad lösenordet är.
 
 === Förebyggande: parametriserade frågor
 
 Lösningen är att _aldrig_ klistra ihop SQL-strängar med inmatning. Istället skickar man inmatningen som _parametrar_, separat från själva SQL-koden:
 
-.Ruby/Rails — säker variant
+.Ruby/Rails: säker variant
 [source,ruby]
 ----
 sql = "SELECT * FROM users WHERE username = ? AND password = ?" <1>
@@ -186,7 +186,7 @@ db.execute(sql, [username, password]) <2>
 <1> SQL-koden innehåller `?` som platshållare istället för värden.
 <2> Värdena skickas separat till databashanteraren.
 
-.C# / Entity Framework Core — säker variant
+.C# / Entity Framework Core: säker variant
 [source,csharp]
 ----
 var users = db.Users.FromSqlInterpolated( <1>
@@ -199,7 +199,7 @@ var user = db.Users
     .FirstOrDefault();
 ----
 <1> `FromSqlInterpolated` ser ut som vanlig string-interpolation, men EF Core förvandlar automatiskt värdena till parametrar.
-<2> LINQ-frågor parametriseras alltid automatiskt — det är en av huvudpoängerna med en ORM.
+<2> LINQ-frågor parametriseras alltid automatiskt. Det är en av huvudpoängerna med en ORM.
 
 Eftersom databashanteraren får SQL-koden och datan _separat_ blandas de aldrig ihop. Skriver användaren `admin' --` så söks det efter en användare som faktiskt heter `admin' --` (med citationstecken och allt), vilket inte finns.
 
@@ -211,7 +211,7 @@ Stored procedures (se kapitlet om relationsdatabaser) ger ett liknande skydd mot
 .Vidareläsning
 [NOTE]
 ====
-- Rails: https://guides.rubyonrails.org/active_record_querying.html#conditions[Active Record — Conditions]
+- Rails: https://guides.rubyonrails.org/active_record_querying.html#conditions[Active Record: Conditions]
 - EF Core: https://learn.microsoft.com/en-us/ef/core/querying/sql-queries[Raw SQL Queries] och https://learn.microsoft.com/en-us/ef/core/querying/[LINQ-frågor]
 ====
 

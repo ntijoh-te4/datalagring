@@ -1,29 +1,48 @@
 = Indexering
 
-== Varför Indexering
-
 När mängden i en databas växer försämras prestandan vid sökningar i databasen. Detta beror helt enkelt på att det finns fler rader databashanteraren måste söka igenom för att hitta den eller de rader som stämmer in på SQL-frågan.
 
-Följande exempel med linjär/binärsökning är inte helt sann, men kan användas som en mental modell för att förstå varför och hur index fungerar.
+Följande exempel med linjär/binärsökning är inte helt sant, men kan användas som en mental modell för att förstå varför och hur index fungerar.
 
-Man kan tänka sig att databashanteraren gör en linjär sökning genom tabellen. En linjär sökning har kostnaden O(n). Detta innebär att om 10 000 rader skulle ta en tiondels sekund att söka igenom skulle 100 000 rader ta en sekund att söka igenom.
+Man kan tänka sig att databashanteraren gör en linjär sökning genom tabellen. En linjär sökning har kostnaden O(_n_). Detta innebär att om 10 000 rader skulle ta en tiondels sekund att söka igenom skulle 100 000 rader ta en sekund att söka igenom.
 
-För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden 0(log(n))). Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?
+För att snabba upp genomsökningen av en tabell behövs en annan algoritm än en linjär sökning. En enkel men väldigt effektiv algoritm är binärsökning (med kostnaden O(log(_n_))).
 
+.Linjär vs binärsökning, antal jämförelser i värsta fall
+[cols="1,1,1" width="75%"]
+|===
+| *Antal rader* | *Linjär (worst case)* | *Binärsökning (worst case)*
+| 10            | 10                     | 4
+| 100           | 100                    | 7
+| 10 000        | 10 000                 | 14
+| 1 000 000     | 1 000 000              | 20
+| 1 000 000 000 | 1 000 000 000          | 30
+|===
+
+Vid en miljard rader krävs alltså maximalt 30 jämförelser med binärsökning, men upp till en miljard med linjär.
+
+[TIP]
+====
+Vill du se det här i kod? Implementera själv binärsökning över en sorterad lista, låt funktionen räkna antalet jämförelser den gör, och pröva mot listor med 10, 100 och 10 000 element. Stämmer det med tabellen?
+====
+
+Men för att binärsökningsalgoritmen ska fungera måste datan vara sorterad. Och en tabell i en databas kan bara vara sorterad på ett sätt. Eller?
+
+[.float-group]
+--
 .En employees-tabell sorterad efter en autoinkrementerande primärnyckel
-[cols="1,3,3" width="30%"]
+[cols="1,3,3", width="30%", role="left"]
 |===
 3+^| *employees*
-| *id* | *first_name*      | *last_name*  
-|  1   | Johan             | Bengtsson       
-|  2   | Anna              | Persson             
+| *id* | *first_name*      | *last_name*
+|  1   | Johan             | Bengtsson
+|  2   | Anna              | Persson
 |  3   | Fatima            | Alzanbouri
-|  4   | Inge              | Naning   
-|  5   | Minna             | Salo        
-|  6   | Andrew            | Gao          
+|  4   | Inge              | Naning
+|  5   | Minna             | Salo
+|  6   | Andrew            | Gao
 |===
-
-Tabellen ovan är definerad med `id` som en autoinkrementerande primärnyckel (postgres: serial). Detta innebär att tabellen redan är indexerad efter `id`. Frågor som använder id:t för att söka efter en specifik användare kan därmed använda sig av binärsökningsalgoritmen för att snabbt hitta användaren.
+Tabellen till vänster är definerad med `id` som en autoinkrementerande primärnyckel (postgres: serial). Detta innebär att tabellen redan är indexerad efter `id`. Frågor som använder id:t för att söka efter en specifik användare kan därmed använda sig av binärsökningsalgoritmen för att snabbt hitta användaren.
 
 .Exempelfrågor
 [source,sql]
@@ -33,6 +52,7 @@ SELECT * FROM employees WHERE last_name = 'Naning' <2>
 ----
 <1> Denna fråga använder `id` vid sökningen och kan använda en mer effektiv algoritm
 <2> Denna fråga använder `last_name` vid sökningen och måste använda en linjär sökning
+--
 
 Så länge tabellen är liten och/eller vi primärt använder `id` vid våra sökningar i `employees`-tabellen är det inga problem. Men om tabellen växer väldigt mycket och om många sökningar görs på t.ex. efternamn kan vi behöva tänka om och införa ytterligare index.
 
@@ -40,26 +60,27 @@ Index skapas med hjälp av sql-kommandot `CREATE INDEX`:
 
 [source,sql]
 ----
-CREATE INDEX employee_lastname ON employees(last_name) <1>
+CREATE INDEX employee_lastname ON employees(last_name); <1>
 ----
 <1> employee_lastname är namnet du döper indexet till - det kan heta vadsomhelst.
 
-Man kan tänka att det, när man skapar ett index, skapas en ny tabell enligt nedan:
+Man kan tänka att det, när man skapar ett index, skapas en ny tabell:
 
+[.float-group]
+--
 .En indexeringstabell för employee_lastname
-[cols="3,1" width="20%"]
+[cols="3,1", width="20%", role="left"]
 |===
 2+^| *employee_lastname*
-| *last_name* | *employee_id*   
-| Alzanbouri  |  3    
-| Bengtsson   |  1        
-| Gao         |  6     
-| Naning      |  4    
-| Persson     |  2            
-| Salo        |  5    
+| *last_name* | *employee_id*
+| Alzanbouri  |  3
+| Bengtsson   |  1
+| Gao         |  6
+| Naning      |  4
+| Persson     |  2
+| Salo        |  5
 |===
-
-Observera att tabellen ovan är sorterad efter efternamn, och innehåller en främmande nyckel som låter oss hämta användaren. Eftersom tabellen är sorterad kan vi nu mer effektivt söka på efternamn.
+Tabellen till vänster är sorterad efter efternamn, och innehåller en främmande nyckel som låter oss hämta användaren. Eftersom tabellen är sorterad kan vi nu mer effektivt söka på efternamn.
 
 .Exempelfrågor
 [source,sql]
@@ -69,18 +90,149 @@ SELECT * FROM employees WHERE last_name = 'Naning' <2>
 ----
 <1> Denna fråga använder `id` vid sökningen och kan använda en effektiv algoritm
 <2> Eftersom vi nu skapat ett index för last_name, kommer även denna fråga använda en effektiv algoritm
+--
+
+== Verifiera att indexet används
+
+Hur vet man att databashanteraren faktiskt använder indexet man skapat? I SQLite skriver man `EXPLAIN QUERY PLAN` framför sin fråga och får tillbaka en kort beskrivning av hur databasen tänker hämta datan. Jämför samma fråga före och efter att man skapat ett index på `last_name`:
+
+[source,sql]
+----
+-- Utan index:
+EXPLAIN QUERY PLAN SELECT * FROM employees WHERE last_name = 'Naning';
+-- => SCAN employees <1>
+
+CREATE INDEX employee_lastname ON employees(last_name);
+
+-- Med indexet på plats:
+EXPLAIN QUERY PLAN SELECT * FROM employees WHERE last_name = 'Naning';
+-- => SEARCH employees USING INDEX employee_lastname (last_name=?) <2>
+----
+<1> Full genomsökning. SQLite läser igenom hela tabellen rad för rad (linjär sökning).
+<2> Indexet används. SQLite slår upp raden via indexet istället för att skanna.
+
+Tumregel: `SCAN` = full genomsökning, `SEARCH USING INDEX` = uppslagning via index.
+
+[NOTE]
+.EXPLAIN i andra databashanterare
+====
+`EXPLAIN QUERY PLAN` är SQLite-specifik syntax. Andra databashanterare gör samma sak med andra kommandon:
+
+- *PostgreSQL*: `EXPLAIN <fråga>` ger frågeplanen. `EXPLAIN ANALYZE <fråga>` kör också frågan och visar faktiska körtider per steg.
+- *MySQL*: `EXPLAIN <fråga>`.
+
+Outputten ser olika ut men begreppen är liknande. `Seq Scan` i Postgres motsvarar SQLites `SCAN`, och `Index Scan` motsvarar `SEARCH USING INDEX`.
+====
 
 == Nackdelar
 
-Nackdelar med att ha index är att vid varje ny användare vi lägger till måste vi indexera om indexeringstabellerna: 
+Nackdelar med att ha index är att vid varje ny användare vi lägger till måste vi indexera om indexeringstabellerna:
 
 .Lägga till en ny användare
 [source,sql]
 ----
-INSERT INTO employees (first_name, last_name) VALUES ('Kim', 'Ekblad') <1>
+INSERT INTO employees (first_name, last_name) VALUES ('Kim', 'Ekblad'); <1>
 ----
-<1> Detta får till följd att `employees_lastname`-indextabellen måste byggas om.
+<1> Detta får till följd att `employee_lastname`-indextabellen måste byggas om.
 
-Att bygga om en indexeringstabell är en relativt kostsam operation Det gör att det går långsammare att lägga till rader i en tabell med index. För att veta om det är värt att lägga till ett index bör man samla in statistik kring hur ofta det man vill indexera används vid sökningar, och hur ofta indexeringstabellerna behöver uppdateras. 
+Att bygga om en indexeringstabell är en relativt kostsam operation. Det gör att det går långsammare att lägga till rader i en tabell med index.
 
-Observera slutligen att exemplet här enbart är en liknelse för vad som faktiskt händer - olika databashanterare kan skapa index på olika sätt, ofta används så-kallade https://www.youtube.com/watch?v=NI9wYuVIYcA[b-trees]
+Ett index är dessutom, i den enkla modellen ovan, en duplicerad och sorterad kopia av en kolumn. Det innebär att varje index tar plats på disken. På tabeller med många index kan indexen tillsammans uppta mer plats än själva tabellen.
+
+[IMPORTANT]
+====
+För att veta om det är värt att lägga till ett index bör man samla in statistik kring hur ofta det man vill indexera används vid sökningar, och hur ofta indexeringstabellerna behöver uppdateras.
+====
+
+[NOTE]
+.Index i verkligheten
+====
+Förklaringen i avsnittet ovan är en förenkling. Olika databashanterare implementerar index på olika sätt, men de flesta använder en datastruktur som heter https://www.youtube.com/watch?v=NI9wYuVIYcA[B-träd]. B-träd är optimerade för disk-läsningar och hanterar både snabba sökningar och uppdateringar bra.
+====
+
+.Vidareläsning
+[NOTE]
+====
+- SQLite: https://www.sqlite.org/lang_createindex.html[CREATE INDEX]
+- SQLite: https://www.sqlite.org/eqp.html[EXPLAIN QUERY PLAN]
+- SQLite: https://www.sqlite.org/queryplanner.html[The SQLite Query Optimizer Overview]
+====
+
+== Övningar
+
+Övningarna kommer i tre delar. Först bygger du ett dataset med ~1 000 000 rader med hjälp av Faker. Sedan tidmäter du sökningar med och utan index. Till sist utforskar du några varianter på egen hand.
+
+=== Skapa ett dataset
+
+För att se indexens påverkan på riktigt behöver du en tabell som är stor nog att skillnaden ska gå att mäta. https://github.com/faker-ruby/faker[Faker] är en Ruby-gem som genererar realistisk testdata (namn, e-postadresser, städer, datum osv.) i den mängd du behöver.
+
+. Skapa en mapp för övningen och lägg till en `Gemfile`:
++
+[source,ruby]
+----
+source 'https://rubygems.org'
+gem 'sqlite3'
+gem 'faker'
+----
++
+Kör `bundle install`.
+
+. Skriv ett script `seed.rb` med följande startkod, och fyll i loopen som genererar och sätter in raderna:
++
+[source,ruby]
+----
+require 'sqlite3'
+require 'faker'
+
+ROWS = 1_000_000
+DB_PATH = 'users.sqlite'
+
+File.delete(DB_PATH) if File.exist?(DB_PATH)
+db = SQLite3::Database.new(DB_PATH)
+db.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT, city TEXT)")
+
+# Fyll i: generera och sätt in ROWS rader med Faker
+----
++
+Bläddra bland Fakers https://github.com/faker-ruby/faker/blob/main/GENERATORS.md[generatorer]. Lägg gärna till fler kolumner om du har lust, eller byt domän helt: Star Wars-karaktärer, kaffebeställningar, pokémon. Faker har allt du kan tänka dig (och en hel del du inte kan tänka dig).
+
+[NOTE]
+====
+Bulkinserts är *mycket* snabbare inuti en transaktion. Utan en omslutande transaktion gör SQLite en commit efter varje enskild `INSERT`, vilket gör att en miljon insättningar tar betydligt längre tid än när de packas ihop i en enda transaktion.
+
+[source,ruby]
+----
+db.execute("BEGIN TRANSACTION")
+1_000_000.times { db.execute("INSERT INTO users (...) VALUES (?, ?, ?)", ...) }
+db.execute("COMMIT")
+----
+====
+
+[TIP]
+====
+Räkna med 3-4 minuter på en modern laptop för att fylla tabellen med en miljon rader. Det är Faker som tar tid, inte SQLite. Kör först med 100 000 rader (cirka 20 sekunder) för att verifiera att scriptet fungerar, och bumpa upp till en miljon när du vet att det är rätt.
+====
+
+=== Mät åtkomsttid med och utan index
+
+. Hämta tre e-postadresser ur tabellen: en som ligger _först_, en _sist_, och en _adress som inte finns_.
+
+. Skriv ett script `bench.rb` som tidmäter en sökning på `email = ?` för var och en av de tre adresserna. Kör varje sökning några gånger och ta medeltiden.
++
+.Reflektera
+- Skiljer sig tiden för _första_ vs _sista_ raden? Varför?
+- Hur lång tid tar det att leta efter en rad som inte finns? Stämmer det med din mentala modell av en linjär sökning?
+
+. Lägg till ett index på `email` och kör om mätningarna. Vad har förändrats?
+
+. Använd `EXPLAIN QUERY PLAN` för att verifiera att SQLite verkligen använder indexet vid sökningarna ovan.
+
+=== Utforska vidare
+
+Välj minst två av följande och förklara dina observationer med hjälp av `EXPLAIN QUERY PLAN` och tidmätning:
+
+. *Skrivkostnad.* Bygg om datasetet, först _utan_ något index och sedan _med_ ett index på `email`, och mät tiden för bulkinsättningen i båda fallen. Hur stor är skrivkostnaden?
+. *Sammansatt index.* Skapa ett sammansatt index på `(city, name)`. Kör en sökning enbart på `city`, en enbart på `name`, och en på båda. Vilka av dem gynnas av indexet, och vilken inte? Varför?
+. *Sortering.* Mät `SELECT * FROM users ORDER BY email LIMIT 100;` med och utan ett index på `email`. Indexet hjälper inte bara `WHERE`-frågor. Vad händer här, och varför?
+. *LIKE-mönster.* Jämför `WHERE email LIKE 'anna%'` med `WHERE email LIKE '%@gmail.com'`. Använder båda indexet? Vad är skillnaden, och varför kan databashanteraren inte göra något åt det andra fallet?
+. *Primärnyckeln.* Sökningar på `id` är alltid snabba. Verifiera detta för _första_, _sista_ och en _obefintlig_ rad, och förklara varför det är så.

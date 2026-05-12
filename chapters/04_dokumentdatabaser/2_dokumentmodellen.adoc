@@ -1,0 +1,81 @@
+= Dokumentmodellen
+
+Den enklaste mentala modellen för en dokumentdatabas är denna:
+
+[NOTE]
+====
+Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.
+
+[cols="1,2,4", width="100%"]
+|===
+| *Språk* | *Datatyp* | *Literal*
+
+| Python      | `dict`              | `{ "username": "grill.korv" }`
+| Ruby        | `Hash`              | `{ username: "grill.korv" }`
+| JavaScript  | `Object`            | `{ username: "grill.korv" }`
+| C#          | `Dictionary<K, V>`  | `new Dictionary<string,string> { ["username"] = "grill.korv" }`
+| Java        | `HashMap<K, V>`     | `Map.of("username", "grill.korv")`
+| PHP         | Associative array   | `[ "username" => "grill.korv" ]`
+| Elixir      | `Map` / `Struct`    | `%{username: "grill.korv"}` eller `%User{username: "grill.korv"}`
+|===
+====
+
+I en relationsdatabas lagras data i rader med fasta kolumner. I en dokumentdatabas lagras data som *dokument*, som i praktiken är JSON-objekt med fri struktur.
+
+Samma användardata, en gång relationellt och en gång som dokument:
+
+.Relationsdatabas
+[source,sql]
+----
+SELECT * FROM users WHERE id = 1;
+-- id | username   | email
+--  1 | grill.korv | grill@korv.se
+----
+
+.Dokumentdatabas
+[source,javascript]
+----
+{
+  _id:      ObjectId("5ccfe88f9fb5ba190b0a4483"),
+  username: "grill.korv",
+  email:    "grill@korv.se"
+}
+----
+
+Dokument får innehålla nästan vad som helst, inklusive listor och nästlade objekt:
+
+[source,javascript]
+----
+{
+  _id:      ObjectId("5ccfe88f9fb5ba190b0a4483"),
+  username: "grill.korv",
+  email:    "grill@korv.se",
+  profile: {
+    bio:      "Älskar att grilla.",
+    location: "Stockholm"
+  },
+  roles: ["editor", "moderator"]
+}
+----
+
+Det är samma data som hade krävt en `users`-tabell plus en `profiles`-tabell plus en `user_roles`-länktabell i en relationsdatabas. Här är allt packat i ett enda dokument.
+
+== Collections
+
+Dokument lagras i *collections* (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.
+
+I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.
+
+== Var ligger schemat egentligen?
+
+Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.
+
+Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är _underförstått_ och _utspritt i applikationskoden_ istället för centralt definierat i databasen.
+
+Det får konsekvenser:
+
+* När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).
+* Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller `CHECK`-constraint hjälper dig hitta de ställen som behöver uppdateras.
+* Ett "schemalöst" projekt landar ofta i samma migrationsarbete som ett relationellt, fast nu sker det i applikationskoden istället för i databasen. Det blir mindre synligt och svårare att verifiera.
+
+Dokumentdatabasens "frihet" är alltså en omfördelning av ansvar, inte en eliminering av det. Den är fortfarande rätt val för en del problem, men "vi slipper designa scheman" är sällan en sann motivering.

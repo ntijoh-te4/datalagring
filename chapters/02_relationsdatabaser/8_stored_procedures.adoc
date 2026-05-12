@@ -1,0 +1,174 @@
+= Stored Procedures
+
+En lagrad procedur (engelska: stored procedure) är kod (oftast i form av funktioner) som kan lagras i databashanteraren, och sedan anropas och köras. Vilket språk funktionen skrivs i beror på databashanteraren. En del har en SQL-liknande syntax, men andra använder sig av Java eller C.
+
+== Fördelar
+
+=== Kompilering och optimering
+
+Eftersom stored procedures lagras direkt i databashanteraren behöver inte databashanteraren tolka den inkommande SQL-strängen, utan kan kompilera och optimera funktionen när den skapas.
+
+=== Minskad nätverkstrafik
+
+Även mängden data som behöver skickas över nätverket till databashanteraren kan minska. Istället för att skicka hela SQL-strängen behöver man enbart anropa funktionen (och om funktionen tar några parametrar, skicka med dessa).
+
+=== Affärslogik i databasen
+
+Stored procedures gör det möjligt att lägga in mycket av den funktionalitet som annars skulle legat i en klient/webbserver direkt i databashanteraren. Detta minskar risken för att buggar i klient/webbserver påverkar databasens innehåll.
+
+=== Rättigheter
+
+En stored procedure kan köras med andra rättigheter än den som anropar proceduren. Om en användare i vanliga fall inte har rättigheter att göra en `DELETE` kan möjligheten fortfarande finnas att göra det med en stored procedure, som någon (förhoppningsvis) kontrollerat att den inte gör något oönskvärt.
+
+=== Skydd från SQL-injektion
+
+Stored procedures tar parametrar via typade argument istället för att klistras ihop till SQL-strängar. Det ger samma skydd mot SQL-injektion som parametriserade frågor. Förutsättningen är att proceduren inte själv bygger dynamisk SQL med användarinmatning, eftersom skyddet då försvinner.
+
+== Nackdelar
+
+=== Affärslogik i databasen
+
+Det kan vara svårt att veta var i applikationen logik finns om en del av logiken ligger i databashanteraren.
+
+=== Fastlåsning i databashanteringssystem
+
+De flesta databashanterare har olika, inkompatibla språk och ramverk för stored procedures.
+
+=== Specialistkompetens krävs
+
+Den som skriver stored procedures behöver specialistkompetens, då de inbegriper nya språk och tankesätt.
+
+== Syntax i Postgres
+
+I Postgres finns två varianter: *funktioner* (`CREATE FUNCTION`) som returnerar ett värde och kan användas i `SELECT`-frågor, och *procedurer* (`CREATE PROCEDURE`, från Postgres 11) som anropas med `CALL` och inte returnerar något.
+
+En enkel funktion som returnerar antal rader i `konton`-tabellen:
+
+[source,sql]
+----
+CREATE FUNCTION antal_konton() RETURNS INTEGER AS $$
+  SELECT COUNT(*)::INTEGER FROM konton;
+$$ LANGUAGE SQL;
+
+SELECT antal_konton();
+----
+
+Funktioner som ska göra mer än ett enskilt `SELECT` (t.ex. fatta beslut eller jobba med lokala variabler) skrivs i procedurspråket *PL/pgSQL*. Här är en funktion som returnerar namn + typ för ett konto, eller `'Okänt konto'` om numret inte finns:
+
+[source,sql]
+----
+CREATE FUNCTION konto_beskrivning(konto_nummer TEXT) RETURNS TEXT AS $$
+DECLARE
+  k_namn TEXT;
+  k_typ  TEXT;
+BEGIN
+  SELECT namn, typ INTO k_namn, k_typ
+    FROM konton WHERE nummer = konto_nummer;
+  IF k_namn IS NULL THEN
+    RETURN 'Okänt konto';
+  ELSE
+    RETURN k_namn || ' (' || k_typ || ')';
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT konto_beskrivning('1930');  -- Bank (tillgång)
+SELECT konto_beskrivning('9999');  -- Okänt konto
+----
+
+Tre nya byggstenar:
+
+- `DECLARE`-blocket reserverar lokala variabler. I exemplet två stycken: `k_namn` och `k_typ`, båda av typ `TEXT`. Värdena tilldelas senare i funktionen.
+- `SELECT ... INTO ...` hämtar värden från en `SELECT` _in i_ variablerna istället för att returnera dem som ett resultat. Flera kolumner och variabler kan kombineras som ovan.
+- `IF ... THEN ... ELSE ... END IF;` är PL/pgSQL:s standardförgrening. Det finns även `ELSIF` för flervägsförgreningar.
+
+För kortare logik, där man bara vill välja mellan värden, finns även `CASE`-uttrycket. Det fungerar både inuti `SELECT` och i PL/pgSQL:
+
+[source,sql]
+----
+SELECT nummer, namn,
+  CASE
+    WHEN typ IN ('tillgång', 'kostnad') THEN 'debet-konto'
+    ELSE 'kredit-konto'
+  END AS kategori
+FROM konton ORDER BY nummer LIMIT 5;
+----
+
+`CASE` är ofta mer kompakt än `IF/ELSE` när logiken bara är "välj värde baserat på villkor".
+
+[NOTE]
+====
+Ett tredje verktyg värt att känna till: `COALESCE(x, y, ...)` returnerar det första argumentet som inte är `NULL`. Användbart för att kortfattat hantera värden som kanske saknas. Till exempel ger `COALESCE(SUM(debet), 0)` resultatet `0` om det inte finns några rader att summera, istället för `NULL`.
+====
+
+En procedur som nollställer hela databasen (praktiskt mellan testkörningar):
+
+[source,sql]
+----
+CREATE PROCEDURE nollställ_databasen() AS $$
+BEGIN
+  DELETE FROM konteringar;
+  DELETE FROM verifikat;
+  UPDATE konton SET saldo = 0;
+END;
+$$ LANGUAGE plpgsql;
+
+CALL nollställ_databasen();
+----
+
+`LANGUAGE SQL` används när kroppen är en eller flera vanliga SQL-satser. `LANGUAGE plpgsql` är Postgres-egna procedurspråk och behövs så fort du vill ha kontrollstrukturer som `IF`, loopar eller felhantering.
+
+.Vidareläsning
+[NOTE]
+====
+- Postgres: https://www.postgresql.org/docs/current/sql-createfunction.html[CREATE FUNCTION]
+- Postgres: https://www.postgresql.org/docs/current/sql-createprocedure.html[CREATE PROCEDURE]
+- Postgres: https://www.postgresql.org/docs/current/plpgsql.html[PL/pgSQL]
+====
+
+== Övningar
+
+Övningarna återanvänder samma scaffold och databas som du satte upp i kapitel 2.7 (Vyer). Om du inte gjort den övningen ännu, gå tillbaka och kör `docker compose up` och `psql`-stegen där först.
+
+=== Function: saldo
+
+Skriv en function `saldo(nummer)` som returnerar det aktuella saldot för ett konto, beräknat från `konteringar`-tabellen (inte från den cachade `saldo`-kolumnen).
+
+Tänk på att kontots typ avgör hur saldot beräknas:
+
+- För `tillgång` och `kostnad` är saldot `SUM(debet) − SUM(kredit)`
+- För `skuld`, `eget_kapital` och `intäkt` är det `SUM(kredit) − SUM(debet)`
+
+Så länge `konteringar` är tom ska alla saldon vara 0. Lägg in en rad manuellt och verifiera att din funktion ger rätt svar.
+
+=== Procedure: bokför
+
+Skriv en procedure `bokför(datum, beskrivning, konto_debet, konto_kredit, belopp)` som registrerar ett verifikat med två konteringar:
+
+. En ny rad i `verifikat`
+. En debet-rad i `konteringar` på `konto_debet` med beloppet `belopp`
+. En kredit-rad i `konteringar` på `konto_kredit` med samma `belopp`
+
+Eftersom samma `belopp` används på båda sidor är dubbel bokföring garanterad av sig självt. Du behöver inte räkna efter.
+
+Testa:
+
+. Egen insättning 5 000 kr: Bank / Egen insättning
+. Hyra 3 000 kr: Kontorshyra / Bank
+. Försök bokföra med ett kontonummer som inte finns. Vad händer? Sparas verifikatet ändå, eller rullas allt tillbaka?
+
+Använd din `saldo`-function för att verifiera saldona på de berörda kontona.
+
+==== Utforska vidare: försäljning med moms
+
+Verkliga försäljningar har tre konteringar: brutto in på Bank, netto till Försäljning, och moms till Utgående moms. Det går inte att beskriva med `bokför`-proceduren ovan.
+
+Skriv en specialiserad `bokför_försäljning(datum, brutto)` som tar bruttobeloppet (vad kunden betalar) och själv räknar ut moms och netto för en 25%-vara, för att sedan registrera de tre konteringarna i ett verifikat.
+
+Verifiera med en försäljning på 1 250 kr: saldot på Bank ska gå upp 1 250, Utgående moms 250 och Försäljning vara 25% 1 000.
+
+=== Tillbaka till resultaträkning
+
+Gå tillbaka till `resultaträkning`-vyn du sketch:ade i kapitel 2.7 (Vyer). Nu finns det bokföringar i databasen. Kör några bokföringar (t.ex. ett par `bokför_försäljning` och en hyra) och kontrollera att `SELECT * FROM resultaträkning;` ger förväntat svar.
+
+Notera dock att `resultaträkning`-vyn läser från `konton.saldo`-kolumnen, som fortfarande är 0 även efter dina bokföringar. För att fylla `konton.saldo` automatiskt behöver vi en *trigger* — vi tar oss an det i nästa kapitel.
