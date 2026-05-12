@@ -1,0 +1,10 @@
+<a href="/groups">Show Groups</a>
+
+<h1><%= @group["groupname"] %></h1>
+<ul>
+<%= for user <- (@group["users"] || []) do %>
+  <li>
+    <a href="/users/<%= user["_id"] %>"><%= user["username"] %></a>
+  </li>
+<% end %>
+</ul>

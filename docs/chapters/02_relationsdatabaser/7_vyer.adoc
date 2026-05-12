@@ -1,0 +1,162 @@
+= Vyer
+
+En *vy* (engelska: view) är en sparad `SELECT`-fråga som beter sig som en tabell. När man `SELECT`:ar från en vy körs själva frågan på nytt, så datan i vyn är alltid lika aktuell som datan i de underliggande tabellerna.
+
+== Fördelar
+
+=== Kapsla in komplicerad SQL
+
+En komplex `SELECT` med flera `JOIN`, filter och beräkningar kan gömmas bakom en vy. Applikationen läser från vyn med en enkel `SELECT`, och själva komplexiteten ligger på ett ställe i databasen.
+
+=== Enklare gränssnitt
+
+Genom en vy kan man exponera en denormaliserad bild av flera tabeller (en "join-färdig" version), så att klienter slipper själva förstå hur datan är spridd över relationsstrukturen.
+
+=== Åtkomstkontroll
+
+Man kan ge rättighet att läsa en vy utan att ge rättighet till de underliggande tabellerna. Klassiskt exempel: visa en `betyg_publika`-vy som filtrerar bort vissa kolumner, utan att ge åtkomst till den underliggande `betyg`-tabellen.
+
+=== Gemensam definition
+
+Om flera applikationer behöver samma härledda fråga kan vyn vara enda sanningens källa. Ändras logiken behöver ändringen bara göras på ett ställe.
+
+== Nackdelar
+
+=== Prestanda
+
+Varje `SELECT` från en vanlig vy kör hela den underliggande frågan på nytt. För dyra vyer som körs ofta blir kostnaden kännbar. Postgres och de flesta andra databashanterare har därför *materialized views* som lagrar resultatet och uppdateras manuellt eller schemalagt.
+
+=== Begränsade uppdateringar
+
+Vissa vyer går inte att skriva till. Om vyn aggregerar (`GROUP BY`, `SUM`) eller använder `JOIN` vet databasen inte hur ett `INSERT` eller `UPDATE` mot vyn ska översättas till de underliggande tabellerna.
+
+=== Extra abstraktionslager
+
+När något går fel måste man förstå _två_ saker: vyn och frågan den bygger på. För enkla vyer är det inget problem, men en vy som bygger på en annan vy som bygger på en tredje kan bli svår att felsöka.
+
+== Syntax
+
+I Postgres skapas en vy med `CREATE VIEW`:
+
+[source,sql]
+----
+CREATE VIEW verifikat_rader AS
+SELECT
+  v.id, v.datum, v.beskrivning,
+  k.konto, ko.namn AS konto_namn,
+  k.debet, k.kredit
+FROM verifikat v
+JOIN konteringar k ON k.verifikat_id = v.id
+JOIN konton ko ON ko.nummer = k.konto;
+----
+
+Sedan använder man den som vilken tabell som helst:
+
+[source,sql]
+----
+SELECT * FROM verifikat_rader WHERE datum = '2026-01-15' ORDER BY id, konto;
+----
+
+För dyra vyer som körs ofta finns *materialized views* som lagrar resultatet på disk:
+
+[source,sql]
+----
+CREATE MATERIALIZED VIEW manadsrapport AS
+SELECT ...;
+
+REFRESH MATERIALIZED VIEW manadsrapport;
+----
+
+Materialized views måste refreshas manuellt (eller via ett schemalagt jobb) när underliggande data ändras.
+
+.Vidareläsning
+[NOTE]
+====
+- Postgres: https://www.postgresql.org/docs/current/sql-createview.html[CREATE VIEW]
+- Postgres: https://www.postgresql.org/docs/current/rules-materializedviews.html[Materialized Views]
+====
+
+== Övningar
+
+Övningarna i det här kapitlet, samt i kapitel 2.8 (Stored Procedures) och 2.9 (Triggers), bygger alla på samma scaffold och databas: en bokföringsapplikation för en enskild näringsverksamhet. Du sätter upp scaffolden här och återanvänder den i de följande två kapitlen.
+
+Databasen har tre tabeller (samma upplägg som ni jobbade med i Entreprenörskap):
+
+- `konton`: en kontoplan (kontonummer, namn, typ, cachat saldo)
+- `verifikat`: ett verifikat per affärshändelse
+- `konteringar`: en eller flera rader per verifikat, med kolumnerna `debet` och `kredit`
+
+Dubbel bokföring säger att summan av debet och kredit över ett verifikat alltid ska vara lika.
+
+=== Sätt upp miljön
+
+SQLite stödjer inte vyer av det här slaget (eller stored procedures, eller triggers), så övningarna körs mot Postgres. Vi använder Docker för att slippa lokal installation.
+
+Hämta link:exercises/stored_procedures/docker-compose.yml[docker-compose.yml] och starta databasen:
+
+[source,sh]
+----
+docker compose up -d
+----
+
+Anslut med `psql`:
+
+[source,sh]
+----
+docker compose exec db psql -U student -d bokforing
+----
+
+Verifiera att schemat är på plats. `\dt` ska lista de tre tabellerna, och kontoplanen ska vara seedad:
+
+[source,sql]
+----
+SELECT nummer, namn, typ FROM konton ORDER BY nummer;
+----
+
+----
+ nummer |          namn           |     typ
+--------+-------------------------+--------------
+ 1010   | Kassa                   | tillgång
+ 1030   | Kundfordringar          | tillgång
+ 1040   | Varubehållning          | tillgång
+ 1930   | Bank                    | tillgång
+ 2010   | Eget kapital            | eget_kapital
+ 2013   | Eget uttag              | eget_kapital
+ 2018   | Egen insättning         | eget_kapital
+ 2030   | Leverantörsskuld        | skuld
+ 2610   | Utgående moms           | skuld
+ 2640   | Ingående moms           | tillgång
+ 3001   | Försäljning vara 25%    | intäkt
+ 3011   | Försäljning tjänst 25%  | intäkt
+ 4010   | Inköp varor 25%         | kostnad
+ 5011   | Kontorshyra             | kostnad
+ 5410   | Förbrukningsinventarier | kostnad
+ 5900   | Marknadsföring          | kostnad
+(16 rows)
+----
+
+Alla `saldo`-värden ska vara `0`. `verifikat` och `konteringar` är tomma.
+
+=== Aktiva konton
+
+Skriv en vy `aktiva_konton` som visar nummer, namn och typ för konton där saldot inte är `0`. Eftersom inga bokföringar gjorts ännu kommer vyn vara tom — den blir intressant först när du gör övningarna i de följande kapitlen.
+
+=== Verifikat med konteringar
+
+Skriv en vy `verifikat_rader` som joinar `verifikat`, `konteringar` och `konton` så att varje rad visar:
+
+- verifikatets `id`, `datum` och `beskrivning`
+- kontots `nummer` och `namn`
+- `debet`- och `kredit`-beloppen
+
+Använd vyn för att hitta alla rader för ett visst datum eller ett visst konto — utan att själv behöva skriva ihop JOIN-frågan varje gång.
+
+==== Utforska vidare: resultaträkning
+
+Skriv en vy `resultaträkning` som visar tre värden för företaget:
+
+. `intäkter`: totalt saldo över alla `intäkt`-konton
+. `kostnader`: totalt saldo över alla `kostnad`-konton
+. `resultat`: intäkter minus kostnader
+
+Vyn blir bara intressant när det finns bokföringar och `konton.saldo` är populerad. Återkom hit efter att du skrivit `bokför`-proceduren i kapitel 2.8 och saldo-triggern i kapitel 2.9.

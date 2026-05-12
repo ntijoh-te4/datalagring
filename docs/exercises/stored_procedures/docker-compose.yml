@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: bokforing
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: student
+    ports:
+      - "5432:5432"
+    configs:
+      - source: init_sql
+        target: /docker-entrypoint-initdb.d/init.sql
+
+configs:
+  init_sql:
+    content: |
+      CREATE TABLE konton (
+        nummer  TEXT PRIMARY KEY,
+        namn    TEXT NOT NULL,
+        typ     TEXT NOT NULL CHECK (typ IN
+                  ('tillgång', 'skuld', 'eget_kapital', 'intäkt', 'kostnad')),
+        saldo   NUMERIC(12,2) NOT NULL DEFAULT 0
+      );
+
+      CREATE TABLE verifikat (
+        id          SERIAL PRIMARY KEY,
+        datum       DATE NOT NULL,
+        beskrivning TEXT NOT NULL,
+        skapad_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE TABLE konteringar (
+        id           SERIAL PRIMARY KEY,
+        verifikat_id INTEGER NOT NULL REFERENCES verifikat(id),
+        konto        TEXT NOT NULL REFERENCES konton(nummer),
+        debet        NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (debet  >= 0),
+        kredit       NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (kredit >= 0),
+        CHECK ((debet = 0) <> (kredit = 0))
+      );
+
+      INSERT INTO konton (nummer, namn, typ) VALUES
+        ('1010', 'Kassa',                    'tillgång'),
+        ('1030', 'Kundfordringar',           'tillgång'),
+        ('1040', 'Varubehållning',           'tillgång'),
+        ('1930', 'Bank',                     'tillgång'),
+        ('2010', 'Eget kapital',             'eget_kapital'),
+        ('2013', 'Eget uttag',               'eget_kapital'),
+        ('2018', 'Egen insättning',          'eget_kapital'),
+        ('2030', 'Leverantörsskuld',         'skuld'),
+        ('2610', 'Utgående moms',            'skuld'),
+        ('2640', 'Ingående moms',            'tillgång'),
+        ('3001', 'Försäljning vara 25%',     'intäkt'),
+        ('3011', 'Försäljning tjänst 25%',   'intäkt'),
+        ('4010', 'Inköp varor 25%',          'kostnad'),
+        ('5011', 'Kontorshyra',              'kostnad'),
+        ('5410', 'Förbrukningsinventarier',  'kostnad'),
+        ('5900', 'Marknadsföring',           'kostnad');

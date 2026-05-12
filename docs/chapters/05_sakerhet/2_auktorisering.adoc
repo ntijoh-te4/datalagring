@@ -25,7 +25,7 @@ Att i en stor organisation tilldela rättigheter individuellt till varje använd
 | `vaktmastare` | inge                  | Läsa och skriva i skåp-tabellen
 |===
 
-Lägg märke till att en användare kan ha flera roller — Fatima är både `larare` och `rektor` i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.
+Lägg märke till att en användare kan ha flera roller. Fatima är både `larare` och `rektor` i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.
 
 == GRANT och REVOKE
 
@@ -65,7 +65,7 @@ GRANT larare TO fatima;
 <2> Tilldela rättigheter till rollen.
 <3> Tilldela rollen till en användare.
 
-När man senare vill ändra vad lärare får göra behöver man bara uppdatera rollen — alla användare som tillhör rollen påverkas automatiskt.
+När man senare vill ändra vad lärare får göra behöver man bara uppdatera rollen. Alla användare som tillhör rollen påverkas automatiskt.
 
 == Principen om minsta privilegium
 
@@ -77,7 +77,7 @@ Om en webbapplikation bara behöver läsa från en `produkter`-tabell ska använ
 ====
 *Använd inte databasens administratörskonto från din applikation.*
 
-Det är frestande att alltid ansluta som `postgres` eller `root` eftersom det "bara fungerar". Men ett administratörskonto kan göra _allt_ — inklusive att radera hela databasen. Skapa istället en separat användare för varje applikation, och ge den enbart de rättigheter den behöver.
+Det är frestande att alltid ansluta som `postgres` eller `root` eftersom det "bara fungerar". Men ett administratörskonto kan göra _allt_, inklusive att radera hela databasen. Skapa istället en separat användare för varje applikation, och ge den enbart de rättigheter den behöver.
 ====
 
 == Övningsuppgift
@@ -90,4 +90,4 @@ Tre olika program ansluter till databasen:
 - En _utlåningsterminal_ där bibliotekarier registrerar lån och återlämningar.
 - En _administratörsapplikation_ där chefen lägger till nya böcker och nya medlemmar.
 
-Skriv `CREATE ROLE`- och `GRANT`-satser för var och en av de tre programmen, så de har precis de rättigheter de behöver — varken mer eller mindre.
+Skriv `CREATE ROLE`- och `GRANT`-satser för var och en av de tre programmen, så de har precis de rättigheter de behöver, varken mer eller mindre.

@@ -16,6 +16,8 @@ include::chapters/02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
 
 include::chapters/03_backup_och_aterstallning/_chapter.adoc[leveloffset=+1]
 
-include::chapters/04_no_sql/_chapter.adoc[leveloffset=+1]
+include::chapters/04_dokumentdatabaser/_chapter.adoc[leveloffset=+1]
 
-// include::chapters/05_utkast/_chapter.adoc[leveloffset=+1]
+include::chapters/05_sakerhet/_chapter.adoc[leveloffset=+1]
+
+//include::chapters/06_utkast/_chapter.adoc[leveloffset=+1]

@@ -5,4 +5,11 @@
 <style>
   .mermaid { text-align: center; }
   .mermaid svg { max-width: 100%; height: auto; }
+
+  /* Floated tables (role="left" / role="right") so prose flows around */
+  .tableblock.left  { float: left;  margin: 0 1.5em 0.5em 0; }
+  .tableblock.right { float: right; margin: 0 0 0.5em 1.5em; }
+
+  /* Fluid table+text units (table floats left, prose flows right) */
+  .float-group { border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; padding: 0.75em 0; margin: 1em 0; }
 </style>

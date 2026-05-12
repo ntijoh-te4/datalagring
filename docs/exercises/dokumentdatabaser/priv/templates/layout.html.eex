@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <title>Pluggy</title>
+  <style>
+    body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    form { margin: 1rem 0; }
+    input, button, select { font-size: 1rem; padding: 0.3rem; margin-right: 0.3rem; }
+    ul { padding-left: 1.2rem; }
+    a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <%= @inner %>
+</body>
+</html>

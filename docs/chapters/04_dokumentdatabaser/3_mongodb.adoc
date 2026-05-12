@@ -1,0 +1,156 @@
+= MongoDB
+
+I det här kapitlet använder vi *MongoDB* som konkret exempel. Det är den mest spridda dokumentdatabasen och en bra utgångspunkt för att förstå hur de fungerar. https://www.mongodb.com/atlas[MongoDB Atlas] erbjuder en gratisplan om du vill prova online. För övningarna i kapitlet kör vi en lokal Mongo-server via Docker.
+
+== CRUD-operationer
+
+För varje vanlig SQL-operation finns en MongoDB-motsvarighet.
+
+=== Skapa
+
+.SQL
+[source,sql]
+----
+INSERT INTO users (username, email)
+VALUES ('grill.korv', 'grill@korv.se');
+----
+
+.MongoDB
+[source,javascript]
+----
+db.users.insertOne({
+  username: "grill.korv",
+  email:    "grill@korv.se"
+})
+----
+
+=== Läs
+
+.SQL
+[source,sql]
+----
+SELECT * FROM users WHERE username = 'grill.korv';
+----
+
+.MongoDB
+[source,javascript]
+----
+db.users.find({ username: "grill.korv" })
+----
+
+=== Uppdatera
+
+.SQL
+[source,sql]
+----
+UPDATE users SET email = 'ny@korv.se' WHERE username = 'grill.korv';
+----
+
+.MongoDB
+[source,javascript]
+----
+db.users.updateOne(
+  { username: "grill.korv" },
+  { $set: { email: "ny@korv.se" } }
+)
+----
+
+=== Radera
+
+.SQL
+[source,sql]
+----
+DELETE FROM users WHERE username = 'grill.korv';
+----
+
+.MongoDB
+[source,javascript]
+----
+db.users.deleteOne({ username: "grill.korv" })
+----
+
+== Index och sökning
+
+MongoDB stödjer index på samma sätt som relationsdatabaser:
+
+[source,javascript]
+----
+db.users.createIndex({ username: 1 }) <1>
+db.users.createIndex({ "profile.location": 1 }) <2>
+----
+<1> Index på fältet `username` (1 = stigande, -1 = fallande).
+<2> Index på ett _nästlat_ fält. Relationsdatabaser stödjer ingen nästling alls; sådan data modelleras alltid som en separat tabell från början.
+
+== Aggregering
+
+Istället för `GROUP BY` har MongoDB en *aggregation pipeline*: en sekvens av bearbetningssteg där datan flödar igenom.
+
+[source,javascript]
+----
+db.users.aggregate([
+  { $match: { active: true } },                       <1>
+  { $group: { _id: "$role", count: { $sum: 1 } } },   <2>
+  { $sort:  { count: -1 } },                          <3>
+  { $limit: 5 }                                       <4>
+])
+----
+<1> Filtrera (motsvarar `WHERE`).
+<2> Gruppera och räkna (motsvarar `GROUP BY` + `COUNT`).
+<3> Sortera fallande.
+<4> Begränsa till fem rader.
+
+.Vidareläsning
+[NOTE]
+====
+- MongoDB: https://www.mongodb.com/docs/manual/[Manual]
+- MongoDB: https://www.mongodb.com/docs/manual/crud/[CRUD Operations]
+- MongoDB: https://www.mongodb.com/docs/manual/aggregation/[Aggregation Operations]
+====
+
+== Övning: sätt upp miljön
+
+Övningarna i resten av kapitlet bygger på ett färdigt Elixir-projekt som pratar med MongoDB. Resten av boken har använt Ruby/Sinatra som lingua franca för webbserver-kod. Det här kapitlet byter språk till *Elixir* med ramverket *Pluggy*, byggt på https://hex.pm/packages/plug[Plug] och https://github.com/ninenines/cowboy[Cowboy] (samma Pluggy som ni jobbade med i webbserver-kursen i början av TE4).
+
+Varför bytet? Sista delen av kapitlet handlar om _publish/subscribe-events_ för att hålla inbäddade kopior i synk. I Ruby kräver det mönstret ett bibliotek. I Elixir är pub/sub bara hur språket fungerar i grunden. Mer om det när vi kommer dit.
+
+Du behöver inte skriva någon Plug-, Cowboy- eller mallkod själv; allt webb-relaterat finns redan. Din uppgift är att jobba med MongoDB-anropen i `lib/pluggy/models/` och, senare, lägga till en EventBus och prenumeranter.
+
+Hämta scaffolden: link:exercises/dokumentdatabaser/dokumentdatabaser.zip[dokumentdatabaser.zip]. Packa upp den i en egen mapp.
+
+Starta MongoDB:
+
+[source,sh]
+----
+docker compose up -d
+----
+
+Installera Elixir-biblioteken och starta appen:
+
+[source,sh]
+----
+mix deps.get
+iex -S mix
+----
+
+Öppna http://localhost:3000 i webbläsaren. Du ska se en (tom) lista över användare och ett formulär för att lägga till nya.
+
+Verifiera grundläggande CRUD genom webbgränssnittet:
+
+. Skapa två användare, t.ex. `grill.korv` och `Eva`.
+. Gå till sidan för en användare och uppdatera e-postadressen.
+. Gå till `/groups`, skapa en grupp som heter `Crazy Cowboys` med båda användarna som medlemmar.
+
+Öppna också en `mongosh`-konsol mot din lokala Mongo-server och inspektera datan direkt:
+
+[source,sh]
+----
+docker compose exec mongo mongosh test
+----
+
+[source,javascript]
+----
+db.users.find()
+db.groups.find()
+----
+
+Hur ser dokumenten ut? Vad innehåller `groups`-dokumenten under fältet `users`? Det är det som leder vidare till nästa avsnitt.

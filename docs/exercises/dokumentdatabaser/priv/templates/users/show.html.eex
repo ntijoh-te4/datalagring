@@ -1,0 +1,7 @@
+<a href="/users">Show Users</a>
+
+<form action="/users/<%= @user["_id"] %>" method="post">
+  <input type="text" name="username" value="<%= @user["username"] %>">
+  <input type="text" name="email" value="<%= @user["email"] %>">
+  <button type="submit">Update</button>
+</form>

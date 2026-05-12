@@ -1,0 +1,26 @@
+<a href="/users">Show Users</a>
+
+<h1>Listing Groups</h1>
+
+<ul>
+<%= for group <- @groups do %>
+  <li>
+    <a href="/groups/<%= group["_id"] %>"><%= group["groupname"] %></a>
+    <ul>
+    <%= for user <- (group["users"] || []) do %>
+      <li><%= user["username"] %></li>
+    <% end %>
+    </ul>
+  </li>
+<% end %>
+</ul>
+
+<form action="/groups" method="post">
+  <input type="text" name="groupname" placeholder="group name">
+  <select name="users[]" multiple>
+  <%= for user <- @users do %>
+    <option value="<%= user["_id"] %>"><%= user["username"] %></option>
+  <% end %>
+  </select>
+  <button type="submit">Add group</button>
+</form>
