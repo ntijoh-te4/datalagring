@@ -62,13 +62,13 @@ configs:
       -- =====================================================================
       -- Function: saldo
       -- =====================================================================
-      CREATE FUNCTION saldo(konto_nummer TEXT) RETURNS NUMERIC AS $$
+      CREATE FUNCTION saldo(konto_nummer TEXT) RETURNS NUMERIC AS '
       DECLARE
         k_typ TEXT;
         total NUMERIC;
       BEGIN
         SELECT typ INTO k_typ FROM konton WHERE nummer = konto_nummer;
-        IF k_typ IN ('tillgång', 'kostnad') THEN
+        IF k_typ IN (''tillgång'', ''kostnad'') THEN
           SELECT COALESCE(SUM(debet) - SUM(kredit), 0) INTO total
             FROM konteringar WHERE konto = konto_nummer;
         ELSE
@@ -77,18 +77,18 @@ configs:
         END IF;
         RETURN total;
       END;
-      $$ LANGUAGE plpgsql;
+      ' LANGUAGE plpgsql;
 
       -- =====================================================================
       -- Trigger: håll konton.saldo i synk med konteringar
       -- =====================================================================
-      CREATE FUNCTION uppdatera_saldo() RETURNS TRIGGER AS $$
+      CREATE FUNCTION uppdatera_saldo() RETURNS TRIGGER AS '
       DECLARE
         k_typ TEXT;
         delta NUMERIC;
       BEGIN
         SELECT typ INTO k_typ FROM konton WHERE nummer = NEW.konto;
-        IF k_typ IN ('tillgång', 'kostnad') THEN
+        IF k_typ IN (''tillgång'', ''kostnad'') THEN
           delta := NEW.debet - NEW.kredit;
         ELSE
           delta := NEW.kredit - NEW.debet;
@@ -96,7 +96,7 @@ configs:
         UPDATE konton SET saldo = saldo + delta WHERE nummer = NEW.konto;
         RETURN NEW;
       END;
-      $$ LANGUAGE plpgsql;
+      ' LANGUAGE plpgsql;
 
       CREATE TRIGGER konteringar_uppdatera_saldo
         AFTER INSERT ON konteringar
@@ -104,7 +104,7 @@ configs:
         EXECUTE FUNCTION uppdatera_saldo();
 
       -- =====================================================================
-      -- Procedures (SECURITY DEFINER — körs med ägarens rättigheter, så
+      -- Procedures (SECURITY DEFINER: körs med ägarens rättigheter, så
       -- en roll kan anropa procedurerna utan att själv ha INSERT-rätt på
       -- konteringar/verifikat. Det är detta som låter oss styra in alla
       -- skrivningar via just dessa två procedurer.)
@@ -118,7 +118,7 @@ configs:
       )
       LANGUAGE plpgsql
       SECURITY DEFINER
-      AS $$
+      AS '
       DECLARE
         v_id INTEGER;
       BEGIN
@@ -129,7 +129,7 @@ configs:
         INSERT INTO konteringar (verifikat_id, konto, debet, kredit)
           VALUES (v_id, konto_kredit, 0, belopp);
       END;
-      $$;
+      ';
 
       CREATE PROCEDURE bokför_försäljning(
         v_datum DATE,
@@ -137,22 +137,22 @@ configs:
       )
       LANGUAGE plpgsql
       SECURITY DEFINER
-      AS $$
+      AS '
       DECLARE
         v_id INTEGER;
         moms  NUMERIC := brutto * 0.25 / 1.25;
         netto NUMERIC := brutto - moms;
       BEGIN
         INSERT INTO verifikat (datum, beskrivning)
-          VALUES (v_datum, 'Försäljning') RETURNING id INTO v_id;
+          VALUES (v_datum, ''Försäljning'') RETURNING id INTO v_id;
         INSERT INTO konteringar (verifikat_id, konto, debet, kredit)
-          VALUES (v_id, '1930', brutto, 0);
+          VALUES (v_id, ''1930'', brutto, 0);
         INSERT INTO konteringar (verifikat_id, konto, debet, kredit)
-          VALUES (v_id, '2610', 0, moms);
+          VALUES (v_id, ''2610'', 0, moms);
         INSERT INTO konteringar (verifikat_id, konto, debet, kredit)
-          VALUES (v_id, '3001', 0, netto);
+          VALUES (v_id, ''3001'', 0, netto);
       END;
-      $$;
+      ';
 
       -- =====================================================================
       -- Vyer
