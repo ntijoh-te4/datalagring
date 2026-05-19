@@ -1,3 +1,0 @@
-= Backup och Snapshots
-
-De flesta databashanterare har inbyggd funktionalitet för att ta säkerhetskopior på databasen. I de flesta fall förvaras dessa backups på en annan dator och-   gärna i en annan serverhall.

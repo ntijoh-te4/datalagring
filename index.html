@@ -657,82 +657,91 @@ pre.rouge .gs {
 </li>
 </ul>
 </li>
-<li><a href="#_backup_och_återställning">3. Backup och återställning</a>
+<li><a href="#_säkerhet_och_integritet_2">3. Säkerhet och integritet</a>
 <ul class="sectlevel2">
-<li><a href="#_backup_och_snapshots">3.1. Backup och Snapshots</a></li>
+<li><a href="#_introduktion_till_databassäkerhet">3.1. Introduktion till databassäkerhet</a>
+<ul class="sectlevel3">
+<li><a href="#_cia_tre_grundläggande_principer">3.1.1. CIA: tre grundläggande principer</a></li>
 </ul>
 </li>
-<li><a href="#_dokumentdatabaser">4. Dokumentdatabaser</a>
+<li><a href="#_auktorisering_och_behörigheter">3.2. Auktorisering och behörigheter</a>
+<ul class="sectlevel3">
+<li><a href="#_användare_och_roller">3.2.1. Användare och roller</a></li>
+<li><a href="#_grant_och_revoke">3.2.2. GRANT och REVOKE</a></li>
+<li><a href="#_roller_i_sql">3.2.3. Roller i SQL</a></li>
+<li><a href="#_principen_om_minsta_privilegium">3.2.4. Principen om minsta privilegium</a></li>
+<li><a href="#_övningsuppgift_5">3.2.5. Övningsuppgift</a></li>
+</ul>
+</li>
+<li><a href="#_säker_lagring_av_känsliga_uppgifter">3.3. Säker lagring av känsliga uppgifter</a>
+<ul class="sectlevel3">
+<li><a href="#_hashning_av_lösenord">3.3.1. Hashning av lösenord</a></li>
+<li><a href="#_kryptering">3.3.2. Kryptering</a></li>
+<li><a href="#_sql_injektion">3.3.3. SQL-injektion</a></li>
+<li><a href="#_övningsuppgift_6">3.3.4. Övningsuppgift</a></li>
+</ul>
+</li>
+<li><a href="#_lagar_och_integritet">3.4. Lagar och integritet</a>
+<ul class="sectlevel3">
+<li><a href="#_vad_är_en_personuppgift">3.4.1. Vad är en personuppgift?</a></li>
+<li><a href="#_gdpr_dataskyddsförordningen">3.4.2. GDPR: Dataskyddsförordningen</a></li>
+<li><a href="#_tillsyn_och_påföljder">3.4.3. Tillsyn och påföljder</a></li>
+<li><a href="#_konsekvenser_för_en_databasdesigner">3.4.4. Konsekvenser för en databasdesigner</a></li>
+<li><a href="#_övningsuppgift_7">3.4.5. Övningsuppgift</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_backup_och_återställning">4. Backup och återställning</a>
 <ul class="sectlevel2">
-<li><a href="#_introduktion_2">4.1. Introduktion</a>
+<li><a href="#_introduktion_till_backup_och_återställning">4.1. Introduktion till backup och återställning</a>
 <ul class="sectlevel3">
-<li><a href="#_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">4.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</a></li>
-</ul>
-</li>
-<li><a href="#_dokumentmodellen">4.2. Dokumentmodellen</a>
-<ul class="sectlevel3">
-<li><a href="#_collections">4.2.1. Collections</a></li>
-<li><a href="#_var_ligger_schemat_egentligen">4.2.2. Var ligger schemat egentligen?</a></li>
-</ul>
-</li>
-<li><a href="#_mongodb">4.3. MongoDB</a>
-<ul class="sectlevel3">
-<li><a href="#_crud_operationer">4.3.1. CRUD-operationer</a></li>
-<li><a href="#_index_och_sökning">4.3.2. Index och sökning</a></li>
-<li><a href="#_aggregering">4.3.3. Aggregering</a></li>
-<li><a href="#_övning_sätt_upp_miljön">4.3.4. Övning: sätt upp miljön</a></li>
-</ul>
-</li>
-<li><a href="#_modellering_embed_eller_reference">4.4. Modellering: embed eller reference</a>
-<ul class="sectlevel3">
-<li><a href="#_exemplet">4.4.1. Exemplet</a></li>
-<li><a href="#_när_vilken">4.4.2. När vilken?</a></li>
-<li><a href="#_övning_embed_eller_reference">4.4.3. Övning: embed eller reference</a></li>
-</ul>
-</li>
-<li><a href="#_konsistens_via_events">4.5. Konsistens via events</a>
-<ul class="sectlevel3">
-<li><a href="#_lösningen_publishsubscribe">4.5.1. Lösningen: publish/subscribe</a></li>
-<li><a href="#_en_enkel_eventbus">4.5.2. En enkel EventBus</a></li>
-<li><a href="#_publicera_från_modellen">4.5.3. Publicera från modellen</a></li>
-<li><a href="#_prenumerera_i_en_genserver">4.5.4. Prenumerera i en GenServer</a></li>
-<li><a href="#_varför_det_här_är_inbyggt_i_elixir">4.5.5. Varför det här är inbyggt i Elixir</a></li>
-<li><a href="#_övning_lägg_till_en_event_prenumerant">4.5.6. Övning: lägg till en event-prenumerant</a></li>
+<li><a href="#_backup_typer">4.1.1. Backup-typer</a></li>
+<li><a href="#_rpo_och_rto">4.1.2. RPO och RTO</a></li>
+<li><a href="#_var_ska_backups_lagras">4.1.3. Var ska backups lagras?</a></li>
+<li><a href="#_återställning">4.1.4. Återställning</a></li>
+<li><a href="#_vidareläsning">4.1.5. Vidareläsning</a></li>
+<li><a href="#_övningar_7">4.1.6. Övningar</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_säkerhet_och_integritet_2">5. Säkerhet och integritet</a>
+<li><a href="#_dokumentdatabaser">5. Dokumentdatabaser</a>
 <ul class="sectlevel2">
-<li><a href="#_introduktion_till_databassäkerhet">5.1. Introduktion till databassäkerhet</a>
+<li><a href="#_introduktion_2">5.1. Introduktion</a>
 <ul class="sectlevel3">
-<li><a href="#_cia_tre_grundläggande_principer">5.1.1. CIA: tre grundläggande principer</a></li>
+<li><a href="#_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">5.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</a></li>
 </ul>
 </li>
-<li><a href="#_auktorisering_och_behörigheter">5.2. Auktorisering och behörigheter</a>
+<li><a href="#_dokumentmodellen">5.2. Dokumentmodellen</a>
 <ul class="sectlevel3">
-<li><a href="#_användare_och_roller">5.2.1. Användare och roller</a></li>
-<li><a href="#_grant_och_revoke">5.2.2. GRANT och REVOKE</a></li>
-<li><a href="#_roller_i_sql">5.2.3. Roller i SQL</a></li>
-<li><a href="#_principen_om_minsta_privilegium">5.2.4. Principen om minsta privilegium</a></li>
-<li><a href="#_övningsuppgift_5">5.2.5. Övningsuppgift</a></li>
+<li><a href="#_collections">5.2.1. Collections</a></li>
+<li><a href="#_var_ligger_schemat_egentligen">5.2.2. Var ligger schemat egentligen?</a></li>
 </ul>
 </li>
-<li><a href="#_säker_lagring_av_känsliga_uppgifter">5.3. Säker lagring av känsliga uppgifter</a>
+<li><a href="#_mongodb">5.3. MongoDB</a>
 <ul class="sectlevel3">
-<li><a href="#_hashning_av_lösenord">5.3.1. Hashning av lösenord</a></li>
-<li><a href="#_kryptering">5.3.2. Kryptering</a></li>
-<li><a href="#_sql_injektion">5.3.3. SQL-injektion</a></li>
-<li><a href="#_övningsuppgift_6">5.3.4. Övningsuppgift</a></li>
+<li><a href="#_crud_operationer">5.3.1. CRUD-operationer</a></li>
+<li><a href="#_index_och_sökning">5.3.2. Index och sökning</a></li>
+<li><a href="#_aggregering">5.3.3. Aggregering</a></li>
+<li><a href="#_övning_sätt_upp_miljön">5.3.4. Övning: sätt upp miljön</a></li>
 </ul>
 </li>
-<li><a href="#_lagar_och_integritet">5.4. Lagar och integritet</a>
+<li><a href="#_modellering_embed_eller_reference">5.4. Modellering: embed eller reference</a>
 <ul class="sectlevel3">
-<li><a href="#_vad_är_en_personuppgift">5.4.1. Vad är en personuppgift?</a></li>
-<li><a href="#_gdpr_dataskyddsförordningen">5.4.2. GDPR: Dataskyddsförordningen</a></li>
-<li><a href="#_tillsyn_och_påföljder">5.4.3. Tillsyn och påföljder</a></li>
-<li><a href="#_konsekvenser_för_en_databasdesigner">5.4.4. Konsekvenser för en databasdesigner</a></li>
-<li><a href="#_övningsuppgift_7">5.4.5. Övningsuppgift</a></li>
+<li><a href="#_exemplet">5.4.1. Exemplet</a></li>
+<li><a href="#_när_vilken">5.4.2. När vilken?</a></li>
+<li><a href="#_övning_embed_eller_reference">5.4.3. Övning: embed eller reference</a></li>
+</ul>
+</li>
+<li><a href="#_konsistens_via_events">5.5. Konsistens via events</a>
+<ul class="sectlevel3">
+<li><a href="#_lösningen_publishsubscribe">5.5.1. Lösningen: publish/subscribe</a></li>
+<li><a href="#_en_enkel_eventbus">5.5.2. En enkel EventBus</a></li>
+<li><a href="#_publicera_från_modellen">5.5.3. Publicera från modellen</a></li>
+<li><a href="#_prenumerera_i_en_genserver">5.5.4. Prenumerera i en GenServer</a></li>
+<li><a href="#_varför_det_här_är_inbyggt_i_elixir">5.5.5. Varför det här är inbyggt i Elixir</a></li>
+<li><a href="#_övning_lägg_till_en_event_prenumerant">5.5.6. Övning: lägg till en event-prenumerant</a></li>
 </ul>
 </li>
 </ul>
@@ -5441,955 +5450,10 @@ Databashanteraren gör det i så fall omöjligt att skapa rader i användatabell
 </div>
 </div>
 <div class="sect1">
-<h2 id="_backup_och_återställning">3. Backup och återställning</h2>
+<h2 id="_säkerhet_och_integritet_2">3. Säkerhet och integritet</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_backup_och_snapshots">3.1. Backup och Snapshots</h3>
-<div class="paragraph">
-<p>De flesta databashanterare har inbyggd funktionalitet för att ta säkerhetskopior på databasen. I de flesta fall förvaras dessa backups på en annan dator och-   gärna i en annan serverhall.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dokumentdatabaser">4. Dokumentdatabaser</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_introduktion_2">4.1. Introduktion</h3>
-<div class="paragraph">
-<p>NoSQL (kortform för "Not only SQL") är ett samlingsnamn för databashanterare som inte använder relationsmodellen. Det finns flera familjer:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Dokumentdatabaser</strong> lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.</p>
-</li>
-<li>
-<p><strong>Nyckel-värde-databaser</strong> lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.</p>
-</li>
-<li>
-<p><strong>Kolumndatabaser</strong> organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.</p>
-</li>
-<li>
-<p><strong>Grafdatabaser</strong> lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Det här kapitlet fokuserar på <strong>dokumentdatabaser</strong>. Det är den typ av NoSQL-databas som studenter oftast möter i fält, och den modell som ligger närmast objektorienterad programmering. Ett "dokument" är i princip en map/dict/hash som man sparar.</p>
-</div>
-<div class="sect3">
-<h4 id="_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">4.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</h4>
-<div class="paragraph">
-<p>För att förstå varför man väljer det ena eller andra hjälper det att lista vad respektive modell är bra och dålig på.</p>
-</div>
-<div class="sect4">
-<h5 id="_relationsdatabaser_2">Relationsdatabaser</h5>
-<div class="paragraph">
-<p>Fördelar:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Garanterad datakonsistens via ACID-transaktioner.</p>
-</li>
-<li>
-<p>Stark dataintegritet via schema, främmande nycklar och <code>CHECK</code>-begränsningar.</p>
-</li>
-<li>
-<p>Normalisering minskar utrymme, dubblettrisk och underhållskostnad.</p>
-</li>
-<li>
-<p>Inbyggd validering av datatyper och regler.</p>
-</li>
-<li>
-<p>En beprövad, standardiserad fråge-syntax (SQL) sedan 1970-talet.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Nackdelar:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Schemat behöver designas i förväg. Om datastrukturen ändras kostar det arbete att migrera.</p>
-</li>
-<li>
-<p>Mindre lämpat för data med stor variation, t.ex. dokument där olika instanser har olika fält.</p>
-</li>
-<li>
-<p>Svåra att fördela över många servrar utan att förlora ACID-garantierna. Stora relationsdatabaser körs därför ofta på en enda kraftfull server. Den bilden börjar luckras upp av nyare verktyg som <a href="https://turso.tech/">Turso</a> och <a href="https://fly.io/docs/litefs/">LiteFS</a> (replikerar SQLite över världen), <a href="https://www.cockroachlabs.com/">CockroachDB</a> (distribuerad SQL med ACID via konsensusprotokoll), och mönstret att varje kund får en egen liten databas istället för att dela en stor.</p>
-</li>
-<li>
-<p>Mindre lämpat för enormt stora datamängder ("Big Data") och kontinuerliga dataströmmar.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_dokumentdatabaser_2">Dokumentdatabaser</h5>
-<div class="paragraph">
-<p>Fördelar:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Inget schema krävs i förväg. Dokument kan ha varierande struktur.</p>
-</li>
-<li>
-<p>Föränderliga datastrukturer hanteras smidigt. Nya fält kan läggas till över tid utan migrationer.</p>
-</li>
-<li>
-<p>Designade för horisontell skalning över många servrar.</p>
-</li>
-<li>
-<p>Lämpat för Big Data, kontinuerliga dataströmmar och decentraliserade datasamlingar.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Nackdelar:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Ingen, eller "eventual", konsistens. Två klienter kan en kort tid se olika versioner av samma data.</p>
-</li>
-<li>
-<p>Ingen, eller "eventual", integritet. Det blir klientens ansvar att hålla data konsekvent.</p>
-</li>
-<li>
-<p>Data dupliceras ofta (mer om det i avsnittet om <em>embed vs reference</em>). När en uppgift ändras kan flera kopior behöva uppdateras.</p>
-</li>
-<li>
-<p>Svårt eller omöjligt att validera dokumentens struktur centralt.</p>
-</li>
-<li>
-<p>Ingen gemensam standard. Varje produkt har sitt eget frågespråk eller API.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dokumentmodellen">4.2. Dokumentmodellen</h3>
-<div class="paragraph">
-<p>Den enklaste mentala modellen för en dokumentdatabas är denna:</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 14.2857%;">
-<col style="width: 28.5714%;">
-<col style="width: 57.1429%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><strong>Språk</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Datatyp</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Literal</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Python</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dict</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ "username": "grill.korv" }</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ruby</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Hash</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C#</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Dictionary&lt;K, V&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>new Dictionary&lt;string,string&gt; { ["username"] = "grill.korv" }</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Java</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HashMap&lt;K, V&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map.of("username", "grill.korv")</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PHP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Associative array</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ "username" &#8658; "grill.korv" ]</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Elixir</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map</code> / <code>Struct</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%{username: "grill.korv"}</code> eller <code>%User{username: "grill.korv"}</code></p></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>I en relationsdatabas lagras data i rader med fasta kolumner. I en dokumentdatabas lagras data som <strong>dokument</strong>, som i praktiken är JSON-objekt med fri struktur.</p>
-</div>
-<div class="paragraph">
-<p>Samma användardata, en gång relationellt och en gång som dokument:</p>
-</div>
-<div class="listingblock">
-<div class="title">Relationsdatabas</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="c1">-- id | username   | email</span>
-<span class="c1">--  1 | grill.korv | grill@korv.se</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Dokumentdatabas</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
-  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
-  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
-<span class="p">}</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Dokument får innehålla nästan vad som helst, inklusive listor och nästlade objekt:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
-  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
-  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">profile</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nl">bio</span><span class="p">:</span>      <span class="dl">"</span><span class="s2">Älskar att grilla.</span><span class="dl">"</span><span class="p">,</span>
-    <span class="nx">location</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Stockholm</span><span class="dl">"</span>
-  <span class="p">},</span>
-  <span class="nx">roles</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">editor</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">moderator</span><span class="dl">"</span><span class="p">]</span>
-<span class="p">}</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Det är samma data som hade krävt en <code>users</code>-tabell plus en <code>profiles</code>-tabell plus en <code>user_roles</code>-länktabell i en relationsdatabas. Här är allt packat i ett enda dokument.</p>
-</div>
-<div class="sect3">
-<h4 id="_collections">4.2.1. Collections</h4>
-<div class="paragraph">
-<p>Dokument lagras i <strong>collections</strong> (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.</p>
-</div>
-<div class="paragraph">
-<p>I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_var_ligger_schemat_egentligen">4.2.2. Var ligger schemat egentligen?</h4>
-<div class="paragraph">
-<p>Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.</p>
-</div>
-<div class="paragraph">
-<p>Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är <em>underförstått</em> och <em>utspritt i applikationskoden</em> istället för centralt definierat i databasen.</p>
-</div>
-<div class="paragraph">
-<p>Det får konsekvenser:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).</p>
-</li>
-<li>
-<p>Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller <code>CHECK</code>-constraint hjälper dig hitta de ställen som behöver uppdateras.</p>
-</li>
-<li>
-<p>Ett "schemalöst" projekt landar ofta i samma migrationsarbete som ett relationellt, fast nu sker det i applikationskoden istället för i databasen. Det blir mindre synligt och svårare att verifiera.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Dokumentdatabasens "frihet" är alltså en omfördelning av ansvar, inte en eliminering av det. Den är fortfarande rätt val för en del problem, men "vi slipper designa scheman" är sällan en sann motivering.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_mongodb">4.3. MongoDB</h3>
-<div class="paragraph">
-<p>I det här kapitlet använder vi <strong>MongoDB</strong> som konkret exempel. Det är den mest spridda dokumentdatabasen och en bra utgångspunkt för att förstå hur de fungerar. <a href="https://www.mongodb.com/atlas">MongoDB Atlas</a> erbjuder en gratisplan om du vill prova online. För övningarna i kapitlet kör vi en lokal Mongo-server via Docker.</p>
-</div>
-<div class="sect3">
-<h4 id="_crud_operationer">4.3.1. CRUD-operationer</h4>
-<div class="paragraph">
-<p>För varje vanlig SQL-operation finns en MongoDB-motsvarighet.</p>
-</div>
-<div class="sect4">
-<h5 id="_skapa">Skapa</h5>
-<div class="listingblock">
-<div class="title">SQL</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
-<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'grill.korv'</span><span class="p">,</span> <span class="s1">'grill@korv.se'</span><span class="p">);</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">MongoDB</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
-  <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
-<span class="p">})</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_läs">Läs</h5>
-<div class="listingblock">
-<div class="title">SQL</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">MongoDB</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_uppdatera">Uppdatera</h5>
-<div class="listingblock">
-<div class="title">SQL</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">email</span> <span class="o">=</span> <span class="s1">'ny@korv.se'</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">MongoDB</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">updateOne</span><span class="p">(</span>
-  <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">$set</span><span class="p">:</span> <span class="p">{</span> <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ny@korv.se</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span>
-<span class="p">)</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_radera">Radera</h5>
-<div class="listingblock">
-<div class="title">SQL</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">MongoDB</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">deleteOne</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_index_och_sökning">4.3.2. Index och sökning</h4>
-<div class="paragraph">
-<p>MongoDB stödjer index på samma sätt som relationsdatabaser:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="dl">"</span><span class="s2">profile.location</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Index på fältet <code>username</code> (1 = stigande, -1 = fallande).</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Index på ett <em>nästlat</em> fält. Relationsdatabaser stödjer ingen nästling alls; sådan data modelleras alltid som en separat tabell från början.</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_aggregering">4.3.3. Aggregering</h4>
-<div class="paragraph">
-<p>Istället för <code>GROUP BY</code> har MongoDB en <strong>aggregation pipeline</strong>: en sekvens av bearbetningssteg där datan flödar igenom.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">aggregate</span><span class="p">([</span>
-  <span class="p">{</span> <span class="na">$match</span><span class="p">:</span> <span class="p">{</span> <span class="na">active</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">},</span>                       <i class="conum" data-value="1"></i><b>(1)</b>
-  <span class="p">{</span> <span class="na">$group</span><span class="p">:</span> <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">$role</span><span class="dl">"</span><span class="p">,</span> <span class="na">count</span><span class="p">:</span> <span class="p">{</span> <span class="na">$sum</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>   <i class="conum" data-value="2"></i><b>(2)</b>
-  <span class="p">{</span> <span class="na">$sort</span><span class="p">:</span>  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">}</span> <span class="p">},</span>                          <i class="conum" data-value="3"></i><b>(3)</b>
-  <span class="p">{</span> <span class="na">$limit</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>                                       <i class="conum" data-value="4"></i><b>(4)</b>
-<span class="p">])</span></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Filtrera (motsvarar <code>WHERE</code>).</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Gruppera och räkna (motsvarar <code>GROUP BY</code> + <code>COUNT</code>).</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Sortera fallande.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Begränsa till fem rader.</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="title">Vidareläsning</div>
-<div class="ulist">
-<ul>
-<li>
-<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/">Manual</a></p>
-</li>
-<li>
-<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/crud/">CRUD Operations</a></p>
-</li>
-<li>
-<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/aggregation/">Aggregation Operations</a></p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_övning_sätt_upp_miljön">4.3.4. Övning: sätt upp miljön</h4>
-<div class="paragraph">
-<p>Övningarna i resten av kapitlet bygger på ett färdigt Elixir-projekt som pratar med MongoDB. Resten av boken har använt Ruby/Sinatra som lingua franca för webbserver-kod. Det här kapitlet byter språk till <strong>Elixir</strong> med ramverket <strong>Pluggy</strong>, byggt på <a href="https://hex.pm/packages/plug">Plug</a> och <a href="https://github.com/ninenines/cowboy">Cowboy</a> (samma Pluggy som ni jobbade med i webbserver-kursen i början av TE4).</p>
-</div>
-<div class="paragraph">
-<p>Varför bytet? Sista delen av kapitlet handlar om <em>publish/subscribe-events</em> för att hålla inbäddade kopior i synk. I Ruby kräver det mönstret ett bibliotek. I Elixir är pub/sub bara hur språket fungerar i grunden. Mer om det när vi kommer dit.</p>
-</div>
-<div class="paragraph">
-<p>Du behöver inte skriva någon Plug-, Cowboy- eller mallkod själv; allt webb-relaterat finns redan. Din uppgift är att jobba med MongoDB-anropen i <code>lib/pluggy/models/</code> och, senare, lägga till en EventBus och prenumeranter.</p>
-</div>
-<div class="paragraph">
-<p>Hämta scaffolden: <a href="exercises/dokumentdatabaser/dokumentdatabaser.zip">dokumentdatabaser.zip</a>. Packa upp den i en egen mapp.</p>
-</div>
-<div class="paragraph">
-<p>Starta MongoDB:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Installera Elixir-biblioteken och starta appen:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sh">mix deps.get
-iex <span class="nt">-S</span> mix</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Öppna <a href="http://localhost:3000" class="bare">http://localhost:3000</a> i webbläsaren. Du ska se en (tom) lista över användare och ett formulär för att lägga till nya.</p>
-</div>
-<div class="paragraph">
-<p>Verifiera grundläggande CRUD genom webbgränssnittet:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Skapa två användare, t.ex. <code>grill.korv</code> och <code>Eva</code>.</p>
-</li>
-<li>
-<p>Gå till sidan för en användare och uppdatera e-postadressen.</p>
-</li>
-<li>
-<p>Gå till <code>/groups</code>, skapa en grupp som heter <code>Crazy Cowboys</code> med båda användarna som medlemmar.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Öppna också en <code>mongosh</code>-konsol mot din lokala Mongo-server och inspektera datan direkt:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>mongo mongosh <span class="nb">test</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span>
-<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Hur ser dokumenten ut? Vad innehåller <code>groups</code>-dokumenten under fältet <code>users</code>? Det är det som leder vidare till nästa avsnitt.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_modellering_embed_eller_reference">4.4. Modellering: embed eller reference</h3>
-<div class="paragraph">
-<p>I en relationsdatabas är det självklart hur man kopplar två entiteter: en främmande nyckel. En <code>posts</code>-rad har <code>author_id</code> som pekar på en <code>users</code>-rad. Klart.</p>
-</div>
-<div class="paragraph">
-<p>I en dokumentdatabas har du ett val. Du kan göra något liknande, eller du kan <strong>bädda in</strong> den ena entiteten direkt i den andra. Båda strategierna är giltiga, men de har olika trade-offs.</p>
-</div>
-<div class="sect3">
-<h4 id="_exemplet">4.4.1. Exemplet</h4>
-<div class="paragraph">
-<p>Säg att vi modellerar ett system där användare tillhör grupper, t.ex. för en kursplattform eller <a href="https://toolie.se/groupie">Toolie&#8217;s gruppslumpare</a>. En användare har ett <code>username</code>. En grupp har ett <code>groupname</code> och ett antal medlemmar. En medlem kan tillhöra flera grupper, en grupp har flera medlemmar.</p>
-</div>
-<div class="paragraph">
-<p>Det här går att lagra på två sätt.</p>
-</div>
-<div class="sect4">
-<h5 id="_variant_1_reference">Variant 1: reference</h5>
-<div class="paragraph">
-<p>Användarna lagras i en collection. Grupperna lagras i en annan och innehåller bara id:n till sina medlemmar.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertMany</span><span class="p">([</span>
-  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
-<span class="p">])</span>
-
-<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
-  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">user_ids</span><span class="p">:</span>  <span class="p">[</span><span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">]</span>
-<span class="p">})</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>För att visa gruppens medlemmar måste klienten göra två frågor. Först hämta gruppen, sedan slå upp användarna utifrån listan med id.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_variant_2_embed">Variant 2: embed</h5>
-<div class="paragraph">
-<p>Grupperna innehåller hela användarobjektet (eller relevanta delar av det), inte bara id:t. Användarna finns ändå kvar i sin egen collection — den är "sanningen" — men en kopia av relevanta fält bäddas in i gruppen.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
-  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">users</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">})</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Nu räcker en enda fråga för att visa gruppen med dess medlemmar. Men <code>username</code> finns på två ställen i databasen. Om Eva byter namn behöver båda kopiorna uppdateras.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_när_vilken">4.4.2. När vilken?</h4>
-<div class="paragraph">
-<p>Tumregler för när embedding lönar sig:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>När de inbäddade dokumenten är <strong>små</strong>.</p>
-</li>
-<li>
-<p>När den inbäddade datan <strong>sällan ändras</strong>.</p>
-</li>
-<li>
-<p>När du nästan alltid läser dem tillsammans med ytter-dokumentet.</p>
-</li>
-<li>
-<p>När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.</p>
-</li>
-<li>
-<p>När antalet inbäddade dokument växer långsamt eller är begränsat.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Tumregler för när reference lönar sig:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>När de refererade dokumenten är <strong>stora</strong>.</p>
-</li>
-<li>
-<p>När datan <strong>ändras ofta</strong>.</p>
-</li>
-<li>
-<p>När du ofta läser ytter-dokumentet utan inner-dokumenten.</p>
-</li>
-<li>
-<p>När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.</p>
-</li>
-<li>
-<p>När antalet relaterade dokument är stort eller obegränsat.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. <code>_id</code> och <code>username</code>), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_övning_embed_eller_reference">4.4.3. Övning: embed eller reference</h4>
-<div class="paragraph">
-<p>Du ska utöka scaffold-appen från föregående avsnitt med en ny funktion. Användarna ska kunna posta korta <strong>inlägg</strong> i en grupp (tänk en enkel diskussionstråd).</p>
-</div>
-<div class="paragraph">
-<p>Varje inlägg har:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>En författare (referens till eller kopia av en användare).</p>
-</li>
-<li>
-<p>En textkropp.</p>
-</li>
-<li>
-<p>En tidsstämpel.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Innan du skriver någon kod, fundera över:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Var ska inläggen lagras? Som en egen <code>posts</code>-collection? Som en inbäddad lista i <code>groups</code>? Som en inbäddad lista i <code>users</code>?</p>
-</li>
-<li>
-<p>Om du väljer att lagra inlägg i grupper (inbäddat eller med referenser), hur visar du författaren? Inbäddat eller via referens till <code>users</code>?</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Skriv ner ditt val och en motivering utifrån tumreglerna ovan, <em>innan</em> du implementerar.</p>
-</div>
-<div class="paragraph">
-<p>Implementera sedan:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>En route som tar emot ett nytt inlägg och sparar det.</p>
-</li>
-<li>
-<p>En route som visar de senaste 10 inläggen i en grupp.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>När du är klar: vad skulle hända i din lösning om Eva ändrar sitt användarnamn? Påverkas inläggen?</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_konsistens_via_events">4.5. Konsistens via events</h3>
-<div class="paragraph">
-<p>Embedding är snabbt att läsa men har en uppenbar svaghet. När källans data ändras går de inbäddade kopiorna ur synk.</p>
-</div>
-<div class="paragraph">
-<p>Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i <code>users</code> uppdateras. Men gruppen <code>Crazy Cowboys</code> har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.</p>
-</div>
-<div class="sect3">
-<h4 id="_lösningen_publishsubscribe">4.5.1. Lösningen: publish/subscribe</h4>
-<div class="paragraph">
-<p>I många dokumentdatabaser löser man detta med ett <strong>event-baserat</strong> tillvägagångssätt:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Varje operation som ändrar en användare publicerar ett <em>event</em>, en notifikation som säger "användaren med id X uppdaterades".</p>
-</li>
-<li>
-<p>Andra delar av systemet <em>prenumererar</em> (subscribe) på dessa events.</p>
-</li>
-<li>
-<p>När gruppens prenumerant får besked att Eva uppdaterats, går den igenom alla grupper där Eva är inbäddad och uppdaterar de inbäddade kopiorna.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>På så vis håller sig inbäddad data automatiskt aktuell, utan att den kod som uppdaterar användaren behöver veta något om grupper.</p>
-</div>
-<div class="paragraph">
-<p>Det är här Elixir-bytet betalar tillbaka. I många språk behöver man ett pub/sub-bibliotek för det här mönstret. I Elixir är pub/sub bara processer som skickar meddelanden till varandra, vilket är hur språket fungerar i grunden.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_en_enkel_eventbus">4.5.2. En enkel EventBus</h4>
-<div class="paragraph">
-<p>Tar man pub/sub till sin minsta beståndsdel landar man på en <code>GenServer</code> som håller reda på vilka processer som prenumererar på vilka events:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="no">GenServer</span>
-
-  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
-  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
-
-  <span class="k">def</span> <span class="n">subscribe</span><span class="p">(</span><span class="n">event</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">self</span><span class="p">()})</span>
-  <span class="k">def</span> <span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">})</span>
-
-  <span class="k">def</span> <span class="n">handle_call</span><span class="p">({</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pid</span><span class="p">},</span> <span class="n">_from</span><span class="p">,</span> <span class="n">state</span><span class="p">),</span>
-    <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:reply</span><span class="p">,</span> <span class="ss">:ok</span><span class="p">,</span> <span class="no">Map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="n">pid</span><span class="p">],</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">pid</span> <span class="o">|</span> <span class="nv">&amp;1</span><span class="p">])}</span>
-
-  <span class="k">def</span> <span class="n">handle_cast</span><span class="p">({</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
-    <span class="n">state</span> <span class="o">|&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[])</span> <span class="o">|&gt;</span> <span class="no">Enum</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">send</span><span class="p">(</span><span class="nv">&amp;1</span><span class="p">,</span> <span class="p">{</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">}))</span>
-    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Femton rader. Inget bibliotek behövs.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_publicera_från_modellen">4.5.3. Publicera från modellen</h4>
-<div class="paragraph">
-<p>I användarmodellen blir det enkelt att lägga in:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Models</span><span class="o">.</span><span class="no">User</span> <span class="k">do</span>
-  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span>
-
-  <span class="c1"># ... (find, all, create som tidigare) ...</span>
-
-  <span class="k">def</span> <span class="n">update</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"users"</span><span class="p">,</span>
-      <span class="p">%{</span><span class="s2">"_id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">id</span><span class="p">)},</span>
-      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"_id"</span><span class="p">])})</span>
-    <span class="no">EventBus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>När <code>User.update(&#8230;&#8203;)</code> körs publiceras <code>:user_updated</code> med användarens id.</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_prenumerera_i_en_genserver">4.5.4. Prenumerera i en GenServer</h4>
-<div class="paragraph">
-<p>På andra hållet finns en prenumerant som lyssnar på <code>:user_updated</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="no">GenServer</span>
-  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="p">{</span><span class="no">EventBus</span><span class="p">,</span> <span class="no">Models</span><span class="p">}</span>
-
-  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
-
-  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">EventBus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="n">handle_info</span><span class="p">({</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">user_id</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="no">Models</span><span class="o">.</span><span class="no">User</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
-
-    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"groups"</span><span class="p">,</span>
-      <span class="p">%{</span><span class="s2">"users._id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">user_id</span><span class="p">)},</span>      <i class="conum" data-value="2"></i><b>(2)</b>
-      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="p">%{</span><span class="s2">"users.$.username"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]}})</span> <i class="conum" data-value="3"></i><b>(3)</b>
-
-    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Vid uppstart prenumererar GenServer:n på <code>:user_updated</code>.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Hitta alla grupper där användaren är inbäddad.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Uppdatera den inbäddade <code>username</code> i varje sådan grupp.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>För att processerna ska köras vid uppstart läggs de till i <code>lib/pluggy/application.ex</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="elixir"><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">{</span><span class="no">Mongo</span><span class="p">,</span> <span class="ss">name:</span> <span class="ss">:mongo</span><span class="p">,</span> <span class="ss">url:</span> <span class="s2">"mongodb://localhost:27017/test"</span><span class="p">},</span>
-  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span><span class="p">,</span> <span class="p">[]},</span>                                          <i class="conum" data-value="1"></i><b>(1)</b>
-  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span><span class="p">,</span> <span class="p">[]},</span>                       <i class="conum" data-value="2"></i><b>(2)</b>
-  <span class="p">{</span><span class="no">Plug</span><span class="o">.</span><span class="no">Cowboy</span><span class="p">,</span> <span class="ss">scheme:</span> <span class="ss">:http</span><span class="p">,</span> <span class="ss">plug:</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Router</span><span class="p">,</span> <span class="ss">options:</span> <span class="p">[</span><span class="ss">port:</span> <span class="mi">3000</span><span class="p">]}</span>
-<span class="p">]</span></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>EventBus startas innan prenumeranter.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>GroupSubscriber prenumererar på <code>:user_updated</code> vid uppstart.</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_varför_det_här_är_inbyggt_i_elixir">4.5.5. Varför det här är inbyggt i Elixir</h4>
-<div class="paragraph">
-<p>I Ruby skulle samma mönster kräva ett bibliotek som <code>wisper</code>, ett globalt händelseregister, och <code>subscribe</code>-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.</p>
-</div>
-<div class="paragraph">
-<p>I Elixir är varje del redan en språkfunktion:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Processer som skickar meddelanden är hur OTP fungerar.</p>
-</li>
-<li>
-<p><code>GenServer</code> är en byggsten i standardbiblioteket.</p>
-</li>
-<li>
-<p>En supervisor i <code>application.ex</code> startar både EventBus och prenumeranter automatiskt.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Mönstret som kallas "publish/subscribe" går här inte <em>ovanpå</em> språket utan <em>genom</em> det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="title">Vidareläsning</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Elixir: <a href="https://hexdocs.pm/elixir/GenServer.html">GenServer</a></p>
-</li>
-<li>
-<p>Erlang/OTP: <a href="https://www.erlang.org/doc/man/pg.html"><code>:pg</code>, det inbyggda process-grupp-biblioteket</a></p>
-</li>
-<li>
-<p>Phoenix: <a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub, produktionsgrad pub/sub över noder</a></p>
-</li>
-<li>
-<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/changeStreams/">Change Streams, en alternativ approach där MongoDB själv emiterar events</a></p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_övning_lägg_till_en_event_prenumerant">4.5.6. Övning: lägg till en event-prenumerant</h4>
-<div class="paragraph">
-<p>Scaffold-appen i tidigare övningar har en enkel arkitektur utan events. Nu ska du bygga om den för att använda event-baserad konsistens, enligt mönstret i koden ovan.</p>
-</div>
-<div class="paragraph">
-<p>Steg:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Skapa <code>lib/pluggy/event_bus.ex</code> med en GenServer som tar emot subscribe + publish, som i exemplet.</p>
-</li>
-<li>
-<p>Ändra <code>Pluggy.Models.User.update</code> så att den publicerar <code>:user_updated</code> efter Mongo-anropet.</p>
-</li>
-<li>
-<p>Skapa <code>lib/pluggy/subscribers/group_subscriber.ex</code> med en GenServer som prenumererar på <code>:user_updated</code> och uppdaterar inbäddade <code>username</code>-värden i berörda grupper.</p>
-</li>
-<li>
-<p>Lägg till <code>Pluggy.EventBus</code> och <code>Pluggy.Subscribers.GroupSubscriber</code> i barnlistan i <code>lib/pluggy/application.ex</code> så de startas automatiskt.</p>
-</li>
-<li>
-<p>Testa: ändra Evas namn via webbgränssnittet och kontrollera att gruppens listning visar det nya namnet, utan att du behövt lägga till någon kod i <code>User.update</code>-vägen som vet om grupper.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Fundera till sist:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Vilka andra events skulle vara värda att hantera? Om en användare <em>raderas</em>, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?</p>
-</li>
-<li>
-<p>Om systemet körs på flera servrar parallellt räcker det inte med en <code>GenServer</code> som bara känner till sin egen process. Vilka alternativ finns då? (<a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub</a> och MongoDB Change Streams är två sätt.)</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_säkerhet_och_integritet_2">5. Säkerhet och integritet</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_introduktion_till_databassäkerhet">5.1. Introduktion till databassäkerhet</h3>
+<h3 id="_introduktion_till_databassäkerhet">3.1. Introduktion till databassäkerhet</h3>
 <div class="paragraph">
 <p>Datalagring handlar inte bara om att designa effektiva tabeller och skriva snabba frågor. Så fort en databas innehåller verklig data (kunduppgifter, betyg, lönelistor, journaler) kommer en hel rad ytterligare frågor in i bilden:</p>
 </div>
@@ -6413,7 +5477,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 <p>I det här kapitlet går vi igenom hur man hanterar dessa frågor i praktiken: hur man styr åtkomst med <em>auktorisering</em>, hur man hanterar känsliga uppgifter, och vilka lagar som styr vad vi får och inte får göra med personuppgifter.</p>
 </div>
 <div class="sect3">
-<h4 id="_cia_tre_grundläggande_principer">5.1.1. CIA: tre grundläggande principer</h4>
+<h4 id="_cia_tre_grundläggande_principer">3.1.1. CIA: tre grundläggande principer</h4>
 <div class="paragraph">
 <p>Inom IT-säkerhet pratar man ofta om <em>CIA-triaden</em>, en förkortning för tre grundläggande egenskaper som ett system förväntas upprätthålla.</p>
 </div>
@@ -6466,7 +5530,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_auktorisering_och_behörigheter">5.2. Auktorisering och behörigheter</h3>
+<h3 id="_auktorisering_och_behörigheter">3.2. Auktorisering och behörigheter</h3>
 <div class="paragraph">
 <p>Auktorisering (engelska: authorization) handlar om vad en <em>redan inloggad</em> användare har rätt att göra. Detta skiljer sig från <em>autentisering</em> (engelska: authentication), som handlar om att avgöra <em>vem</em> användaren är.</p>
 </div>
@@ -6493,7 +5557,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_användare_och_roller">5.2.1. Användare och roller</h4>
+<h4 id="_användare_och_roller">3.2.1. Användare och roller</h4>
 <div class="paragraph">
 <p>I de flesta databashanterare kan man skapa flera olika användare i databasen. Varje användare har sitt eget användarnamn och lösenord, och kan ges olika rättigheter.</p>
 </div>
@@ -6508,7 +5572,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>Exempel på roller i en skoladministration</strong></p></td>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>Exempel på roller i en vårdcentralsdatabas</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Roll</strong></p></td>
@@ -6516,62 +5580,62 @@ iex <span class="nt">-S</span> mix</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rättigheter</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>larare</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lakare</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">anna, johan, fatima</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa elev-tabellen, skriva i betyg-tabellen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa <code>journaler</code>-tabellen, skriva i <code>recept</code>-tabellen</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rektor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>klinikchef</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">andrew, fatima</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allt en lärare får + läsa lönetabellen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allt en <code>lakare</code> får + läsa <code>loner</code>-tabellen</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elev</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>patient</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">karl, viking</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa sina egna betyg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa sin egen journal</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vaktmastare</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>receptionist</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">inge</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa och skriva i skåp-tabellen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsa och skriva i <code>bokningar</code>-tabellen</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Lägg märke till att en användare kan ha flera roller. Fatima är både <code>larare</code> och <code>rektor</code> i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.</p>
+<p>Lägg märke till att en användare kan ha flera roller. Fatima är både <code>lakare</code> och <code>klinikchef</code> i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_grant_och_revoke">5.2.2. GRANT och REVOKE</h4>
+<h4 id="_grant_och_revoke">3.2.2. GRANT och REVOKE</h4>
 <div class="paragraph">
 <p>I SQL ger man rättigheter med <code>GRANT</code> och tar bort rättigheter med <code>REVOKE</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">students</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
-<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">lockers</span> <span class="k">TO</span> <span class="n">inge</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">journaler</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">recept</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">bokningar</span> <span class="k">TO</span> <span class="n">inge</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
 
-<span class="k">REVOKE</span> <span class="k">INSERT</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">FROM</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+<span class="k">REVOKE</span> <span class="k">INSERT</span> <span class="k">ON</span> <span class="n">recept</span> <span class="k">FROM</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Anna får läsa från <code>students</code>-tabellen.</td>
+<td>Anna får läsa från <code>journaler</code>-tabellen.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Anna får lägga till och uppdatera rader i <code>grades</code>-tabellen.</td>
+<td>Anna får lägga till och uppdatera rader i <code>recept</code>-tabellen.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Inge får göra <em>allt</em> mot <code>lockers</code>-tabellen.</td>
+<td>Inge får göra <em>allt</em> mot <code>bokningar</code>-tabellen.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Anna får inte längre lägga till rader i <code>grades</code>-tabellen.</td>
+<td>Anna får inte längre lägga till rader i <code>recept</code>-tabellen.</td>
 </tr>
 </table>
 </div>
@@ -6580,20 +5644,20 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_roller_i_sql">5.2.3. Roller i SQL</h4>
+<h4 id="_roller_i_sql">3.2.3. Roller i SQL</h4>
 <div class="paragraph">
 <p>I de flesta databashanterare kan man även skapa själva rollerna direkt i databasen:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">ROLE</span> <span class="n">larare</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">ROLE</span> <span class="n">lakare</span><span class="p">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
 
-<span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">students</span> <span class="k">TO</span> <span class="n">larare</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
-<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">grades</span> <span class="k">TO</span> <span class="n">larare</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">journaler</span> <span class="k">TO</span> <span class="n">lakare</span><span class="p">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="k">GRANT</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">recept</span> <span class="k">TO</span> <span class="n">lakare</span><span class="p">;</span>
 
-<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
-<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">johan</span><span class="p">;</span>
-<span class="k">GRANT</span> <span class="n">larare</span> <span class="k">TO</span> <span class="n">fatima</span><span class="p">;</span></code></pre>
+<span class="k">GRANT</span> <span class="n">lakare</span> <span class="k">TO</span> <span class="n">anna</span><span class="p">;</span> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="k">GRANT</span> <span class="n">lakare</span> <span class="k">TO</span> <span class="n">johan</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="n">lakare</span> <span class="k">TO</span> <span class="n">fatima</span><span class="p">;</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -6613,11 +5677,11 @@ iex <span class="nt">-S</span> mix</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>När man senare vill ändra vad lärare får göra behöver man bara uppdatera rollen. Alla användare som tillhör rollen påverkas automatiskt.</p>
+<p>När man senare vill ändra vad läkare får göra behöver man bara uppdatera rollen. Alla användare som tillhör rollen påverkas automatiskt.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_principen_om_minsta_privilegium">5.2.4. Principen om minsta privilegium</h4>
+<h4 id="_principen_om_minsta_privilegium">3.2.4. Principen om minsta privilegium</h4>
 <div class="paragraph">
 <p>En grundregel inom säkerhet är <em>principen om minsta privilegium</em> (engelska: principle of least privilege): varje användare och varje program ska ha <em>precis</em> de rättigheter som krävs för uppgiften, varken mer eller mindre.</p>
 </div>
@@ -6643,33 +5707,175 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_övningsuppgift_5">5.2.5. Övningsuppgift</h4>
+<h4 id="_övningsuppgift_5">3.2.5. Övningsuppgift</h4>
 <div class="paragraph">
-<p>Tänk dig att du bygger ett bibliotekssystem med tabellerna <code>books</code>, <code>loans</code> och <code>members</code>.</p>
+<p>I den här övningen designar och implementerar du behörighetsstrukturen för bokföringsdatabasen från kapitel 2.7-2.9. Du gör det mot en färdig databas där vyer, funktioner, procedurer och triggern redan är på plats — du behöver alltså inte ha gjort övningarna i föregående kapitel för att komma igång.</p>
+</div>
+<div class="sect4">
+<h5 id="_sätt_upp_miljön_2">Sätt upp miljön</h5>
+<div class="paragraph">
+<p>Hämta <a href="exercises/auktorisering/docker-compose.yml">docker-compose.yml</a> och starta databasen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span>
+docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> student <span class="nt">-d</span> bokforing</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Tre olika program ansluter till databasen:</p>
+<p>Databasen är seedad med ett par verifikat, så rapporterna har data direkt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">resultatr</span><span class="err">ä</span><span class="n">kning</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">aktiva_konton</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">nummer</span><span class="p">;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tre_roller">Tre roller</h5>
+<div class="paragraph">
+<p>Du ska skapa <em>tre</em> roller med precis de rättigheter var och en behöver — inte mer.</p>
+</div>
+<div class="sect5">
+<h6 id="_revisor"><code>revisor</code></h6>
+<div class="paragraph">
+<p>En extern revisor ska kunna granska företagets bokföring men aldrig ändra på den. Hen behöver kunna:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>En <em>publik webbsida</em> där besökare kan söka i bokkatalogen.</p>
-</li>
-<li>
-<p>En <em>utlåningsterminal</em> där bibliotekarier registrerar lån och återlämningar.</p>
-</li>
-<li>
-<p>En <em>administratörsapplikation</em> där chefen lägger till nya böcker och nya medlemmar.</p>
+<p>Läsa rapport-vyerna (<code>aktiva_konton</code>, <code>verifikat_rader</code>, <code>resultaträkning</code>, <code>balansräkning</code>)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Skriv <code>CREATE ROLE</code>- och <code>GRANT</code>-satser för var och en av de tre programmen, så de har precis de rättigheter de behöver, varken mer eller mindre.</p>
+<p>Revisorn ska <strong>inte</strong> ha åtkomst till de underliggande tabellerna (<code>konton</code>, <code>verifikat</code>, <code>konteringar</code>) direkt.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_bokhållare"><code>bokhållare</code></h6>
+<div class="paragraph">
+<p>En bokhållare ska registrera verifikat och försäljningar. Hen behöver kunna:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Köra <code>bokför</code>- och <code>bokför_försäljning</code>-procedurerna</p>
+</li>
+<li>
+<p>Köra <code>saldo</code>-funktionen</p>
+</li>
+<li>
+<p>Läsa rapport-vyerna och <code>konton</code>-tabellen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bokhållaren ska <strong>inte</strong> kunna <code>INSERT</code>, <code>UPDATE</code> eller <code>DELETE</code> direkt mot <code>konteringar</code> eller <code>verifikat</code>. På så vis är den <em>enda</em> vägen att skriva ny data via procedurerna, och dubbel bokföring är därmed garanterad.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Procedurerna i den medföljande databasen är skapade med flaggan <code>SECURITY DEFINER</code>. Det betyder att de körs med rättigheterna hos den som <em>skapade</em> proceduren (här: <code>student</code>), inte hos den som anropar den. Det är därför bokhållaren kan anropa <code>bokför</code> även utan att själv ha <code>INSERT</code>-rätt på <code>konteringar</code>. Detta är en av huvudpoängerna med att inkapsla skrivlogik i stored procedures: man kan ge ut en specifik förmåga (registrera ett verifikat korrekt) utan att ge ut de underliggande rättigheterna.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_kontoadmin"><code>kontoadmin</code></h6>
+<div class="paragraph">
+<p>En kontoadministratör underhåller kontoplanen. Hen behöver kunna:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>INSERT</code>, <code>UPDATE</code> och <code>DELETE</code> på <code>konton</code>-tabellen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Kontoadminen ska <strong>inte</strong> ha någon åtkomst till verifikat eller konteringar.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_implementera_och_testa">Implementera och testa</h5>
+<div class="paragraph">
+<p>I Postgres är en <em>användare</em> detsamma som en roll, fast med rätt att logga in. Användare skapas med <code>CREATE USER</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kalle</span> <span class="n">PASSWORD</span> <span class="s1">'hemligt'</span><span class="p">;</span>
+<span class="k">ALTER</span> <span class="k">USER</span> <span class="n">kalle</span> <span class="n">PASSWORD</span> <span class="s1">'nytt-hemligt'</span><span class="p">;</span>  <span class="c1">-- byt lösenord senare</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>I <code>psql</code> kan man också skriva <code>\password kalle</code> för att sätta lösenordet interaktivt. Då hamnar cleartext-strängen aldrig i kommandohistorik eller serverloggar.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Skriv <code>CREATE ROLE</code>- och <code>GRANT</code>-satser för de tre rollerna. Skapa sedan en användare per roll och tilldela rollen.</p>
+</div>
+<div class="paragraph">
+<p>Anslut sedan som var och en av användarna i en separat terminal och kontrollera att rätt operationer tillåts respektive nekas:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> amanda <span class="nt">-d</span> bokforing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>För varje roll ska du verifiera <em>både</em> att tillåtna operationer fungerar och att otillåtna operationer nekas med <code>permission denied</code>. Exempel för bokhållaren:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CALL bokför('2026-03-01', 'Marknadsföring', '5900', '1930', 2000);</code> — ska gå igenom.</p>
+</li>
+<li>
+<p><code>INSERT INTO konteringar (verifikat_id, konto, debet, kredit) VALUES (1, '1930', 100, 0);</code> — ska nekas.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reflektera">Reflektera</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Vad hade hänt om procedurerna <em>inte</em> var <code>SECURITY DEFINER</code>? Vilka rättigheter hade då behövt ges till <code>bokhållare</code>, och hur hade det påverkat garantin om dubbel bokföring?</p>
+</li>
+<li>
+<p>En revisor får bara läsa vyerna, aldrig de underliggande tabellerna. På vilket sätt är detta starkare än att ge revisorn <code>SELECT</code> direkt på tabellerna? (Tips: tänk på vad en vy kan <em>utelämna</em> eller <em>aggregera bort</em>.)</p>
+</li>
+<li>
+<p>Tre roller är minimalistiskt. Vilka fler roller skulle ett riktigt företag kunna behöva? Räcker det med en <code>kontoadmin</code> om företaget har både löpande bokföring och periodavslut?</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_säker_lagring_av_känsliga_uppgifter">5.3. Säker lagring av känsliga uppgifter</h3>
+<h3 id="_säker_lagring_av_känsliga_uppgifter">3.3. Säker lagring av känsliga uppgifter</h3>
 <div class="paragraph">
 <p>Många databaser innehåller uppgifter som måste skyddas extra noga: lösenord, personnummer, hälsouppgifter, kontonummer. Att en angripare kommer åt en sådan databas kan få förödande konsekvenser för de personer datan handlar om.</p>
 </div>
@@ -6677,7 +5883,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 <p>I det här avsnittet går vi igenom de tre vanligaste metoderna för att skydda känsliga uppgifter: <em>hashning</em>, <em>kryptering</em> och <em>parametriserade frågor</em>.</p>
 </div>
 <div class="sect3">
-<h4 id="_hashning_av_lösenord">5.3.1. Hashning av lösenord</h4>
+<h4 id="_hashning_av_lösenord">3.3.1. Hashning av lösenord</h4>
 <div class="paragraph">
 <p>En <em>hashfunktion</em> är en matematisk funktion som tar en sträng (t.ex. ett lösenord) och omvandlar den till en till synes slumpmässig sträng av fast längd. Hashfunktioner har två viktiga egenskaper:</p>
 </div>
@@ -6762,7 +5968,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_kryptering">5.3.2. Kryptering</h4>
+<h4 id="_kryptering">3.3.2. Kryptering</h4>
 <div class="paragraph">
 <p>Hashning är <em>envägs</em>: man kan hasha, men man kan aldrig "av-hasha". Det är därför hashning passar för lösenord. Vi behöver ju aldrig läsa tillbaka det riktiga lösenordet.</p>
 </div>
@@ -6938,7 +6144,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sql_injektion">5.3.3. SQL-injektion</h4>
+<h4 id="_sql_injektion">3.3.3. SQL-injektion</h4>
 <div class="paragraph">
 <p>SQL-injektion är en av de äldsta och mest kända säkerhetsbristerna inom datalagring. Den uppstår när en applikation klistrar ihop SQL-frågor med inmatning från användaren utan att hålla isär datan från koden.</p>
 </div>
@@ -7086,7 +6292,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_övningsuppgift_6">5.3.4. Övningsuppgift</h4>
+<h4 id="_övningsuppgift_6">3.3.4. Övningsuppgift</h4>
 <div class="paragraph">
 <p>I tabellen nedan lagras användarnamn och lösenord i klartext.</p>
 </div>
@@ -7141,12 +6347,12 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lagar_och_integritet">5.4. Lagar och integritet</h3>
+<h3 id="_lagar_och_integritet">3.4. Lagar och integritet</h3>
 <div class="paragraph">
 <p>Att lagra data om personer är inte bara en teknisk fråga. Det är också en juridisk fråga. I Sverige och resten av EU regleras hanteringen av personuppgifter främst av <em>Dataskyddsförordningen</em>, mer känd som <em>GDPR</em>.</p>
 </div>
 <div class="sect3">
-<h4 id="_vad_är_en_personuppgift">5.4.1. Vad är en personuppgift?</h4>
+<h4 id="_vad_är_en_personuppgift">3.4.1. Vad är en personuppgift?</h4>
 <div class="paragraph">
 <p>En personuppgift är <em>all information som direkt eller indirekt kan kopplas till en levande person</em>.</p>
 </div>
@@ -7249,7 +6455,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_gdpr_dataskyddsförordningen">5.4.2. GDPR: Dataskyddsförordningen</h4>
+<h4 id="_gdpr_dataskyddsförordningen">3.4.2. GDPR: Dataskyddsförordningen</h4>
 <div class="paragraph">
 <p>Dataskyddsförordningen (engelska: General Data Protection Regulation, <em>GDPR</em>) är en EU-förordning som trädde i kraft den 25 maj 2018. Den ersatte den tidigare svenska personuppgiftslagen (PUL).</p>
 </div>
@@ -7339,7 +6545,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tillsyn_och_påföljder">5.4.3. Tillsyn och påföljder</h4>
+<h4 id="_tillsyn_och_påföljder">3.4.3. Tillsyn och påföljder</h4>
 <div class="paragraph">
 <p>I Sverige är <em>Integritetsskyddsmyndigheten</em> (IMY) tillsynsmyndighet för GDPR. Det är dit man vänder sig om man misstänker att en organisation hanterar personuppgifter felaktigt.</p>
 </div>
@@ -7375,7 +6581,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_konsekvenser_för_en_databasdesigner">5.4.4. Konsekvenser för en databasdesigner</h4>
+<h4 id="_konsekvenser_för_en_databasdesigner">3.4.4. Konsekvenser för en databasdesigner</h4>
 <div class="paragraph">
 <p>Som databasdesigner och utvecklare påverkar GDPR ditt dagliga arbete på flera sätt.</p>
 </div>
@@ -7408,7 +6614,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_övningsuppgift_7">5.4.5. Övningsuppgift</h4>
+<h4 id="_övningsuppgift_7">3.4.5. Övningsuppgift</h4>
 <div class="paragraph">
 <p>Tänk dig att du designar databasen för en webbplats där användare kan boka pass på ett gym.</p>
 </div>
@@ -7466,10 +6672,1253 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_backup_och_återställning">4. Backup och återställning</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduktion_till_backup_och_återställning">4.1. Introduktion till backup och återställning</h3>
+<div class="paragraph">
+<p>Backup handlar om att ta säkerhetskopior av databasen så att man kan återställa data vid en katastrof: hårdvarufel, brand, fysisk stöld, ransomware-angrepp eller den vanligaste, mänskligt misstag. ("Vem körde <code>DELETE FROM orders</code> utan WHERE-villkor?")</p>
+</div>
+<div class="paragraph">
+<p>Att en backup <em>finns</em> räcker dock inte. Den behöver också gå att <em>återställa</em>. En backup-rutin som aldrig har testats är inte en backup-rutin, den är en förhoppning.</p>
+</div>
+<div class="sect3">
+<h4 id="_backup_typer">4.1.1. Backup-typer</h4>
+<div class="sect4">
+<h5 id="_full_backup">Full backup</h5>
+<div class="paragraph">
+<p>En full backup tar en komplett kopia av hela databasen vid en given tidpunkt. Det är den enklaste typen, och även den mest tidskrävande och utrymmes­krävande att utföra.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_differentiell_backup">Differentiell backup</h5>
+<div class="paragraph">
+<p>En differentiell backup tar en kopia av all data som ändrats sedan <em>senaste fulla backupen</em>. Den är snabbare än en full backup, men ju längre det går mellan fulla backups, desto större blir den differentiella.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_inkrementell_backup">Inkrementell backup</h5>
+<div class="paragraph">
+<p>En inkrementell backup tar en kopia av all data som ändrats sedan <em>senaste backupen av något slag</em> (full eller inkrementell). Den är typiskt minst, snabbast att skapa, men kräver hela kedjan av tidigare inkrementella backups vid återställning.</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 95%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 30%;">
+<col style="width: 30%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>Jämförelse mellan backup-typerna</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Typ</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tar kopia av…</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Återställning kräver…</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Storlek</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hela databasen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Endast denna backup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Differentiell</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allt sedan senaste fulla</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Senaste fulla + denna</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medel</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inkrementell</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allt sedan senaste (oavsett typ)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Senaste fulla + alla mellanliggande</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Liten</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>En vanlig praxis är att kombinera dem: full backup en gång i veckan, differentiell varje natt, inkrementell varje timme.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rpo_och_rto">4.1.2. RPO och RTO</h4>
+<div class="paragraph">
+<p>Två begrepp som styr designen av en backup-strategi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>RPO</strong> (Recovery Point Objective): hur mycket data är acceptabelt att förlora? Om man tar backup en gång per dygn är RPO upp till 24 timmar.</p>
+</li>
+<li>
+<p><strong>RTO</strong> (Recovery Time Objective): hur snabbt måste systemet vara igång igen efter en krasch?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Lägre RPO och RTO kostar mer (oftare backups, snabbare hårdvara, replikering). Frågan att ställa är inte "vilket är minst möjligt?" utan "vad är affärs­mässigt acceptabelt?"</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_var_ska_backups_lagras">4.1.3. Var ska backups lagras?</h4>
+<div class="paragraph">
+<p>Det räcker inte att en backup tas, den måste också vara på en plats där den faktiskt skyddar mot <em>det</em> som skulle kunna gå fel. En backup som ligger på samma disk som databasen är värdelös vid hårdvarufel.</p>
+</div>
+<div class="paragraph">
+<p>En vanlig tumregel är <strong>3-2-1-regeln</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>3</strong> kopior av data (originalet plus två backups)</p>
+</li>
+<li>
+<p>på <strong>2</strong> olika typer av medier (t.ex. lokal disk + molnlagring)</p>
+</li>
+<li>
+<p>varav <strong>1</strong> förvaras på en geografiskt annan plats (för att överleva brand eller fysisk stöld)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_återställning">4.1.4. Återställning</h4>
+<div class="sect4">
+<h5 id="_återställa_hela_databasen_restore">Återställa hela databasen (restore)</h5>
+<div class="paragraph">
+<p>Den enklaste typen av återställning är att läsa in en backup på nytt, antingen i samma databas eller på en helt ny server.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh"><span class="c"># PostgreSQL: full backup till fil</span>
+pg_dump skoladatabas <span class="o">&gt;</span> backup.sql <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="c"># Återställning</span>
+psql tom_databas &lt; backup.sql <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Skapar en SQL-fil med alla <code>CREATE TABLE</code>- och <code>INSERT</code>-satser som behövs för att återskapa databasen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Spelar upp filen mot en ny, tom databas.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_point_in_time_recovery_pitr">Point-in-time recovery (PITR)</h5>
+<div class="paragraph">
+<p>I produktionssystem vill man ofta kunna återställa databasen till en <em>exakt tidpunkt</em>, t.ex. "10 minuter innan vi körde den där felaktiga UPDATE-frågan".</p>
+</div>
+<div class="paragraph">
+<p>Detta gör databashanteraren möjligt genom att kombinera:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>En äldre full backup.</p>
+</li>
+<li>
+<p>En <em>transaktionslogg</em> (engelska: write-ahead log, WAL) som spelar upp varje commit som skett efter backupen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Genom att stoppa uppspelningen vid en specifik tidsstämpel hamnar databasen i exakt det tillstånd den hade vid den tidpunkten.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_återställning_av_transaktioner">Återställning av transaktioner</h5>
+<div class="paragraph">
+<p>Inom en pågående transaktion gör databasen redan en form av lokal "återställning" via <code>ROLLBACK</code>. När hela databasen kraschar kan vissa transaktioner ha skrivit data till disk medan andra inte hunnit committas. Uppstartsproceduren använder då transaktions­loggen för att antingen rulla framåt (för committade) eller rulla bakåt (för icke-committade) tills databasen är konsistent igen. Detta är en del av ACID-garantin (durability).</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vidareläsning">4.1.5. Vidareläsning</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>PostgreSQL: <a href="https://www.postgresql.org/docs/current/backup.html">Backup and Restore</a></p>
+</li>
+<li>
+<p>MySQL: <a href="https://dev.mysql.com/doc/refman/8.0/en/backup-and-recovery.html">Backup and Recovery</a></p>
+</li>
+<li>
+<p>SQL Server: <a href="https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/back-up-and-restore-of-sql-server-databases">Back Up and Restore</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övningar_7">4.1.6. Övningar</h4>
+<div class="sect4">
+<h5 id="_föreslå_en_backup_strategi">Föreslå en backup-strategi</h5>
+<div class="paragraph">
+<p>Tänk dig att du driver en e-handelsplattform med 10 000 ordrar per dag. Föreslå en backup-strategi som tar hänsyn till:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>RPO</strong>: hur mycket data är acceptabelt att förlora vid en katastrof?</p>
+</li>
+<li>
+<p><strong>RTO</strong>: hur snabbt måste systemet vara igång igen?</p>
+</li>
+<li>
+<p><strong>Lagrings­utrymme</strong>: backups kostar pengar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Jämför två förslag: ett där full backup tas varje natt, och ett där full backup tas en gång i veckan kombinerat med differentiella varje natt.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_skapa_och_återställ_en_sql_dump">Skapa och återställ en SQL-dump</h5>
+<div class="paragraph">
+<p>I den här övningen tar du en backup på en levande databas, simulerar dataförlust och återställer från backupen.</p>
+</div>
+<div class="paragraph">
+<p>Använd bokföringsdatabasen från kapitel 3.2 (auktorisering). Starta den om den inte redan är igång, från mappen där <code>docker-compose.yml</code> ligger:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span></code></pre>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ta_en_backup">Ta en backup</h6>
+<div class="paragraph">
+<p><code>pg_dump</code> är Postgres inbyggda verktyg för att skapa SQL-baserade backups. Kör det inifrån containern och omdirigera utdata till en fil på din lokala dator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>db pg_dump <span class="nt">-U</span> student bokforing <span class="o">&gt;</span> backup.sql</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Öppna <code>backup.sql</code> i en editor. Notera att det är vanlig SQL: <code>CREATE TABLE</code>-satser för schemat, <code>COPY</code>-block för datan, och <code>CREATE FUNCTION</code>/<code>CREATE TRIGGER</code>-satser för procedurer och triggers. Du kan läsa, redigera och versionshantera filen som vilken SQL-fil som helst.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_simulera_dataförlust">Simulera dataförlust</h6>
+<div class="paragraph">
+<p>Logga in och radera all bokföring:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> student <span class="nt">-d</span> bokforing</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">konteringar</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">verifikat</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">konteringar</span><span class="p">;</span>  <span class="c1">-- 0</span>
+<span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">verifikat</span><span class="p">;</span>    <span class="c1">-- 0</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_återställ_till_en_ren_databas">Återställ till en ren databas</h6>
+<div class="paragraph">
+<p>Det normala vid en <code>pg_dump</code>-baserad återställning är att skapa en helt <em>tom</em> databas och spela upp dumpen där. Skapa en ny databas och spela upp filen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>db createdb <span class="nt">-U</span> student bokforing_kopia
+docker compose <span class="nb">exec</span> <span class="nt">-T</span> db psql <span class="nt">-U</span> student <span class="nt">-d</span> bokforing_kopia &lt; backup.sql
+
+docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> student <span class="nt">-d</span> bokforing_kopia <span class="nt">-c</span> <span class="s2">"SELECT * FROM resultaträkning;"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>resultaträkning</code> ska visa samma intäkter, kostnader och resultat som innan du körde <code>DELETE</code>. Du har en exakt kopia av databasen, fullt fungerande med vyer, triggers och procedurer.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_reflektera_2">Reflektera</h6>
+<div class="ulist">
+<ul>
+<li>
+<p>Hur stor är <code>backup.sql</code> i bytes? Med fem seedade verifikat är den hanterbar. Hur tror du den skulle skala om databasen istället hade en miljon verifikat?</p>
+</li>
+<li>
+<p>En <code>pg_dump</code> läser från en konsistent <em>snapshot</em> av databasen, även om andra användare skriver samtidigt. Vad är skillnaden mot att bara kopiera filerna i Postgres data-katalog medan databasen är igång?</p>
+</li>
+<li>
+<p>Vad tror du händer om du försöker spela upp <code>backup.sql</code> mot den ursprungliga <code>bokforing</code>-databasen, som fortfarande har schemat på plats? Testa och förklara vad felmeddelandena säger.</p>
+</li>
+<li>
+<p>För stora databaser blir en plain-SQL-dump opraktiskt stor och långsam att spela tillbaka. Läs om flaggorna <code>-Fc</code> (custom format), <code>-j</code> (parallel) och <code>--data-only</code> i <code>man pg_dump</code>. När skulle du använda dem?</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dokumentdatabaser">5. Dokumentdatabaser</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduktion_2">5.1. Introduktion</h3>
+<div class="paragraph">
+<p>NoSQL (kortform för "Not only SQL") är ett samlingsnamn för databashanterare som inte använder relationsmodellen. Det finns flera familjer:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Dokumentdatabaser</strong> lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.</p>
+</li>
+<li>
+<p><strong>Nyckel-värde-databaser</strong> lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.</p>
+</li>
+<li>
+<p><strong>Kolumndatabaser</strong> organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.</p>
+</li>
+<li>
+<p><strong>Grafdatabaser</strong> lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Det här kapitlet fokuserar på <strong>dokumentdatabaser</strong>. Det är den typ av NoSQL-databas som studenter oftast möter i fält, och den modell som ligger närmast objektorienterad programmering. Ett "dokument" är i princip en map/dict/hash som man sparar.</p>
+</div>
+<div class="sect3">
+<h4 id="_relationsdatabaser_och_dokumentdatabaser_sida_vid_sida">5.1.1. Relationsdatabaser och dokumentdatabaser sida vid sida</h4>
+<div class="paragraph">
+<p>För att förstå varför man väljer det ena eller andra hjälper det att lista vad respektive modell är bra och dålig på.</p>
+</div>
+<div class="sect4">
+<h5 id="_relationsdatabaser_2">Relationsdatabaser</h5>
+<div class="paragraph">
+<p>Fördelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Garanterad datakonsistens via ACID-transaktioner.</p>
+</li>
+<li>
+<p>Stark dataintegritet via schema, främmande nycklar och <code>CHECK</code>-begränsningar.</p>
+</li>
+<li>
+<p>Normalisering minskar utrymme, dubblettrisk och underhållskostnad.</p>
+</li>
+<li>
+<p>Inbyggd validering av datatyper och regler.</p>
+</li>
+<li>
+<p>En beprövad, standardiserad fråge-syntax (SQL) sedan 1970-talet.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nackdelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Schemat behöver designas i förväg. Om datastrukturen ändras kostar det arbete att migrera.</p>
+</li>
+<li>
+<p>Mindre lämpat för data med stor variation, t.ex. dokument där olika instanser har olika fält.</p>
+</li>
+<li>
+<p>Svåra att fördela över många servrar utan att förlora ACID-garantierna. Stora relationsdatabaser körs därför ofta på en enda kraftfull server. Den bilden börjar luckras upp av nyare verktyg som <a href="https://turso.tech/">Turso</a> och <a href="https://fly.io/docs/litefs/">LiteFS</a> (replikerar SQLite över världen), <a href="https://www.cockroachlabs.com/">CockroachDB</a> (distribuerad SQL med ACID via konsensusprotokoll), och mönstret att varje kund får en egen liten databas istället för att dela en stor.</p>
+</li>
+<li>
+<p>Mindre lämpat för enormt stora datamängder ("Big Data") och kontinuerliga dataströmmar.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_dokumentdatabaser_2">Dokumentdatabaser</h5>
+<div class="paragraph">
+<p>Fördelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inget schema krävs i förväg. Dokument kan ha varierande struktur.</p>
+</li>
+<li>
+<p>Föränderliga datastrukturer hanteras smidigt. Nya fält kan läggas till över tid utan migrationer.</p>
+</li>
+<li>
+<p>Designade för horisontell skalning över många servrar.</p>
+</li>
+<li>
+<p>Lämpat för Big Data, kontinuerliga dataströmmar och decentraliserade datasamlingar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nackdelar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ingen, eller "eventual", konsistens. Två klienter kan en kort tid se olika versioner av samma data.</p>
+</li>
+<li>
+<p>Ingen, eller "eventual", integritet. Det blir klientens ansvar att hålla data konsekvent.</p>
+</li>
+<li>
+<p>Data dupliceras ofta (mer om det i avsnittet om <em>embed vs reference</em>). När en uppgift ändras kan flera kopior behöva uppdateras.</p>
+</li>
+<li>
+<p>Svårt eller omöjligt att validera dokumentens struktur centralt.</p>
+</li>
+<li>
+<p>Ingen gemensam standard. Varje produkt har sitt eget frågespråk eller API.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dokumentmodellen">5.2. Dokumentmodellen</h3>
+<div class="paragraph">
+<p>Den enklaste mentala modellen för en dokumentdatabas är denna:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 28.5714%;">
+<col style="width: 57.1429%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Språk</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Datatyp</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Literal</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ "username": "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ruby</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Hash</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ username: "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C#</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Dictionary&lt;K, V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>new Dictionary&lt;string,string&gt; { ["username"] = "grill.korv" }</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HashMap&lt;K, V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map.of("username", "grill.korv")</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PHP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associative array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ "username" &#8658; "grill.korv" ]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Elixir</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map</code> / <code>Struct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%{username: "grill.korv"}</code> eller <code>%User{username: "grill.korv"}</code></p></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I en relationsdatabas lagras data i rader med fasta kolumner. I en dokumentdatabas lagras data som <strong>dokument</strong>, som i praktiken är JSON-objekt med fri struktur.</p>
+</div>
+<div class="paragraph">
+<p>Samma användardata, en gång relationellt och en gång som dokument:</p>
+</div>
+<div class="listingblock">
+<div class="title">Relationsdatabas</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">-- id | username   | email</span>
+<span class="c1">--  1 | grill.korv | grill@korv.se</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Dokumentdatabas</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
+  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
+  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dokument får innehålla nästan vad som helst, inklusive listor och nästlade objekt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="p">{</span>
+  <span class="nl">_id</span><span class="p">:</span>      <span class="nc">ObjectId</span><span class="p">(</span><span class="dl">"</span><span class="s2">5ccfe88f9fb5ba190b0a4483</span><span class="dl">"</span><span class="p">),</span>
+  <span class="nx">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">profile</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">bio</span><span class="p">:</span>      <span class="dl">"</span><span class="s2">Älskar att grilla.</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">location</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Stockholm</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="nx">roles</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">editor</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">moderator</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Det är samma data som hade krävt en <code>users</code>-tabell plus en <code>profiles</code>-tabell plus en <code>user_roles</code>-länktabell i en relationsdatabas. Här är allt packat i ett enda dokument.</p>
+</div>
+<div class="sect3">
+<h4 id="_collections">5.2.1. Collections</h4>
+<div class="paragraph">
+<p>Dokument lagras i <strong>collections</strong> (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.</p>
+</div>
+<div class="paragraph">
+<p>I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_var_ligger_schemat_egentligen">5.2.2. Var ligger schemat egentligen?</h4>
+<div class="paragraph">
+<p>Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.</p>
+</div>
+<div class="paragraph">
+<p>Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är <em>underförstått</em> och <em>utspritt i applikationskoden</em> istället för centralt definierat i databasen.</p>
+</div>
+<div class="paragraph">
+<p>Det får konsekvenser:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).</p>
+</li>
+<li>
+<p>Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller <code>CHECK</code>-constraint hjälper dig hitta de ställen som behöver uppdateras.</p>
+</li>
+<li>
+<p>Ett "schemalöst" projekt landar ofta i samma migrationsarbete som ett relationellt, fast nu sker det i applikationskoden istället för i databasen. Det blir mindre synligt och svårare att verifiera.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dokumentdatabasens "frihet" är alltså en omfördelning av ansvar, inte en eliminering av det. Den är fortfarande rätt val för en del problem, men "vi slipper designa scheman" är sällan en sann motivering.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mongodb">5.3. MongoDB</h3>
+<div class="paragraph">
+<p>I det här kapitlet använder vi <strong>MongoDB</strong> som konkret exempel. Det är den mest spridda dokumentdatabasen och en bra utgångspunkt för att förstå hur de fungerar. <a href="https://www.mongodb.com/atlas">MongoDB Atlas</a> erbjuder en gratisplan om du vill prova online. För övningarna i kapitlet kör vi en lokal Mongo-server via Docker.</p>
+</div>
+<div class="sect3">
+<h4 id="_crud_operationer">5.3.1. CRUD-operationer</h4>
+<div class="paragraph">
+<p>För varje vanlig SQL-operation finns en MongoDB-motsvarighet.</p>
+</div>
+<div class="sect4">
+<h5 id="_skapa">Skapa</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'grill.korv'</span><span class="p">,</span> <span class="s1">'grill@korv.se'</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span>    <span class="dl">"</span><span class="s2">grill@korv.se</span><span class="dl">"</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_läs">Läs</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_uppdatera">Uppdatera</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">email</span> <span class="o">=</span> <span class="s1">'ny@korv.se'</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">updateOne</span><span class="p">(</span>
+  <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">$set</span><span class="p">:</span> <span class="p">{</span> <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ny@korv.se</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">)</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_radera">Radera</h5>
+<div class="listingblock">
+<div class="title">SQL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sql"><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'grill.korv'</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">MongoDB</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">deleteOne</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">})</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_index_och_sökning">5.3.2. Index och sökning</h4>
+<div class="paragraph">
+<p>MongoDB stödjer index på samma sätt som relationsdatabaser:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">createIndex</span><span class="p">({</span> <span class="dl">"</span><span class="s2">profile.location</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Index på fältet <code>username</code> (1 = stigande, -1 = fallande).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Index på ett <em>nästlat</em> fält. Relationsdatabaser stödjer ingen nästling alls; sådan data modelleras alltid som en separat tabell från början.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aggregering">5.3.3. Aggregering</h4>
+<div class="paragraph">
+<p>Istället för <code>GROUP BY</code> har MongoDB en <strong>aggregation pipeline</strong>: en sekvens av bearbetningssteg där datan flödar igenom.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">aggregate</span><span class="p">([</span>
+  <span class="p">{</span> <span class="na">$match</span><span class="p">:</span> <span class="p">{</span> <span class="na">active</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">},</span>                       <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="p">{</span> <span class="na">$group</span><span class="p">:</span> <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">$role</span><span class="dl">"</span><span class="p">,</span> <span class="na">count</span><span class="p">:</span> <span class="p">{</span> <span class="na">$sum</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>   <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="p">{</span> <span class="na">$sort</span><span class="p">:</span>  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">}</span> <span class="p">},</span>                          <i class="conum" data-value="3"></i><b>(3)</b>
+  <span class="p">{</span> <span class="na">$limit</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>                                       <i class="conum" data-value="4"></i><b>(4)</b>
+<span class="p">])</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Filtrera (motsvarar <code>WHERE</code>).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Gruppera och räkna (motsvarar <code>GROUP BY</code> + <code>COUNT</code>).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Sortera fallande.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Begränsa till fem rader.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/">Manual</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/crud/">CRUD Operations</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/aggregation/">Aggregation Operations</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_sätt_upp_miljön">5.3.4. Övning: sätt upp miljön</h4>
+<div class="paragraph">
+<p>Övningarna i resten av kapitlet bygger på ett färdigt Elixir-projekt som pratar med MongoDB. Resten av boken har använt Ruby/Sinatra som lingua franca för webbserver-kod. Det här kapitlet byter språk till <strong>Elixir</strong> med ramverket <strong>Pluggy</strong>, byggt på <a href="https://hex.pm/packages/plug">Plug</a> och <a href="https://github.com/ninenines/cowboy">Cowboy</a> (samma Pluggy som ni jobbade med i webbserver-kursen i början av TE4).</p>
+</div>
+<div class="paragraph">
+<p>Varför bytet? Sista delen av kapitlet handlar om <em>publish/subscribe-events</em> för att hålla inbäddade kopior i synk. I Ruby kräver det mönstret ett bibliotek. I Elixir är pub/sub bara hur språket fungerar i grunden. Mer om det när vi kommer dit.</p>
+</div>
+<div class="paragraph">
+<p>Du behöver inte skriva någon Plug-, Cowboy- eller mallkod själv; allt webb-relaterat finns redan. Din uppgift är att jobba med MongoDB-anropen i <code>lib/pluggy/models/</code> och, senare, lägga till en EventBus och prenumeranter.</p>
+</div>
+<div class="paragraph">
+<p>Hämta scaffolden: <a href="exercises/dokumentdatabaser/dokumentdatabaser.zip">dokumentdatabaser.zip</a>. Packa upp den i en egen mapp.</p>
+</div>
+<div class="paragraph">
+<p>Starta MongoDB:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose up <span class="nt">-d</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Installera Elixir-biblioteken och starta appen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">mix deps.get
+iex <span class="nt">-S</span> mix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Öppna <a href="http://localhost:3000" class="bare">http://localhost:3000</a> i webbläsaren. Du ska se en (tom) lista över användare och ett formulär för att lägga till nya.</p>
+</div>
+<div class="paragraph">
+<p>Verifiera grundläggande CRUD genom webbgränssnittet:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Skapa två användare, t.ex. <code>grill.korv</code> och <code>Eva</code>.</p>
+</li>
+<li>
+<p>Gå till sidan för en användare och uppdatera e-postadressen.</p>
+</li>
+<li>
+<p>Gå till <code>/groups</code>, skapa en grupp som heter <code>Crazy Cowboys</code> med båda användarna som medlemmar.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Öppna också en <code>mongosh</code>-konsol mot din lokala Mongo-server och inspektera datan direkt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="sh">docker compose <span class="nb">exec </span>mongo mongosh <span class="nb">test</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">find</span><span class="p">()</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Hur ser dokumenten ut? Vad innehåller <code>groups</code>-dokumenten under fältet <code>users</code>? Det är det som leder vidare till nästa avsnitt.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modellering_embed_eller_reference">5.4. Modellering: embed eller reference</h3>
+<div class="paragraph">
+<p>I en relationsdatabas är det självklart hur man kopplar två entiteter: en främmande nyckel. En <code>posts</code>-rad har <code>author_id</code> som pekar på en <code>users</code>-rad. Klart.</p>
+</div>
+<div class="paragraph">
+<p>I en dokumentdatabas har du ett val. Du kan göra något liknande, eller du kan <strong>bädda in</strong> den ena entiteten direkt i den andra. Båda strategierna är giltiga, men de har olika trade-offs.</p>
+</div>
+<div class="sect3">
+<h4 id="_exemplet">5.4.1. Exemplet</h4>
+<div class="paragraph">
+<p>Säg att vi modellerar ett system där användare tillhör grupper, t.ex. för en kursplattform eller <a href="https://toolie.se/groupie">Toolie&#8217;s gruppslumpare</a>. En användare har ett <code>username</code>. En grupp har ett <code>groupname</code> och ett antal medlemmar. En medlem kan tillhöra flera grupper, en grupp har flera medlemmar.</p>
+</div>
+<div class="paragraph">
+<p>Det här går att lagra på två sätt.</p>
+</div>
+<div class="sect4">
+<h5 id="_variant_1_reference">Variant 1: reference</h5>
+<div class="paragraph">
+<p>Användarna lagras i en collection. Grupperna lagras i en annan och innehåller bara id:n till sina medlemmar.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nf">insertMany</span><span class="p">([</span>
+  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
+<span class="p">])</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">user_ids</span><span class="p">:</span>  <span class="p">[</span><span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>För att visa gruppens medlemmar måste klienten göra två frågor. Först hämta gruppen, sedan slå upp användarna utifrån listan med id.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_variant_2_embed">Variant 2: embed</h5>
+<div class="paragraph">
+<p>Grupperna innehåller hela användarobjektet (eller relevanta delar av det), inte bara id:t. Användarna finns ändå kvar i sin egen collection — den är "sanningen" — men en kopia av relevanta fält bäddas in i gruppen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nf">insertOne</span><span class="p">({</span>
+  <span class="na">_id</span><span class="p">:</span>       <span class="dl">"</span><span class="s2">0x60...700</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">groupname</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Crazy Cowboys</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">users</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...700</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">grill.korv</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x70...701</span><span class="dl">"</span><span class="p">,</span> <span class="na">username</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Eva</span><span class="dl">"</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nu räcker en enda fråga för att visa gruppen med dess medlemmar. Men <code>username</code> finns på två ställen i databasen. Om Eva byter namn behöver båda kopiorna uppdateras.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_när_vilken">5.4.2. När vilken?</h4>
+<div class="paragraph">
+<p>Tumregler för när embedding lönar sig:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När de inbäddade dokumenten är <strong>små</strong>.</p>
+</li>
+<li>
+<p>När den inbäddade datan <strong>sällan ändras</strong>.</p>
+</li>
+<li>
+<p>När du nästan alltid läser dem tillsammans med ytter-dokumentet.</p>
+</li>
+<li>
+<p>När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.</p>
+</li>
+<li>
+<p>När antalet inbäddade dokument växer långsamt eller är begränsat.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Tumregler för när reference lönar sig:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>När de refererade dokumenten är <strong>stora</strong>.</p>
+</li>
+<li>
+<p>När datan <strong>ändras ofta</strong>.</p>
+</li>
+<li>
+<p>När du ofta läser ytter-dokumentet utan inner-dokumenten.</p>
+</li>
+<li>
+<p>När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.</p>
+</li>
+<li>
+<p>När antalet relaterade dokument är stort eller obegränsat.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. <code>_id</code> och <code>username</code>), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_embed_eller_reference">5.4.3. Övning: embed eller reference</h4>
+<div class="paragraph">
+<p>Du ska utöka scaffold-appen från föregående avsnitt med en ny funktion. Användarna ska kunna posta korta <strong>inlägg</strong> i en grupp (tänk en enkel diskussionstråd).</p>
+</div>
+<div class="paragraph">
+<p>Varje inlägg har:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>En författare (referens till eller kopia av en användare).</p>
+</li>
+<li>
+<p>En textkropp.</p>
+</li>
+<li>
+<p>En tidsstämpel.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Innan du skriver någon kod, fundera över:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Var ska inläggen lagras? Som en egen <code>posts</code>-collection? Som en inbäddad lista i <code>groups</code>? Som en inbäddad lista i <code>users</code>?</p>
+</li>
+<li>
+<p>Om du väljer att lagra inlägg i grupper (inbäddat eller med referenser), hur visar du författaren? Inbäddat eller via referens till <code>users</code>?</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Skriv ner ditt val och en motivering utifrån tumreglerna ovan, <em>innan</em> du implementerar.</p>
+</div>
+<div class="paragraph">
+<p>Implementera sedan:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>En route som tar emot ett nytt inlägg och sparar det.</p>
+</li>
+<li>
+<p>En route som visar de senaste 10 inläggen i en grupp.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>När du är klar: vad skulle hända i din lösning om Eva ändrar sitt användarnamn? Påverkas inläggen?</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_konsistens_via_events">5.5. Konsistens via events</h3>
+<div class="paragraph">
+<p>Embedding är snabbt att läsa men har en uppenbar svaghet. När källans data ändras går de inbäddade kopiorna ur synk.</p>
+</div>
+<div class="paragraph">
+<p>Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i <code>users</code> uppdateras. Men gruppen <code>Crazy Cowboys</code> har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.</p>
+</div>
+<div class="sect3">
+<h4 id="_lösningen_publishsubscribe">5.5.1. Lösningen: publish/subscribe</h4>
+<div class="paragraph">
+<p>I många dokumentdatabaser löser man detta med ett <strong>event-baserat</strong> tillvägagångssätt:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Varje operation som ändrar en användare publicerar ett <em>event</em>, en notifikation som säger "användaren med id X uppdaterades".</p>
+</li>
+<li>
+<p>Andra delar av systemet <em>prenumererar</em> (subscribe) på dessa events.</p>
+</li>
+<li>
+<p>När gruppens prenumerant får besked att Eva uppdaterats, går den igenom alla grupper där Eva är inbäddad och uppdaterar de inbäddade kopiorna.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>På så vis håller sig inbäddad data automatiskt aktuell, utan att den kod som uppdaterar användaren behöver veta något om grupper.</p>
+</div>
+<div class="paragraph">
+<p>Det är här Elixir-bytet betalar tillbaka. I många språk behöver man ett pub/sub-bibliotek för det här mönstret. I Elixir är pub/sub bara processer som skickar meddelanden till varandra, vilket är hur språket fungerar i grunden.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_en_enkel_eventbus">5.5.2. En enkel EventBus</h4>
+<div class="paragraph">
+<p>Tar man pub/sub till sin minsta beståndsdel landar man på en <code>GenServer</code> som håller reda på vilka processer som prenumererar på vilka events:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">GenServer</span>
+
+  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
+  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
+
+  <span class="k">def</span> <span class="n">subscribe</span><span class="p">(</span><span class="n">event</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">self</span><span class="p">()})</span>
+  <span class="k">def</span> <span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">{</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">})</span>
+
+  <span class="k">def</span> <span class="n">handle_call</span><span class="p">({</span><span class="ss">:subscribe</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pid</span><span class="p">},</span> <span class="n">_from</span><span class="p">,</span> <span class="n">state</span><span class="p">),</span>
+    <span class="k">do</span><span class="p">:</span> <span class="p">{</span><span class="ss">:reply</span><span class="p">,</span> <span class="ss">:ok</span><span class="p">,</span> <span class="no">Map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="n">pid</span><span class="p">],</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">pid</span> <span class="o">|</span> <span class="nv">&amp;1</span><span class="p">])}</span>
+
+  <span class="k">def</span> <span class="n">handle_cast</span><span class="p">({</span><span class="ss">:publish</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">state</span> <span class="o">|&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[])</span> <span class="o">|&gt;</span> <span class="no">Enum</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">send</span><span class="p">(</span><span class="nv">&amp;1</span><span class="p">,</span> <span class="p">{</span><span class="n">event</span><span class="p">,</span> <span class="n">args</span><span class="p">}))</span>
+    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Femton rader. Inget bibliotek behövs.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publicera_från_modellen">5.5.3. Publicera från modellen</h4>
+<div class="paragraph">
+<p>I användarmodellen blir det enkelt att lägga in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Models</span><span class="o">.</span><span class="no">User</span> <span class="k">do</span>
+  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span>
+
+  <span class="c1"># ... (find, all, create som tidigare) ...</span>
+
+  <span class="k">def</span> <span class="n">update</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"users"</span><span class="p">,</span>
+      <span class="p">%{</span><span class="s2">"_id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">id</span><span class="p">)},</span>
+      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="no">Map</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"_id"</span><span class="p">])})</span>
+    <span class="no">EventBus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>När <code>User.update(&#8230;&#8203;)</code> körs publiceras <code>:user_updated</code> med användarens id.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_prenumerera_i_en_genserver">5.5.4. Prenumerera i en GenServer</h4>
+<div class="paragraph">
+<p>På andra hållet finns en prenumerant som lyssnar på <code>:user_updated</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">GenServer</span>
+  <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="p">{</span><span class="no">EventBus</span><span class="p">,</span> <span class="no">Models</span><span class="p">}</span>
+
+  <span class="k">def</span> <span class="n">start_link</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="k">do</span><span class="p">:</span> <span class="no">GenServer</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">%{},</span> <span class="ss">name:</span> <span class="bp">__MODULE__</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="n">init</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">EventBus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="ss">:user_updated</span><span class="p">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="p">%{}}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="n">handle_info</span><span class="p">({</span><span class="ss">:user_updated</span><span class="p">,</span> <span class="n">user_id</span><span class="p">},</span> <span class="n">state</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">Models</span><span class="o">.</span><span class="no">User</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="no">Mongo</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span><span class="ss">:mongo</span><span class="p">,</span> <span class="s2">"groups"</span><span class="p">,</span>
+      <span class="p">%{</span><span class="s2">"users._id"</span> <span class="o">=&gt;</span> <span class="no">BSON</span><span class="o">.</span><span class="no">ObjectId</span><span class="o">.</span><span class="n">decode!</span><span class="p">(</span><span class="n">user_id</span><span class="p">)},</span>      <i class="conum" data-value="2"></i><b>(2)</b>
+      <span class="p">%{</span><span class="s2">"$set"</span> <span class="o">=&gt;</span> <span class="p">%{</span><span class="s2">"users.$.username"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]}})</span> <i class="conum" data-value="3"></i><b>(3)</b>
+
+    <span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span> <span class="n">state</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Vid uppstart prenumererar GenServer:n på <code>:user_updated</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Hitta alla grupper där användaren är inbäddad.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Uppdatera den inbäddade <code>username</code> i varje sådan grupp.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>För att processerna ska köras vid uppstart läggs de till i <code>lib/pluggy/application.ex</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="no">Mongo</span><span class="p">,</span> <span class="ss">name:</span> <span class="ss">:mongo</span><span class="p">,</span> <span class="ss">url:</span> <span class="s2">"mongodb://localhost:27017/test"</span><span class="p">},</span>
+  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span><span class="p">,</span> <span class="p">[]},</span>                                          <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="p">{</span><span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span><span class="p">,</span> <span class="p">[]},</span>                       <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="p">{</span><span class="no">Plug</span><span class="o">.</span><span class="no">Cowboy</span><span class="p">,</span> <span class="ss">scheme:</span> <span class="ss">:http</span><span class="p">,</span> <span class="ss">plug:</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Router</span><span class="p">,</span> <span class="ss">options:</span> <span class="p">[</span><span class="ss">port:</span> <span class="mi">3000</span><span class="p">]}</span>
+<span class="p">]</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>EventBus startas innan prenumeranter.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>GroupSubscriber prenumererar på <code>:user_updated</code> vid uppstart.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_varför_det_här_är_inbyggt_i_elixir">5.5.5. Varför det här är inbyggt i Elixir</h4>
+<div class="paragraph">
+<p>I Ruby skulle samma mönster kräva ett bibliotek som <code>wisper</code>, ett globalt händelseregister, och <code>subscribe</code>-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.</p>
+</div>
+<div class="paragraph">
+<p>I Elixir är varje del redan en språkfunktion:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Processer som skickar meddelanden är hur OTP fungerar.</p>
+</li>
+<li>
+<p><code>GenServer</code> är en byggsten i standardbiblioteket.</p>
+</li>
+<li>
+<p>En supervisor i <code>application.ex</code> startar både EventBus och prenumeranter automatiskt.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mönstret som kallas "publish/subscribe" går här inte <em>ovanpå</em> språket utan <em>genom</em> det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vidareläsning</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Elixir: <a href="https://hexdocs.pm/elixir/GenServer.html">GenServer</a></p>
+</li>
+<li>
+<p>Erlang/OTP: <a href="https://www.erlang.org/doc/man/pg.html"><code>:pg</code>, det inbyggda process-grupp-biblioteket</a></p>
+</li>
+<li>
+<p>Phoenix: <a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub, produktionsgrad pub/sub över noder</a></p>
+</li>
+<li>
+<p>MongoDB: <a href="https://www.mongodb.com/docs/manual/changeStreams/">Change Streams, en alternativ approach där MongoDB själv emiterar events</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_övning_lägg_till_en_event_prenumerant">5.5.6. Övning: lägg till en event-prenumerant</h4>
+<div class="paragraph">
+<p>Scaffold-appen i tidigare övningar har en enkel arkitektur utan events. Nu ska du bygga om den för att använda event-baserad konsistens, enligt mönstret i koden ovan.</p>
+</div>
+<div class="paragraph">
+<p>Steg:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Skapa <code>lib/pluggy/event_bus.ex</code> med en GenServer som tar emot subscribe + publish, som i exemplet.</p>
+</li>
+<li>
+<p>Ändra <code>Pluggy.Models.User.update</code> så att den publicerar <code>:user_updated</code> efter Mongo-anropet.</p>
+</li>
+<li>
+<p>Skapa <code>lib/pluggy/subscribers/group_subscriber.ex</code> med en GenServer som prenumererar på <code>:user_updated</code> och uppdaterar inbäddade <code>username</code>-värden i berörda grupper.</p>
+</li>
+<li>
+<p>Lägg till <code>Pluggy.EventBus</code> och <code>Pluggy.Subscribers.GroupSubscriber</code> i barnlistan i <code>lib/pluggy/application.ex</code> så de startas automatiskt.</p>
+</li>
+<li>
+<p>Testa: ändra Evas namn via webbgränssnittet och kontrollera att gruppens listning visar det nya namnet, utan att du behövt lägga till någon kod i <code>User.update</code>-vägen som vet om grupper.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Fundera till sist:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Vilka andra events skulle vara värda att hantera? Om en användare <em>raderas</em>, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?</p>
+</li>
+<li>
+<p>Om systemet körs på flera servrar parallellt räcker det inte med en <code>GenServer</code> som bara känner till sin egen process. Vilka alternativ finns då? (<a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub</a> och MongoDB Change Streams är två sätt.)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-12 09:04:37 +0200
+Last updated 2026-05-19 08:59:32 +0200
 </div>
 </div>
 </body>
