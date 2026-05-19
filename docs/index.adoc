@@ -14,10 +14,10 @@ include::chapters/01_introduktion/_chapter.adoc[leveloffset=+1]
 
 include::chapters/02_relationsdatabaser/_chapter.adoc[leveloffset=+1]
 
-include::chapters/03_backup_och_aterstallning/_chapter.adoc[leveloffset=+1]
+include::chapters/03_sakerhet/_chapter.adoc[leveloffset=+1]
 
-include::chapters/04_dokumentdatabaser/_chapter.adoc[leveloffset=+1]
+include::chapters/04_backup_och_aterstallning/_chapter.adoc[leveloffset=+1]
 
-include::chapters/05_sakerhet/_chapter.adoc[leveloffset=+1]
+include::chapters/05_dokumentdatabaser/_chapter.adoc[leveloffset=+1]
 
 //include::chapters/06_utkast/_chapter.adoc[leveloffset=+1]

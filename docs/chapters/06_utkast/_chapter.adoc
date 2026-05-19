@@ -8,8 +8,6 @@ Det här kapitlet samlar utkast på sektioner som ännu inte är inarbetade i bo
 
 Stilen, kodexempelmönstret (Ruby/Rails först, sen C# / EF Core) och pedagogiska tonen försöker matcha resten av boken.
 
-include::1_backup_och_aterstallning.adoc[leveloffset=+1]
-
 include::2_verktyg.adoc[leveloffset=+1]
 
 include::3_api_atkomst.adoc[leveloffset=+1]

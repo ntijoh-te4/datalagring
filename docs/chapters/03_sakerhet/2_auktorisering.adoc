@@ -1,0 +1,173 @@
+= Auktorisering och behörigheter
+
+Auktorisering (engelska: authorization) handlar om vad en _redan inloggad_ användare har rätt att göra. Detta skiljer sig från _autentisering_ (engelska: authentication), som handlar om att avgöra _vem_ användaren är.
+
+.Autentisering vs auktorisering
+[NOTE]
+====
+- Autentisering svarar på frågan "*vem är du?*" (oftast genom användarnamn och lösenord).
+- Auktorisering svarar på frågan "*vad får du göra?*" (t.ex. läsa, skriva eller ta bort).
+====
+
+== Användare och roller
+
+I de flesta databashanterare kan man skapa flera olika användare i databasen. Varje användare har sitt eget användarnamn och lösenord, och kan ges olika rättigheter.
+
+Att i en stor organisation tilldela rättigheter individuellt till varje användare blir snabbt ohanterligt. Därför grupperar man rättigheter i _roller_. En roll är ett namngivet knippe av rättigheter som man sedan tilldelar till en eller flera användare.
+
+[cols="<2,<3,<4", width="75%"]
+|===
+3+^| *Exempel på roller i en vårdcentralsdatabas*
+| *Roll*         | *Användare*           | *Rättigheter*
+| `lakare`       | anna, johan, fatima   | Läsa `journaler`-tabellen, skriva i `recept`-tabellen
+| `klinikchef`   | andrew, fatima        | Allt en `lakare` får + läsa `loner`-tabellen
+| `patient`      | karl, viking          | Läsa sin egen journal
+| `receptionist` | inge                  | Läsa och skriva i `bokningar`-tabellen
+|===
+
+Lägg märke till att en användare kan ha flera roller. Fatima är både `lakare` och `klinikchef` i exemplet ovan. Hennes totala rättigheter är då unionen av rollernas rättigheter.
+
+== GRANT och REVOKE
+
+I SQL ger man rättigheter med `GRANT` och tar bort rättigheter med `REVOKE`.
+
+[source,sql]
+----
+GRANT SELECT ON journaler TO anna; <1>
+GRANT INSERT, UPDATE ON recept TO anna; <2>
+GRANT ALL PRIVILEGES ON bokningar TO inge; <3>
+
+REVOKE INSERT ON recept FROM anna; <4>
+----
+<1> Anna får läsa från `journaler`-tabellen.
+<2> Anna får lägga till och uppdatera rader i `recept`-tabellen.
+<3> Inge får göra _allt_ mot `bokningar`-tabellen.
+<4> Anna får inte längre lägga till rader i `recept`-tabellen.
+
+Vanliga rättigheter som kan tilldelas är `SELECT`, `INSERT`, `UPDATE` och `DELETE`, samt rättigheter för att modifiera schemat (`CREATE`, `DROP`, `ALTER`).
+
+== Roller i SQL
+
+I de flesta databashanterare kan man även skapa själva rollerna direkt i databasen:
+
+[source,sql]
+----
+CREATE ROLE lakare; <1>
+
+GRANT SELECT ON journaler TO lakare; <2>
+GRANT INSERT, UPDATE ON recept TO lakare;
+
+GRANT lakare TO anna; <3>
+GRANT lakare TO johan;
+GRANT lakare TO fatima;
+----
+<1> Skapa en ny roll.
+<2> Tilldela rättigheter till rollen.
+<3> Tilldela rollen till en användare.
+
+När man senare vill ändra vad läkare får göra behöver man bara uppdatera rollen. Alla användare som tillhör rollen påverkas automatiskt.
+
+== Principen om minsta privilegium
+
+En grundregel inom säkerhet är _principen om minsta privilegium_ (engelska: principle of least privilege): varje användare och varje program ska ha _precis_ de rättigheter som krävs för uppgiften, varken mer eller mindre.
+
+Om en webbapplikation bara behöver läsa från en `produkter`-tabell ska användaren applikationen ansluter med _inte_ ha rättighet att skriva i tabellen. Skulle applikationen råka ut för en SQL-injektion (se nästa avsnitt) eller annan bugg så är skadan begränsad.
+
+[WARNING]
+====
+*Använd inte databasens administratörskonto från din applikation.*
+
+Det är frestande att alltid ansluta som `postgres` eller `root` eftersom det "bara fungerar". Men ett administratörskonto kan göra _allt_, inklusive att radera hela databasen. Skapa istället en separat användare för varje applikation, och ge den enbart de rättigheter den behöver.
+====
+
+== Övningsuppgift
+
+I den här övningen designar och implementerar du behörighetsstrukturen för bokföringsdatabasen från kapitel 2.7-2.9. Du gör det mot en färdig databas där vyer, funktioner, procedurer och triggern redan är på plats — du behöver alltså inte ha gjort övningarna i föregående kapitel för att komma igång.
+
+=== Sätt upp miljön
+
+Hämta link:exercises/auktorisering/docker-compose.yml[docker-compose.yml] och starta databasen:
+
+[source,sh]
+----
+docker compose up -d
+docker compose exec db psql -U student -d bokforing
+----
+
+Databasen är seedad med ett par verifikat, så rapporterna har data direkt:
+
+[source,sql]
+----
+SELECT * FROM resultaträkning;
+SELECT * FROM aktiva_konton ORDER BY nummer;
+----
+
+=== Tre roller
+
+Du ska skapa _tre_ roller med precis de rättigheter var och en behöver — inte mer.
+
+==== `revisor`
+
+En extern revisor ska kunna granska företagets bokföring men aldrig ändra på den. Hen behöver kunna:
+
+- Läsa rapport-vyerna (`aktiva_konton`, `verifikat_rader`, `resultaträkning`, `balansräkning`)
+
+Revisorn ska *inte* ha åtkomst till de underliggande tabellerna (`konton`, `verifikat`, `konteringar`) direkt.
+
+==== `bokhållare`
+
+En bokhållare ska registrera verifikat och försäljningar. Hen behöver kunna:
+
+- Köra `bokför`- och `bokför_försäljning`-procedurerna
+- Köra `saldo`-funktionen
+- Läsa rapport-vyerna och `konton`-tabellen
+
+Bokhållaren ska *inte* kunna `INSERT`, `UPDATE` eller `DELETE` direkt mot `konteringar` eller `verifikat`. På så vis är den _enda_ vägen att skriva ny data via procedurerna, och dubbel bokföring är därmed garanterad.
+
+[NOTE]
+====
+Procedurerna i den medföljande databasen är skapade med flaggan `SECURITY DEFINER`. Det betyder att de körs med rättigheterna hos den som _skapade_ proceduren (här: `student`), inte hos den som anropar den. Det är därför bokhållaren kan anropa `bokför` även utan att själv ha `INSERT`-rätt på `konteringar`. Detta är en av huvudpoängerna med att inkapsla skrivlogik i stored procedures: man kan ge ut en specifik förmåga (registrera ett verifikat korrekt) utan att ge ut de underliggande rättigheterna.
+====
+
+==== `kontoadmin`
+
+En kontoadministratör underhåller kontoplanen. Hen behöver kunna:
+
+- `INSERT`, `UPDATE` och `DELETE` på `konton`-tabellen
+
+Kontoadminen ska *inte* ha någon åtkomst till verifikat eller konteringar.
+
+=== Implementera och testa
+
+I Postgres är en _användare_ detsamma som en roll, fast med rätt att logga in. Användare skapas med `CREATE USER`:
+
+[source,sql]
+----
+CREATE USER kalle PASSWORD 'hemligt';
+ALTER USER kalle PASSWORD 'nytt-hemligt';  -- byt lösenord senare
+----
+
+[TIP]
+====
+I `psql` kan man också skriva `\password kalle` för att sätta lösenordet interaktivt. Då hamnar cleartext-strängen aldrig i kommandohistorik eller serverloggar.
+====
+
+Skriv `CREATE ROLE`- och `GRANT`-satser för de tre rollerna. Skapa sedan en användare per roll och tilldela rollen.
+
+Anslut sedan som var och en av användarna i en separat terminal och kontrollera att rätt operationer tillåts respektive nekas:
+
+[source,sh]
+----
+docker compose exec db psql -U amanda -d bokforing
+----
+
+För varje roll ska du verifiera _både_ att tillåtna operationer fungerar och att otillåtna operationer nekas med `permission denied`. Exempel för bokhållaren:
+
+- `CALL bokför('2026-03-01', 'Marknadsföring', '5900', '1930', 2000);` — ska gå igenom.
+- `INSERT INTO konteringar (verifikat_id, konto, debet, kredit) VALUES (1, '1930', 100, 0);` — ska nekas.
+
+=== Reflektera
+
+- Vad hade hänt om procedurerna _inte_ var `SECURITY DEFINER`? Vilka rättigheter hade då behövt ges till `bokhållare`, och hur hade det påverkat garantin om dubbel bokföring?
+- En revisor får bara läsa vyerna, aldrig de underliggande tabellerna. På vilket sätt är detta starkare än att ge revisorn `SELECT` direkt på tabellerna? (Tips: tänk på vad en vy kan _utelämna_ eller _aggregera bort_.)
+- Tre roller är minimalistiskt. Vilka fler roller skulle ett riktigt företag kunna behöva? Räcker det med en `kontoadmin` om företaget har både löpande bokföring och periodavslut?
