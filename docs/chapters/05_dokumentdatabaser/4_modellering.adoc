@@ -48,23 +48,18 @@ db.groups.insertOne({
 
 Nu räcker en enda fråga för att visa gruppen med dess medlemmar. Men `username` finns på två ställen i databasen. Om Eva byter namn behöver båda kopiorna uppdateras.
 
-== När vilken?
+== När ska man använda vad?
 
-Tumregler för när embedding lönar sig:
-
-* När de inbäddade dokumenten är *små*.
-* När den inbäddade datan *sällan ändras*.
-* När du nästan alltid läser dem tillsammans med ytter-dokumentet.
-* När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.
-* När antalet inbäddade dokument växer långsamt eller är begränsat.
-
-Tumregler för när reference lönar sig:
-
-* När de refererade dokumenten är *stora*.
-* När datan *ändras ofta*.
-* När du ofta läser ytter-dokumentet utan inner-dokumenten.
-* När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.
-* När antalet relaterade dokument är stort eller obegränsat.
+[cols="<2,<3,<3", width="95%"]
+|===
+3+^| *Embed eller reference?*
+| *Faktor*                  | *Embed lönar sig när…*                                       | *Reference lönar sig när…*
+| Dokumentens storlek       | de inbäddade dokumenten är *små*                             | de refererade dokumenten är *stora*
+| Hur ofta datan ändras     | datan *sällan ändras*                                        | datan *ändras ofta*
+| Läsmönster                | du nästan alltid läser dem tillsammans med ytter-dokumentet | du ofta läser ytter-dokumentet utan inner-dokumenten
+| Konsistenskrav            | "eventual consistency" är acceptabelt                       | du behöver omedelbar konsistens, klienten måste alltid se senaste versionen
+| Antal relaterade dokument | antalet växer långsamt eller är begränsat                   | antalet är stort eller obegränsat
+|===
 
 I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. `_id` och `username`), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.
 
