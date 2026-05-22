@@ -730,18 +730,17 @@ pre.rouge .gs {
 <li><a href="#_modellering_embed_eller_reference">5.4. Modellering: embed eller reference</a>
 <ul class="sectlevel3">
 <li><a href="#_exemplet">5.4.1. Exemplet</a></li>
-<li><a href="#_när_vilken">5.4.2. När vilken?</a></li>
+<li><a href="#_när_ska_man_använda_vad">5.4.2. När ska man använda vad?</a></li>
 <li><a href="#_övning_embed_eller_reference">5.4.3. Övning: embed eller reference</a></li>
 </ul>
 </li>
 <li><a href="#_konsistens_via_events">5.5. Konsistens via events</a>
 <ul class="sectlevel3">
-<li><a href="#_lösningen_publishsubscribe">5.5.1. Lösningen: publish/subscribe</a></li>
+<li><a href="#_lösningen_pub_sub_publishsubscribe">5.5.1. Lösningen: pub-sub (publish/subscribe)</a></li>
 <li><a href="#_en_enkel_eventbus">5.5.2. En enkel EventBus</a></li>
 <li><a href="#_publicera_från_modellen">5.5.3. Publicera från modellen</a></li>
 <li><a href="#_prenumerera_i_en_genserver">5.5.4. Prenumerera i en GenServer</a></li>
-<li><a href="#_varför_det_här_är_inbyggt_i_elixir">5.5.5. Varför det här är inbyggt i Elixir</a></li>
-<li><a href="#_övning_lägg_till_en_event_prenumerant">5.5.6. Övning: lägg till en event-prenumerant</a></li>
+<li><a href="#_övning_lägg_till_en_event_prenumerant">5.5.5. Övning: lägg till en event-prenumerant</a></li>
 </ul>
 </li>
 </ul>
@@ -6992,16 +6991,16 @@ docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> s
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Dokumentdatabaser</strong> lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.</p>
+<p><strong>Dokumentdatabaser</strong> lagrar JSON-liknande dokument. Exempel: <a href="https://www.mongodb.com/">MongoDB</a>, <a href="https://couchdb.apache.org/">CouchDB</a>, <a href="https://www.elastic.co/elasticsearch">Elasticsearch</a>.</p>
 </li>
 <li>
-<p><strong>Nyckel-värde-databaser</strong> lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.</p>
+<p><strong>Nyckel-värde-databaser</strong> lagrar enkla nyckel-värde-par. Exempel: <a href="https://redis.io/">Redis</a>, <a href="https://aws.amazon.com/dynamodb/">DynamoDB</a>.</p>
 </li>
 <li>
-<p><strong>Kolumndatabaser</strong> organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.</p>
+<p><strong>Kolumndatabaser</strong> organiserar data per kolumn istället för per rad. Exempel: <a href="https://cassandra.apache.org/">Cassandra</a>, <a href="https://hbase.apache.org/">HBase</a>.</p>
 </li>
 <li>
-<p><strong>Grafdatabaser</strong> lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.</p>
+<p><strong>Grafdatabaser</strong> lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: <a href="https://neo4j.com/">Neo4j</a>, <a href="https://arangodb.com/">ArangoDB</a>.</p>
 </li>
 </ul>
 </div>
@@ -7116,7 +7115,7 @@ docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> s
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.</p>
+<p>Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -7220,7 +7219,7 @@ docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> s
 <div class="sect3">
 <h4 id="_collections">5.2.1. Collections</h4>
 <div class="paragraph">
-<p>Dokument lagras i <strong>collections</strong> (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.</p>
+<p>Dokument lagras i <strong>collections</strong>. En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection <em>får</em> ha olika strukturer.</p>
 </div>
 <div class="paragraph">
 <p>I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.</p>
@@ -7229,7 +7228,7 @@ docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> s
 <div class="sect3">
 <h4 id="_var_ligger_schemat_egentligen">5.2.2. Var ligger schemat egentligen?</h4>
 <div class="paragraph">
-<p>Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.</p>
+<p>Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar: Inget schema att designa i förväg, inga migrationer, snabbare utveckling.</p>
 </div>
 <div class="paragraph">
 <p>Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är <em>underförstått</em> och <em>utspritt i applikationskoden</em> istället för centralt definierat i databasen.</p>
@@ -7240,7 +7239,7 @@ docker compose <span class="nb">exec </span>db psql <span class="nt">-U</span> s
 <div class="ulist">
 <ul>
 <li>
-<p>När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).</p>
+<p>När du lägger till ett fält måste alla läsare av dokumentet hantera att fältet ibland finns och ibland inte.</p>
 </li>
 <li>
 <p>Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller <code>CHECK</code>-constraint hjälper dig hitta de ställen som behöver uppdateras.</p>
@@ -7549,51 +7548,49 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_när_vilken">5.4.2. När vilken?</h4>
-<div class="paragraph">
-<p>Tumregler för när embedding lönar sig:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>När de inbäddade dokumenten är <strong>små</strong>.</p>
-</li>
-<li>
-<p>När den inbäddade datan <strong>sällan ändras</strong>.</p>
-</li>
-<li>
-<p>När du nästan alltid läser dem tillsammans med ytter-dokumentet.</p>
-</li>
-<li>
-<p>När "eventual consistency" är acceptabelt. Om en kopia är lite gammal är det ok.</p>
-</li>
-<li>
-<p>När antalet inbäddade dokument växer långsamt eller är begränsat.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Tumregler för när reference lönar sig:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>När de refererade dokumenten är <strong>stora</strong>.</p>
-</li>
-<li>
-<p>När datan <strong>ändras ofta</strong>.</p>
-</li>
-<li>
-<p>När du ofta läser ytter-dokumentet utan inner-dokumenten.</p>
-</li>
-<li>
-<p>När du behöver "omedelbar konsistens". Klienten måste alltid se senaste versionen.</p>
-</li>
-<li>
-<p>När antalet relaterade dokument är stort eller obegränsat.</p>
-</li>
-</ul>
-</div>
+<h4 id="_när_ska_man_använda_vad">5.4.2. När ska man använda vad?</h4>
+<table class="tableblock frame-all grid-all" style="width: 95%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 37.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock"><strong>Embed eller reference?</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Faktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Embed lönar sig när…</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Reference lönar sig när…</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dokumentens storlek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">de inbäddade dokumenten är <strong>små</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">de refererade dokumenten är <strong>stora</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hur ofta datan ändras</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">datan <strong>sällan ändras</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">datan <strong>ändras ofta</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Läsmönster</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">du nästan alltid läser dem tillsammans med ytter-dokumentet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">du ofta läser ytter-dokumentet utan inner-dokumenten</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konsistenskrav</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"eventual consistency" är acceptabelt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">du behöver omedelbar konsistens, klienten måste alltid se senaste versionen</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Antal relaterade dokument</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">antalet växer långsamt eller är begränsat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">antalet är stort eller obegränsat</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>I praktiken kombinerar man ofta båda: man bäddar in de få fält man oftast behöver (t.ex. <code>_id</code> och <code>username</code>), och använder id:t som referens för att hämta det fulla dokumentet vid behov. Det är exakt vad scaffold-appen i kapitlet gör.</p>
 </div>
@@ -7662,7 +7659,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 <p>Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i <code>users</code> uppdateras. Men gruppen <code>Crazy Cowboys</code> har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.</p>
 </div>
 <div class="sect3">
-<h4 id="_lösningen_publishsubscribe">5.5.1. Lösningen: publish/subscribe</h4>
+<h4 id="_lösningen_pub_sub_publishsubscribe">5.5.1. Lösningen: pub-sub (publish/subscribe)</h4>
 <div class="paragraph">
 <p>I många dokumentdatabaser löser man detta med ett <strong>event-baserat</strong> tillvägagångssätt:</p>
 </div>
@@ -7688,10 +7685,35 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_en_enkel_eventbus">5.5.2. En enkel EventBus</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Vad är en event bus?</div>
 <div class="paragraph">
-<p>Tar man pub/sub till sin minsta beståndsdel landar man på en <code>GenServer</code> som håller reda på vilka processer som prenumererar på vilka events:</p>
+<p>En <em>event bus</em> (även kallad event emitter eller message bus) är en gemensam mötesplats för events. Avsändare <em>publicerar</em> events till bussen utan att veta vem som lyssnar, och mottagare <em>prenumererar</em> på de events de bryr sig om utan att veta vem som skickade dem. Bussen sitter i mitten och kopplar isär de två sidorna.</p>
+</div>
+<div class="paragraph">
+<p>Mönstret finns överallt, inte bara i databaser. Webbläsaren har en inbyggd variant: <code>addEventListener</code> prenumererar och <code>dispatchEvent</code> (med <code>CustomEvent</code>) publicerar. I frontend-ramverk används samma idé för att låta komponenter som ligger långt ifrån varandra i komponentträdet kommunicera. I Vue 2 var en global event bus ett vanligt knep, och i React och Vue 3 når man samma sak med ett litet bibliotek som <a href="https://github.com/developit/mitt">mitt</a>. (Behöver komponenterna i stället dela <em>tillstånd</em> griper man oftast till state-hantering som Pinia eller Redux.)</p>
+</div>
+<div class="paragraph">
+<p>Poängen är alltid lös koppling: den som publicerar vet inget om mottagarna, och man kan lägga till eller ta bort prenumeranter utan att röra avsändaren.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Tar man pub/sub till sin minsta beståndsdel landar man på en <code>GenServer</code> som håller reda på vilka processer som prenumererar på vilka events. Är det ett tag sedan du jobbade med Elixir kan <a href="https://curiosum.com/blog/what-is-elixir-genserver">den här genomgången</a> fräscha upp vad en GenServer är och hur <code>call</code>/<code>cast</code> hänger ihop.</p>
+</div>
+<div class="paragraph">
+<p>Som påminnelse om hur ett Mix-projekt är upplagt: en moduls punkt-separerade namn motsvarar en sökväg under <code>lib/</code>. Modulen <code>Pluggy.EventBus</code> bor alltså i filen <code>lib/pluggy/event_bus.ex</code>. Filnamnet ovanför varje kodblock nedan visar var koden ska ligga.</p>
 </div>
 <div class="listingblock">
+<div class="title"><code>lib/pluggy/event_bus.ex</code></div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span> <span class="k">do</span>
   <span class="kn">use</span> <span class="no">GenServer</span>
@@ -7712,9 +7734,6 @@ iex <span class="nt">-S</span> mix</code></pre>
 <span class="k">end</span></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Femton rader. Inget bibliotek behövs.</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_publicera_från_modellen">5.5.3. Publicera från modellen</h4>
@@ -7722,6 +7741,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 <p>I användarmodellen blir det enkelt att lägga in:</p>
 </div>
 <div class="listingblock">
+<div class="title"><code>lib/pluggy/models/user.ex</code></div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Models</span><span class="o">.</span><span class="no">User</span> <span class="k">do</span>
   <span class="n">alias</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">EventBus</span>
@@ -7752,6 +7772,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 <p>På andra hållet finns en prenumerant som lyssnar på <code>:user_updated</code>:</p>
 </div>
 <div class="listingblock">
+<div class="title"><code>lib/pluggy/subscribers/group_subscriber.ex</code></div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="elixir"><span class="k">defmodule</span> <span class="no">Pluggy</span><span class="o">.</span><span class="no">Subscribers</span><span class="o">.</span><span class="no">GroupSubscriber</span> <span class="k">do</span>
   <span class="kn">use</span> <span class="no">GenServer</span>
@@ -7793,9 +7814,10 @@ iex <span class="nt">-S</span> mix</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>För att processerna ska köras vid uppstart läggs de till i <code>lib/pluggy/application.ex</code>:</p>
+<p>För att processerna ska köras vid uppstart läggs de till i barnlistan i <code>application.ex</code>:</p>
 </div>
 <div class="listingblock">
+<div class="title"><code>lib/pluggy/application.ex</code></div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="elixir"><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">{</span><span class="no">Mongo</span><span class="p">,</span> <span class="ss">name:</span> <span class="ss">:mongo</span><span class="p">,</span> <span class="ss">url:</span> <span class="s2">"mongodb://localhost:27017/test"</span><span class="p">},</span>
@@ -7816,31 +7838,6 @@ iex <span class="nt">-S</span> mix</code></pre>
 <td>GroupSubscriber prenumererar på <code>:user_updated</code> vid uppstart.</td>
 </tr>
 </table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_varför_det_här_är_inbyggt_i_elixir">5.5.5. Varför det här är inbyggt i Elixir</h4>
-<div class="paragraph">
-<p>I Ruby skulle samma mönster kräva ett bibliotek som <code>wisper</code>, ett globalt händelseregister, och <code>subscribe</code>-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.</p>
-</div>
-<div class="paragraph">
-<p>I Elixir är varje del redan en språkfunktion:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Processer som skickar meddelanden är hur OTP fungerar.</p>
-</li>
-<li>
-<p><code>GenServer</code> är en byggsten i standardbiblioteket.</p>
-</li>
-<li>
-<p>En supervisor i <code>application.ex</code> startar både EventBus och prenumeranter automatiskt.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Mönstret som kallas "publish/subscribe" går här inte <em>ovanpå</em> språket utan <em>genom</em> det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -7872,7 +7869,7 @@ iex <span class="nt">-S</span> mix</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_övning_lägg_till_en_event_prenumerant">5.5.6. Övning: lägg till en event-prenumerant</h4>
+<h4 id="_övning_lägg_till_en_event_prenumerant">5.5.5. Övning: lägg till en event-prenumerant</h4>
 <div class="paragraph">
 <p>Scaffold-appen i tidigare övningar har en enkel arkitektur utan events. Nu ska du bygga om den för att använda event-baserad konsistens, enligt mönstret i koden ovan.</p>
 </div>
@@ -7905,9 +7902,6 @@ iex <span class="nt">-S</span> mix</code></pre>
 <ul>
 <li>
 <p>Vilka andra events skulle vara värda att hantera? Om en användare <em>raderas</em>, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?</p>
-</li>
-<li>
-<p>Om systemet körs på flera servrar parallellt räcker det inte med en <code>GenServer</code> som bara känner till sin egen process. Vilka alternativ finns då? (<a href="https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html">Phoenix.PubSub</a> och MongoDB Change Streams är två sätt.)</p>
 </li>
 </ul>
 </div>

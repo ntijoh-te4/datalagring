@@ -4,7 +4,7 @@ Embedding är snabbt att läsa men har en uppenbar svaghet. När källans data �
 
 Säg att Eva i exemplet från föregående avsnitt ändrar sitt användarnamn från "Eva" till "evac". Användardokumentet i `users` uppdateras. Men gruppen `Crazy Cowboys` har en inbäddad kopia av Eva med det gamla namnet, och det är den klienten ser när den listar gruppen.
 
-== Lösningen: publish/subscribe
+== Lösningen: pub-sub (publish/subscribe)
 
 I många dokumentdatabaser löser man detta med ett *event-baserat* tillvägagångssätt:
 
@@ -18,8 +18,21 @@ Det är här Elixir-bytet betalar tillbaka. I många språk behöver man ett pub
 
 == En enkel EventBus
 
-Tar man pub/sub till sin minsta beståndsdel landar man på en `GenServer` som håller reda på vilka processer som prenumererar på vilka events:
+.Vad är en event bus?
+[NOTE]
+====
+En _event bus_ (även kallad event emitter eller message bus) är en gemensam mötesplats för events. Avsändare _publicerar_ events till bussen utan att veta vem som lyssnar, och mottagare _prenumererar_ på de events de bryr sig om utan att veta vem som skickade dem. Bussen sitter i mitten och kopplar isär de två sidorna.
 
+Mönstret finns överallt, inte bara i databaser. Webbläsaren har en inbyggd variant: `addEventListener` prenumererar och `dispatchEvent` (med `CustomEvent`) publicerar. I frontend-ramverk används samma idé för att låta komponenter som ligger långt ifrån varandra i komponentträdet kommunicera. I Vue 2 var en global event bus ett vanligt knep, och i React och Vue 3 når man samma sak med ett litet bibliotek som https://github.com/developit/mitt[mitt]. (Behöver komponenterna i stället dela _tillstånd_ griper man oftast till state-hantering som Pinia eller Redux.)
+
+Poängen är alltid lös koppling: den som publicerar vet inget om mottagarna, och man kan lägga till eller ta bort prenumeranter utan att röra avsändaren.
+====
+
+Tar man pub/sub till sin minsta beståndsdel landar man på en `GenServer` som håller reda på vilka processer som prenumererar på vilka events. Är det ett tag sedan du jobbade med Elixir kan https://curiosum.com/blog/what-is-elixir-genserver[den här genomgången] fräscha upp vad en GenServer är och hur `call`/`cast` hänger ihop.
+
+Som påminnelse om hur ett Mix-projekt är upplagt: en moduls punkt-separerade namn motsvarar en sökväg under `lib/`. Modulen `Pluggy.EventBus` bor alltså i filen `lib/pluggy/event_bus.ex`. Filnamnet ovanför varje kodblock nedan visar var koden ska ligga.
+
+.`lib/pluggy/event_bus.ex`
 [source,elixir]
 ----
 defmodule Pluggy.EventBus do
@@ -41,12 +54,11 @@ defmodule Pluggy.EventBus do
 end
 ----
 
-Femton rader. Inget bibliotek behövs.
-
 == Publicera från modellen
 
 I användarmodellen blir det enkelt att lägga in:
 
+.`lib/pluggy/models/user.ex`
 [source,elixir]
 ----
 defmodule Pluggy.Models.User do
@@ -68,6 +80,7 @@ end
 
 På andra hållet finns en prenumerant som lyssnar på `:user_updated`:
 
+.`lib/pluggy/subscribers/group_subscriber.ex`
 [source,elixir]
 ----
 defmodule Pluggy.Subscribers.GroupSubscriber do
@@ -96,8 +109,9 @@ end
 <2> Hitta alla grupper där användaren är inbäddad.
 <3> Uppdatera den inbäddade `username` i varje sådan grupp.
 
-För att processerna ska köras vid uppstart läggs de till i `lib/pluggy/application.ex`:
+För att processerna ska köras vid uppstart läggs de till i barnlistan i `application.ex`:
 
+.`lib/pluggy/application.ex`
 [source,elixir]
 ----
 children = [
@@ -109,18 +123,6 @@ children = [
 ----
 <1> EventBus startas innan prenumeranter.
 <2> GroupSubscriber prenumererar på `:user_updated` vid uppstart.
-
-== Varför det här är inbyggt i Elixir
-
-I Ruby skulle samma mönster kräva ett bibliotek som `wisper`, ett globalt händelseregister, och `subscribe`-anrop som körs vid applikationsstart. Det fungerar, men varje del är något som biblioteket lägger till ovanpå språket.
-
-I Elixir är varje del redan en språkfunktion:
-
-* Processer som skickar meddelanden är hur OTP fungerar.
-* `GenServer` är en byggsten i standardbiblioteket.
-* En supervisor i `application.ex` startar både EventBus och prenumeranter automatiskt.
-
-Mönstret som kallas "publish/subscribe" går här inte _ovanpå_ språket utan _genom_ det. Det är hela poängen med att byta till Elixir för det här kapitlet. Idén är densamma som i Ruby plus wisper, men maskineriet är inbyggt och består av delar du redan kan.
 
 .Vidareläsning
 [NOTE]
@@ -146,4 +148,3 @@ Steg:
 Fundera till sist:
 
 * Vilka andra events skulle vara värda att hantera? Om en användare _raderas_, vad ska hända med deras inbäddade kopior i grupper? Skulle du ta bort dem? Markera dem som inaktiva? Lämna dem orörda?
-* Om systemet körs på flera servrar parallellt räcker det inte med en `GenServer` som bara känner till sin egen process. Vilka alternativ finns då? (https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html[Phoenix.PubSub] och MongoDB Change Streams är två sätt.)

@@ -4,7 +4,7 @@ Den enklaste mentala modellen för en dokumentdatabas är denna:
 
 [NOTE]
 ====
-Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas. Det är samma idé.
+Om du kan använda en av nedanstående datatyper, så kan du använda en dokumentdatabas.
 
 [cols="1,2,4", width="100%"]
 |===
@@ -62,19 +62,19 @@ Det är samma data som hade krävt en `users`-tabell plus en `profiles`-tabell p
 
 == Collections
 
-Dokument lagras i *collections* (svenska: samlingar). En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection får ha olika strukturer.
+Dokument lagras i *collections*. En collection motsvarar en tabell i en relationsdatabas, men kräver inget schema. Dokumenten i en collection _får_ ha olika strukturer.
 
 I praktiken brukar dokument i samma collection ändå se ungefär likadana ut.
 
 == Var ligger schemat egentligen?
 
-Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar. Inget schema att designa i förväg, inga migrationer, snabbare utveckling.
+Marknadsföringen av dokumentdatabaser lyfter ofta "schemaless" och "föränderliga datastrukturer" som starka fördelar: Inget schema att designa i förväg, inga migrationer, snabbare utveckling.
 
 Men datan har alltid en form. Applikationen som läser ett user-dokument förväntar sig att hitta vissa fält där, och kraschar eller beter sig konstigt om de saknas eller har fel typ. Det finns alltså ett schema, men det är _underförstått_ och _utspritt i applikationskoden_ istället för centralt definierat i databasen.
 
 Det får konsekvenser:
 
-* När du lägger till ett fält måste alla läsare av dokumentet hantera att det ibland finns (nya dokument) och ibland inte (gamla dokument).
+* När du lägger till ett fält måste alla läsare av dokumentet hantera att fältet ibland finns och ibland inte.
 * Har du flera applikationer eller tjänster som läser samma collection måste var och en uppdateras vid varje schemaförändring. Utan databasschema finns ingen central plats där "den nya formen" är definierad. Ingen kompilator eller `CHECK`-constraint hjälper dig hitta de ställen som behöver uppdateras.
 * Ett "schemalöst" projekt landar ofta i samma migrationsarbete som ett relationellt, fast nu sker det i applikationskoden istället för i databasen. Det blir mindre synligt och svårare att verifiera.
 

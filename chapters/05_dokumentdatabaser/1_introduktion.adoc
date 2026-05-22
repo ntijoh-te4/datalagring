@@ -2,10 +2,10 @@
 
 NoSQL (kortform för "Not only SQL") är ett samlingsnamn för databashanterare som inte använder relationsmodellen. Det finns flera familjer:
 
-* *Dokumentdatabaser* lagrar JSON-liknande dokument. Exempel: MongoDB, CouchDB, Elasticsearch.
-* *Nyckel-värde-databaser* lagrar enkla nyckel-värde-par. Exempel: Redis, DynamoDB.
-* *Kolumndatabaser* organiserar data per kolumn istället för per rad. Exempel: Cassandra, HBase.
-* *Grafdatabaser* lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: Neo4j, ArangoDB.
+* *Dokumentdatabaser* lagrar JSON-liknande dokument. Exempel: https://www.mongodb.com/[MongoDB], https://couchdb.apache.org/[CouchDB], https://www.elastic.co/elasticsearch[Elasticsearch].
+* *Nyckel-värde-databaser* lagrar enkla nyckel-värde-par. Exempel: https://redis.io/[Redis], https://aws.amazon.com/dynamodb/[DynamoDB].
+* *Kolumndatabaser* organiserar data per kolumn istället för per rad. Exempel: https://cassandra.apache.org/[Cassandra], https://hbase.apache.org/[HBase].
+* *Grafdatabaser* lagrar noder och kanter, optimerade för nätverksstrukturer. Exempel: https://neo4j.com/[Neo4j], https://arangodb.com/[ArangoDB].
 
 Det här kapitlet fokuserar på *dokumentdatabaser*. Det är den typ av NoSQL-databas som studenter oftast möter i fält, och den modell som ligger närmast objektorienterad programmering. Ett "dokument" är i princip en map/dict/hash som man sparar.
 
